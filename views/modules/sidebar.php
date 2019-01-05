@@ -12,6 +12,8 @@
         <a href="<?php echo $url; ?>inicio/"><i class="fa fa-home" aria-hidden="true"></i> <span>Inicio</span></a>
       </li>
 
+      <li><a href="<?php echo $url; ?>propios/"><i class="fa fa-building" aria-hidden="true"></i> <span>Negocios propios</span></a></li>
+
       <li><a href="<?php echo $url; ?>negocios/"><i class="fa fa-briefcase" aria-hidden="true"></i> <span>Negocios</span></a></li>
 
       <li><a href="<?php echo $url; ?>duenos/"><i class="fa fa-users" aria-hidden="true"></i></i> <span>Dueños</span></a></li>
@@ -20,10 +22,7 @@
 
       <li class="treeview menu">
           <a href="#">
-          <i class="fa fa-plus" aria-hidden="true"></i>  <span>Agregar</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+            <i class="fa fa-plus" aria-hidden="true"></i>  <span>Agregar</span>
           </a>
           <ul class="treeview-menu">
             <li><a href="<?php echo $url; ?>agregarNegocio/"><i class="fa fa-circle-o"></i> Agregar Negocio</a></li>

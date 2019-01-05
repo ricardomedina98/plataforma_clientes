@@ -88,7 +88,7 @@ $(document).ready(function(){
     $('#addressCity').selectpicker({
         noneSelectedText : 'Seleccione una ciudad'
     });
-    var urlStates = window.location.protocol+"//"+ window.location.hostname + "/jsonFiles/states";    
+    var urlStates = getURL()+"jsonFiles/states";    
 
     $.ajax({
         url:urlStates,
@@ -114,10 +114,13 @@ $(document).ready(function(){
             laodCitys(selectedState);
             
         }
-    })
-
+    })    
 });
 
+
+function getURL(){
+    return "http://localhost/plataforma_clientes/";
+}
 
 
 $('#addressState').change(function(){
@@ -128,7 +131,7 @@ $('#addressState').change(function(){
 
 function laodCitys(val){
 
-    var urlCities = window.location.protocol+"//"+ window.location.hostname + "/jsonFiles/cities";
+    var urlCities = getURL()+"jsonFiles/cities";
     
     $.ajax({
         url:urlCities,
@@ -160,7 +163,7 @@ function laodCitys(val){
 
 $('#fileupload').fileupload({
     dropZone: $('#dropzone'),
-    url: '/views/img/users/upload.images.php',
+    url: getURL()+'views/img/users/upload.images.php',
     drop: function (e, data) {
         $.each(data.files, function (index, file) {
             console.log('Dropped file: ' + file.name);

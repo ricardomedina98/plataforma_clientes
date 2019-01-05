@@ -29,6 +29,8 @@ $('#fileupload')
         'use strict';
 
         $('#fileupload').fileupload({
+            uploadTemplateId: "template-upload",
+            downloadTemplateId: "template-download",
             formData: jsonData
         })
     })
@@ -67,7 +69,7 @@ function loadImages(){
     $('#fileupload').addClass('fileupload-processing');
     $.ajax({
         data: jsonData,
-        url: '/views/img/users/upload.images.php',
+        url: getURL()+'views/img/users/upload.images.php',
         dataType: 'json',
         context: $('#fileupload')[0]
     }).always(function () {
@@ -158,7 +160,7 @@ $( "#formTicket" ).submit(function (e){
     deleteAlters();
 
     e.preventDefault();
-    var urlWeb = window.location.protocol+"//"+ window.location.hostname+"/ajax/tickets.ajax.php";
+    var urlWeb = getURL()+"ajax/tickets.ajax.php";
     
     $.ajax({
         url:urlWeb,
@@ -186,8 +188,8 @@ $( "#formTicket" ).submit(function (e){
 
 function showTickets(){
     
-    var urlWeb = window.location.protocol+"//"+ window.location.hostname+"/ajax/tickets.ajax.php";
-    var url = window.location.protocol+"//"+ window.location.hostname + "/";    
+    var urlWeb = getURL()+"ajax/tickets.ajax.php";
+    var url = getURL();    
 
     var data = new FormData();
     data.append("id_user_ticket", $("#id_user").val());
@@ -231,8 +233,7 @@ $("#photoTicket").on('click', '.close', function(){
 
     var btnClose =  $(this);    
 
-    var urlWeb = window.location.protocol+"//"+ window.location.hostname+"/ajax/tickets.ajax.php";
-    var url = window.location.protocol+"//"+ window.location.hostname + "/";
+    var urlWeb =getURL()+"/ajax/tickets.ajax.php";
 
     var data = new FormData();
     data.append("id_ticket", $(this).attr("id_ticket"));
@@ -274,8 +275,8 @@ $("#deleteContactEdit").click(function (e){
 
           if(result.value) {
 
-            var urlWeb = window.location.protocol+"//"+ window.location.hostname+"/ajax/tickets.ajax.php";
-            var url = window.location.protocol+"//"+ window.location.hostname + "/";
+            var urlWeb = getURL()+"ajax/tickets.ajax.php";
+            
 
             var data = new FormData();
             data.append("id_user_delete", $("#id_user").val());
@@ -291,7 +292,7 @@ $("#deleteContactEdit").click(function (e){
                 success:function(respuesta){  
                     
                     console.log(respuesta);
-                    location.href = url + "contactos/";
+                    location.href = getURL() + "contactos/";
                     
                 }
         
@@ -301,8 +302,8 @@ $("#deleteContactEdit").click(function (e){
       })
 });
 
-var urlType = window.location.protocol+"//"+ window.location.hostname+"/ajax/showBussines.ajax.php";
-console.log(urlType);
+var urlType = getURL()+"ajax/showBussines.ajax.php";
+console.log(getURL());
 $.typeahead({
     input: ".js-typeahead-business",
     order: "asc",

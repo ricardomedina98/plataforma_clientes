@@ -13,8 +13,8 @@ $("#deleteOwnerEdit").click(function (e){
 
           if(result.value) {
 
-            var urlWeb = window.location.protocol+"//"+ window.location.hostname+"/ajax/business.ajax.php";
-            var url = window.location.protocol+"//"+ window.location.hostname + "/";
+            var urlWeb = getURL()+"ajax/business.ajax.php";
+            var url = getURL()+"";
 
             var data = new FormData();
             data.append("id_business_delete", $("#id_user").val());

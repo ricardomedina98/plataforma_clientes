@@ -55,8 +55,8 @@ create table tickets(
 
 create table incidents(
 	id_incident int auto_increment,
-    id_contact int not null,
-    subject varchar(50),
+    id_contact int,
+    subject varchar(50) not null,
     description text null,
     constraint id_incident_pk primary key(id_incident),
     constraint id_contact_fk_inc foreign key(id_contact) references contacts(id_contact)

@@ -101,7 +101,7 @@ $(statesEdit).change(function(){
 
 
 function loadStates(statesP, citiesP, valStateP, valCitiesP){
-    var urlStates = window.location.protocol+"//"+ window.location.hostname + "/jsonFiles/states";    
+    var urlStates = getURL()+"jsonFiles/states";    
 
     $.ajax({
         url: urlStates,
@@ -129,7 +129,7 @@ function loadStates(statesP, citiesP, valStateP, valCitiesP){
 
 function loadCities(val, citiesP, valCitiesP){
 
-    var urlCities = window.location.protocol+"//"+ window.location.hostname + "/jsonFiles/cities";
+    var urlCities = getURL()+"jsonFiles/cities";
 
     $.ajax({
         url: urlCities,
@@ -182,8 +182,8 @@ $("#deleteBusinessEdit").click(function (e){
 
           if(result.value) {
 
-            var urlWeb = window.location.protocol+"//"+ window.location.hostname+"/ajax/business.ajax.php";
-            var url = window.location.protocol+"//"+ window.location.hostname + "/";
+            var urlWeb = getURL()+"ajax/business.ajax.php";
+            var url = getURL()+"";
 
             var data = new FormData();
             data.append("id_business_delete", $("#id_user").val());
@@ -215,7 +215,7 @@ loadStates(statesEdit, citiesEdit, valStateEdit, valCitiesEdit);
 $(".btnEditUser").click(function(){
     
     
-    var urlWeb = window.location.protocol+"//"+ window.location.hostname+"/ajax/business.ajax.php";
+    var urlWeb = getURL()+"ajax/business.ajax.php";
     var idAddress = $(this).attr("idUser");
     
     var data = new FormData();

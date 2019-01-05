@@ -251,7 +251,7 @@ $updateContact = ContactController::controllerUpdateContact();
                     <ul class="nav nav-tabs">
                         <li class="active"><a id="fotosUpload" href="#fotos" data-toggle="tab">Fotos</a></li>
                         <li><a href="#ticket" data-toggle="tab">Ticket</a></li>
-                        <!--<li><a href="#incidents" data-toggle="tab">Incidentes</a></li>-->
+                        <li><a href="#incidents" data-toggle="tab">Incidentes</a></li>
                         <li><a href="#editar" data-toggle="tab">Editar</a></li>
                     </ul>
                 </div>
