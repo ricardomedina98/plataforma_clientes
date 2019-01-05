@@ -1,0 +1,130 @@
+[
+  {
+    "CVE_ENT": "01",
+    "NOM_ENT": "AGUASCALIENTES"
+  },
+  {
+    "CVE_ENT": "02",
+    "NOM_ENT": "BAJA CALIFORNIA"
+  },
+  {
+    "CVE_ENT": "03",
+    "NOM_ENT": "BAJA CALIFORNIA SUR"
+  },
+  {
+    "CVE_ENT": "04",
+    "NOM_ENT": "CAMPECHE"
+  },
+  {
+    "CVE_ENT": "05",
+    "NOM_ENT": "COAHUILA DE ZARAGOZA"
+  },
+  {
+    "CVE_ENT": "06",
+    "NOM_ENT": "COLIMA"
+  },
+  {
+    "CVE_ENT": "07",
+    "NOM_ENT": "CHIAPAS"
+  },
+  {
+    "CVE_ENT": "08",
+    "NOM_ENT": "CHIHUAHUA"
+  },
+  {
+    "CVE_ENT": "09",
+    "NOM_ENT": "CIUDAD DE MEXICO"
+  },
+  {
+    "CVE_ENT": 10,
+    "NOM_ENT": "DURANGO"
+  },
+  {
+    "CVE_ENT": 11,
+    "NOM_ENT": "GUANAJUATO"
+  },
+  {
+    "CVE_ENT": 12,
+    "NOM_ENT": "GUERRERO"
+  },
+  {
+    "CVE_ENT": 13,
+    "NOM_ENT": "HIDALGO"
+  },
+  {
+    "CVE_ENT": 14,
+    "NOM_ENT": "JALISCO"
+  },
+  {
+    "CVE_ENT": 15,
+    "NOM_ENT": "MEXICO"
+  },
+  {
+    "CVE_ENT": 16,
+    "NOM_ENT": "MICHOACAN DE OCAMPO"
+  },
+  {
+    "CVE_ENT": 17,
+    "NOM_ENT": "MORELOS"
+  },
+  {
+    "CVE_ENT": 18,
+    "NOM_ENT": "NAYARIT"
+  },
+  {
+    "CVE_ENT": 19,
+    "NOM_ENT": "NUEVO LEON"
+  },
+  {
+    "CVE_ENT": 20,
+    "NOM_ENT": "OAXACA"
+  },
+  {
+    "CVE_ENT": 21,
+    "NOM_ENT": "PUEBLA"
+  },
+  {
+    "CVE_ENT": 22,
+    "NOM_ENT": "QUERETARO"
+  },
+  {
+    "CVE_ENT": 23,
+    "NOM_ENT": "QUINTANA ROO"
+  },
+  {
+    "CVE_ENT": 24,
+    "NOM_ENT": "SAN LUIS POTOSI"
+  },
+  {
+    "CVE_ENT": 25,
+    "NOM_ENT": "SINALOA"
+  },
+  {
+    "CVE_ENT": 26,
+    "NOM_ENT": "SONORA"
+  },
+  {
+    "CVE_ENT": 27,
+    "NOM_ENT": "TABASCO"
+  },
+  {
+    "CVE_ENT": 28,
+    "NOM_ENT": "TAMAULIPAS"
+  },
+  {
+    "CVE_ENT": 29,
+    "NOM_ENT": "TLAXCALA"
+  },
+  {
+    "CVE_ENT": 30,
+    "NOM_ENT": "VERACRUZ DE IGNACIO DE LA LLAVE"
+  },
+  {
+    "CVE_ENT": 31,
+    "NOM_ENT": "YUCATAN"
+  },
+  {
+    "CVE_ENT": 32,
+    "NOM_ENT": "ZACATECAS"
+  }
+]

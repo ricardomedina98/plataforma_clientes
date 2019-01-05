@@ -1,0 +1,32 @@
+switch ($value1) {
+                    case "inicio":
+                    include "modules/home.php";
+                        break;
+                    case "salir";
+                    include "modules/log_out.php";
+                        break;
+                    case "duenos";
+                        include "modules/owners.php";
+                        break;
+                    case "negocios";
+                        include "modules/businesses.php";
+                        break;
+                    case "contactos";
+                        include "modules/contacts.php";
+                        break;
+                    case "agregarContacto";
+                        include "modules/addContact.php";
+                        break;
+                    case "agregarDueno";
+                        include "modules/profile_owner.php";
+                        break;
+                    case "agregarNegocio";
+                        include "modules/profile_business.php";
+                        break;
+                    case "json_files";
+                        include "modules/profile_business.php";
+                        break;
+                    default:
+                        include "modules/404.php";
+                        break;
+                    }

@@ -1,0 +1,17 @@
+# Impedir que se pueda ver el listado de contenidos de un directorio
+
+Options All -Indexes
+
+# Url Amigables
+
+RewriteEngine On
+Options +FollowSymLinks
+
+RewriteRule ^([-a-zA-Z0-9/]+)$ index.php?view=$1
+
+php_value upload_max_filesize 9G
+php_value post_max_size 9G
+php_value max_execution_time 200
+php_value max_input_time 200
+php_value memory_limit 256M
+

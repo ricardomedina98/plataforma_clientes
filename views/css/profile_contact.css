@@ -1,0 +1,114 @@
+.imagesContact {
+    width: 250px;
+    height: 170px;
+    padding: 5px;
+}
+
+.images-gallery {
+    margin-bottom: 20px;
+}
+
+.imagesContactView {
+    width: 250px;
+    height: 170px;
+    padding: 5px;
+}
+
+.imgProfile {
+    width: 150px;
+    height: 150px;
+    margin: 10px auto;
+}
+
+.imgProfileView{
+    width: 150px;
+    height: 150px;
+}
+
+.btnChangePhotoContact {
+    margin: 10px auto;
+}
+
+.previewImage{
+    width: 150px;
+    height: 150px;
+}
+
+#uploadImage{
+    display: none;
+    margin: 20px 0px;
+    border: 2px dotted #ccc;
+    overflow: hidden;
+    padding: 40px;
+    cursor: pointer;
+    
+}
+
+#uploadImage{
+    padding: 5px;
+    margin-right: 10px;
+}
+
+
+#uploadImageAdd{
+    display: block;
+    margin: 20px 0px;
+    border: 2px dotted #ccc;
+    overflow: hidden;
+    padding: 40px;
+    cursor: pointer;
+    
+}
+
+.btnModal{
+    margin-bottom: 20px;
+}
+
+
+/*Tickets*/
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin-top: 20px;
+}
+  
+  
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+.btnSelectTicket{
+    cursor: pointer;
+}
+  
+#previewTicket{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10px;
+    width: 80%;
+}
+
+.imageTicket img{
+    margin-top: 10px;
+    width: 250px;
+    height: 300px;
+}
+
+.imageTicket img:hover{
+    cursor: pointer;
+}
+
+.close{
+    margin-right: 15px;
+}
+
+#photoTicket{
+    margin-top: 20px;
+}
