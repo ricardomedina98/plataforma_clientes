@@ -756,8 +756,8 @@ $updateContact = ContactController::controllerUpdateContact();
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title" id="modelTitleId">Agregar Incidente</h4>
             </div>
             <div class="modal-body">
@@ -767,7 +767,7 @@ $updateContact = ContactController::controllerUpdateContact();
                     </div>
 
                     <div class="col-sm-12">
-                        <form id="formTicket" method="post" enctype=multipart/form-data>
+                        <form id="formIncidents" method="post" enctype=multipart/form-data>
                             <div class="row">
                                 <div class="form-group">
                                     <label for="frequencyContact" class="col-sm-2 control-label">Incidente</label>
@@ -787,7 +787,7 @@ $updateContact = ContactController::controllerUpdateContact();
 
                                     <div class="col-sm-8">
 
-                                        <textarea name="commentsContact" id="commentsContact" cols="65" rows="4"></textarea>
+                                        <textarea name="commentsContact" id="commentsContactIncident" cols="65" rows="4"></textarea>
 
                                     </div>
 
@@ -815,7 +815,7 @@ $updateContact = ContactController::controllerUpdateContact();
                                                     <span class="btn btn-success fileinput-button">
                                                         <i class="glyphicon glyphicon-plus"></i>
                                                         <span>Seleccionar archivos</span>
-                                                        <input type="file" id="inputUpload" name="files[]" multiple>
+                                                        <input type="file" id="inputUploadIncident" name="files[]" multiple>
                                                     </span>
                                                     <button class="btn btn-primary start">
                                                         <i class="glyphicon glyphicon-upload"></i>
@@ -841,7 +841,7 @@ $updateContact = ContactController::controllerUpdateContact();
                                                 ?>
                                                 <!--Dropzone-->
                                                 
-                                                <div id="dropzone" class="fade">Suelta tus archivos aqui</div>
+                                                <div id="dropzoneIncident" class="fade">Suelta tus archivos aqui</div>
                                                 <!-- The global progress state -->
                                                 <div class="col-lg-5 fileupload-progress fade">
                                                     <!-- The global progress bar -->
@@ -874,7 +874,7 @@ $updateContact = ContactController::controllerUpdateContact();
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="submit" id="addTicket" class="btn btn-primary">Agregar</button>
+                <button type="submit" id="addIncident" class="btn btn-primary">Agregar</button>
             </div>
         </div>
     </div>
@@ -884,6 +884,81 @@ $updateContact = ContactController::controllerUpdateContact();
     $('#modalTicket').on('show.bs.modal', event => {
         
     });
+</script>
+
+<script id="template-upload-incidents" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+        <td>
+            <span class="preview"></span>
+        </td>
+        <td>
+            <p class="name">{%=file.name%}</p>
+            <strong class="error text-danger"></strong>
+        </td>
+        <td>
+            <p class="size">Procesando...</p>
+            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+        </td>
+        <td>
+            {% if (!i && !o.options.autoUpload) { %}
+                <button class="btn btn-primary start" disabled>
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Subir</span>
+                </button>
+            {% } %}
+            {% if (!i) { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancelar</span>
+                </button>
+            {% } %}
+        </td>
+    </tr>
+{% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download-incidents" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+        <td>
+            <span class="preview">
+                {% if (file.thumbnailUrl) { %}
+                    <img style="height: 60px;" src="{%=file.thumbnailUrl%}">
+                {% } %}
+            </span>
+        </td>
+        <td>
+            <p class="name">
+                {% if (file.url) { %}
+                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>Descargar</a>
+                {% } else { %}
+                    <span>{%=file.name%}</span>
+                {% } %}
+            </p>
+            {% if (file.error) { %}
+                <div><span class="label label-danger">Error</span> {%=file.error%}</div>
+            {% } %}
+        </td>
+        <td>
+            <span class="size">{%=o.formatFileSize(file.size)%}</span>
+        </td>
+        <td>
+            {% if (file.deleteUrl) { %}
+                <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}<?php echo '&id_type=contactos&id_user='.$requestContact['id_contact']; ?>"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Eliminar</span>
+                </button>
+                <input type="checkbox" name="delete" value="1" class="toggle">
+            {% } else { %}
+                <button class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancelar</span>
+                </button>
+            {% } %}
+        </td>
+    </tr>
+{% } %}
 </script>
 
 <?php

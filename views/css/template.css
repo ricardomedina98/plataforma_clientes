@@ -20,7 +20,7 @@
 }
 
 
-#dropzone, #dropzoneTickets {
+#dropzone, #dropzoneTickets, #dropzoneIncident {
     background: #d2d6de;
     height: 200px;
     margin-top: 50px;
@@ -32,13 +32,13 @@
     font-weight: bold;
     
 }
-#dropzone.in ,#dropzoneTickets.in {
+#dropzone.in ,#dropzoneTickets.in, #dropzoneIncident.in {
     line-height: 50px;
     font-weight: normal;
     font-size: small;
 }
 
-#dropzone.fade, #dropzoneTickets.fade {
+#dropzone.fade, #dropzoneTickets.fade, #dropzoneIncident.fade {
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     -ms-transition: all 0.3s ease-out;
