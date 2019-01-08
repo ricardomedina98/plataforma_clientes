@@ -2,6 +2,8 @@
 
 $updateContact = ContactController::controllerUpdateContact();
 
+$addIncident = ContactController::controllerAddIncident();
+
 ?>
 
 <div class="content-wrapper">
@@ -633,11 +635,74 @@ $updateContact = ContactController::controllerUpdateContact();
                                 
                             <div class="row">
                                 <div class="col-sm-12">
+
+                                    <div class="box box-primary">
+
+                                        <div class="box-body">
+                    
+                                            <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
+                                            
+                                                <thead>
+                                                
+                                                    <tr>
+                    
+                                                        <th style="width:10px">#</th>
+                                                        <th>Causa</th>                                           
+                                                        <th>Acciones</th>
+                                            
+                                                    </tr> 
+                                        
+                                                </thead>
+                                        
+                                                <tbody>
+
+                                                    <?php
+                                                        $resultIncidents = ContactController::controllerShowIndicents($requestContact['id_contact']);
+                                                        
+                                                        foreach ($resultIncidents as $key => $valueInc) {
+                                                            echo '
+                                                            <tr>
+                                                                <td>'.($key+1).'</td>
+                                                                <td>'.$valueInc['subject'].'</td>
+                                                                                                                                                                                                                        
+                                                                <td>
+                                                    
+                                                                    <div class="row">
+
+                                                                        <div class="col-12 text-center">
+
+                                                                            <button class="btn btn-success btnViewIncident" style="width: 80px" idViewIncident="'.$valueInc['id_incident'].'" data-toggle="modal" data-target="#modalViewIncidents"><i class="fa fa-eye"></i></button>
+
+                                                                            <button class="btn btn-warning btnEditIncident" style="width: 80px" idEditIncident="'.$valueInc['id_incident'].'" data-toggle="modal" data-target="#modalEditIncidents"><i class="fa fa-pencil"></i></button>
+                                                            
+                                                                            <button class="btn btn-danger btnDeleteIncident" style="width: 80px"><i class="fa fa-times"></i></button>
+                                                                        
+                                                                        </div>
+                                                                        
+                                                                        
+                                                        
+                                                                    </div>  
+                                                    
+                                                                </td>
+                                                
+                                                            </tr>';
+                                                        }
+                                                        
+                                                        
+                                                    ?>
+                                                
+                                                    
+                                        
+                                                </tbody>
                                     
-                                    <div class="col-md-2 col-md-offset-5">
-                                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalIncidents">
-                                            Agregar Incidente
-                                        </button>
+                                            </table>
+
+                                            <div class="box-header with-border">
+                                                <button type="button" class="btn btn-primary btn-md pull-right" data-toggle="modal" data-target="#modalAddIncidents">Agregar Incidente</button>
+                                            </div>
+                                    
+                                        </div>
+
                                     </div>
                                     
                                 </div>
@@ -749,9 +814,8 @@ $updateContact = ContactController::controllerUpdateContact();
     </div>
 </div>
 
-
-<!-- MODAL INCIDENTES -->
-<div class="modal fade" id="modalIncidents" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<!-- MODAL AGREGAR INCIDENTES -->
+<div class="modal fade" id="modalAddIncidents" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -762,12 +826,15 @@ $updateContact = ContactController::controllerUpdateContact();
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div id="alertModal">
-            
-                    </div>
 
                     <div class="col-sm-12">
-                        <form id="formIncidents" method="post" enctype=multipart/form-data>
+                        <form id="formAddIncidents" method="post" enctype=multipart/form-data>
+                        <?php
+
+                            echo '<input type="hidden" id="id_contact" name="id_contact" value="'.$requestContact['id_contact'].'">';
+
+                        ?>
+                            
                             <div class="row">
                                 <div class="form-group">
                                     <label for="frequencyContact" class="col-sm-2 control-label">Incidente</label>
@@ -787,7 +854,70 @@ $updateContact = ContactController::controllerUpdateContact();
 
                                     <div class="col-sm-8">
 
-                                        <textarea name="commentsContact" id="commentsContactIncident" cols="65" rows="4"></textarea>
+                                        <textarea name="commentsContact" id="commentsContactIncident" cols="85" rows="4"></textarea>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    <?php
+
+                        
+
+                    ?>
+
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="submit" id="addIncident" class="btn btn-primary">Agregar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL EDITAR INCIDENTES -->
+<div class="modal fade" id="modalEditIncidents" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modelTitleId">Editar Incidente</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+
+                    <div class="col-sm-12">
+                        <form id="formEditIncidents" method="post" enctype=multipart/form-data>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="frequencyContact" class="col-sm-2 control-label">Incidente</label>
+
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="subjectIncident" name="subjectIncident" placeholder="Causa" type="text" autocomplete="off">
+                                    </div>
+
+                                </div>
+                            </div>
+                            
+                            <div class="row" style="margin-top: 15px;">
+
+                                <div class="form-group">
+
+                                    <label for="commentsContact" class="col-sm-2 control-label">Comentarios</label>
+
+                                    <div class="col-sm-8">
+
+                                        <textarea name="commentsContact" id="commentsContactIncident" cols="85" rows="4"></textarea>
 
                                     </div>
 
@@ -874,7 +1004,78 @@ $updateContact = ContactController::controllerUpdateContact();
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="submit" id="addIncident" class="btn btn-primary">Agregar</button>
+                <button type="submit" id="editIncident" class="btn btn-primary">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL VER INCIDENTES -->
+<div class="modal fade" id="modalViewIncidents" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modelTitleId">Ver Incidente</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+
+                    <div class="col-sm-12">
+                        <form id="formViewIncidents" method="post" enctype=multipart/form-data>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="frequencyContact" class="col-sm-2 control-label">Incidente</label>
+
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="subjectIncident" name="subjectIncident" placeholder="Causa" type="text" autocomplete="off">
+                                    </div>
+
+                                </div>
+                            </div>
+                            
+                            <div class="row" style="margin-top: 15px;">
+
+                                <div class="form-group">
+
+                                    <label for="commentsContact" class="col-sm-2 control-label">Comentarios</label>
+
+                                    <div class="col-sm-8">
+
+                                        <textarea name="commentsContact" id="commentsContactIncident" cols="85" rows="4"></textarea>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row" style="margin-top: 15px"></div>
+
+                                <div class="form-group">
+
+                                <label for="inputfilephoto" class="col-sm-2 control-label">Evidencia</label>
+                                
+
+                                <div class="row ">
+                                
+                                    
+
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
@@ -975,6 +1176,23 @@ $updateContact = ContactController::controllerUpdateContact();
     
             echo '<script> 
                 showAlert("Error!", "La informacion se pudo actualizar correctamente", false);
+            </script>';
+    
+        }
+    }
+
+    if(isset($addIncident)){
+        if($addIncident){
+
+            echo '<script> 
+                showAlert("Correcto!", "Incidente agregado correctamente", true);
+                
+            </script>';
+    
+           }else {
+    
+            echo '<script> 
+                showAlert("Error!", "Error al agregar el incidente", false);
             </script>';
     
         }

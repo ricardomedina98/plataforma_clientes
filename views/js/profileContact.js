@@ -74,24 +74,24 @@ function loadImages() {
 }
 
 function loadImagesHome(files) {
-  $("#photosContact").empty();
+    $("#photosContact").empty();
 
-  $("#photosContact").lightGallery({
-    showThumbByDefault: false
-  });
+    $("#photosContact").lightGallery({
+        showThumbByDefault: false
+    });
 
   var photosContact = $("#photosContact");
-  for (i in files["files"]) {
-    var html =
-      '<a href="' +
-      files["files"][i].url +
-      '"><img class="imagesContact" src="' +
-      files["files"][i].thumbnailUrl +
-      '"></a>';
-    photosContact.append(html);
-    photosContact.data("lightGallery").destroy(true);
-    photosContact.lightGallery();
-  }
+    for (i in files["files"]) {
+        var html =
+        '<a href="' +
+        files["files"][i].url +
+        '"><img class="imagesContact" src="' +
+        files["files"][i].thumbnailUrl +
+        '"></a>';
+        photosContact.append(html);
+        photosContact.data("lightGallery").destroy(true);
+        photosContact.lightGallery();
+    }
 }
 
 $("#fotosUpload").click(function() {
@@ -136,24 +136,24 @@ $("#dataImageTicket").change(function() {
 });
 
 $("#addTicket").click(function() {
-  var folio = $("#folioTicket").val();
-  var cajaTicket = $("#cajaTicket").val();
-  var sellerTicket = $("#sellerTicket").val();
-  var montoTotal = $("#montoTotal").val();
-  var previewTicket = $("#previewTicket").attr("src");
+    var folio = $("#folioTicket").val();
+    var cajaTicket = $("#cajaTicket").val();
+    var sellerTicket = $("#sellerTicket").val();
+    var montoTotal = $("#montoTotal").val();
+    var previewTicket = $("#previewTicket").attr("src");
 
-  if (
-    folio != "" &&
-    cajaTicket != "" &&
-    sellerTicket != "" &&
-    montoTotal != "" &&
-    previewTicket != null &&
-    previewTicket != ""
-  ) {
-    $("#formTicket").submit();
-  } else {
-    return false;
-  }
+    if (
+        folio != "" &&
+        cajaTicket != "" &&
+        sellerTicket != "" &&
+        montoTotal != "" &&
+        previewTicket != null &&
+        previewTicket != ""
+    ) {
+        $("#formTicket").submit();
+    } else {
+        return false;
+    }
 });
 
 $("#formTicket").submit(function(e) {
@@ -353,7 +353,7 @@ $("#form_contact").on("submit", function(){
   */
 
 
-$("#formIncidents").fileupload({
+$("#formEditIncidents").fileupload({
     uploadTemplateId: "template-upload-incidents",
     downloadTemplateId: "template-download-incidents",
     dropZone: $("#dropzoneIncident"),
@@ -369,95 +369,78 @@ $("#formIncidents").fileupload({
         });
     },
     fileInput: $("#inputUploadIncident")
+    
 });
 
 
-$("#addIncident").click(function() {
-    var subject = $("#subjectIncident").val();
-    var comments = $("textarea#commentsContactIncident").val();
-  
-    if (subject != "" && comments != "") {
-        $("#formIncidents").submit();
-    } else {
-        return false;
-    }
-});
 
-$("#formIncidents").submit(function(e) {
-    deleteAlters();
-  
-    e.preventDefault();
-    var urlWeb = getURL() + "ajax/tickets.ajax.php";
 
-    $.ajax({
-      url: urlWeb,
-      method: "POST",
-      data: new FormData(this),
-      cache: false,
-      contentType: false,
-      processData: false,
-      success: function(respuesta) {
-            if (respuesta) {
+$("#formEditIncidents")
+    .bind("fileuploadsubmit", function(e, data) {
+           
+    })
 
-                if(respuesta == true){
-                    UploadFilesIncident();
-                } else {
+    .bind("fileuploadadded", function(e, data) {
+        console.log(data);
+    })
 
-                }
-                
-            } else {
-                showAlertModal("Error!", "Hubo un error al guardar el ticket", false);
-            }
+    .bind("dragover", function(e) {
+        var dropZone = $("#dropzoneIncident"),
+        timeout = window.dropZoneTimeout;
+        if (timeout) {
+            clearTimeout(timeout);
+        } else {
+            dropZone.addClass("in");
         }
+        var hoveredDropZone = $(e.target).closest(dropZone);
+            dropZone.toggleClass("hover", hoveredDropZone.length);
+            window.dropZoneTimeout = setTimeout(function() {
+            window.dropZoneTimeout = null;
+            dropZone.removeClass("in hover");
+        }, 
+    100)
+    .bind('fileuploadadd', function (e, data) {
+        $("#addIncident").click(function () {
+        var subject = $("#subjectIncident").val();
+        var comments = $("textarea#commentsContactIncident").val();
+    
+        if (subject != "" && comments != "") {
+            data.submit();
+        } else {
+            return false;
+        }
+        
+    });})
+    
+});
+
+$("#addIncident").click(function(){
+    $("#formAddIncidents").submit();
+});
+
+$(".btnEditIncident").click(function(){
+    
+    
+    var urlWeb = getURL()+"ajax/incidents.ajax.php";
+    var id_incident = $(this).attr("idEditIncident");
+    
+    var data = new FormData();
+    data.append("id_incident", id_incident);
+    $.ajax({
+        url:urlWeb,
+        method:"POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType:"json",
+        success:function(respuesta){  
+
+            console.log(respuesta);
+            
+        }
+
     });
-  });
-
-
-
-
-
-
-
-
-
-function UploadFilesIncident(id_incident){
-    $("#formIncidents")
-        .bind("fileuploadsubmit", function(e, data) {
-
-            var id_user = $("#id_user").val();
-            var id_type = id_incident;
-            var jsonData = { id_type: id_type, id_user: id_user };
-
-            jsonData["Data"] = array;
-
-            console.log(array);
-
-            ("use strict");
-
-            $("#formIncidents").fileupload({
-            formData: jsonData
-            });
-        })
-
-        .bind("fileuploadadded", function(e, data) {
-            console.log(data);
-        })
-
-        .bind("dragover", function(e) {
-            var dropZone = $("#dropzoneIncident"),
-            timeout = window.dropZoneTimeout;
-            if (timeout) {
-                clearTimeout(timeout);
-            } else {
-                dropZone.addClass("in");
-            }
-            var hoveredDropZone = $(e.target).closest(dropZone);
-                dropZone.toggleClass("hover", hoveredDropZone.length);
-                window.dropZoneTimeout = setTimeout(function() {
-                window.dropZoneTimeout = null;
-                dropZone.removeClass("in hover");
-            }, 
-        100);
-    });
-}
+    
+});
 

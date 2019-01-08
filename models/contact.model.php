@@ -358,6 +358,61 @@ class ContactModel{
         }
 
     }
+
+    public static function modelAddIncident($datos){
+
+        $connection = Connection::connect();
+
+
+        $addIncident = $connection->prepare("insert into incidents(id_contact, subject, description) values (:id_contact, :cause, :description)");
+
+        
+
+        $addIncident -> bindParam(":id_contact", $datos['id_contact'], PDO::PARAM_INT);
+        $addIncident -> bindParam(":cause", $datos['cause'], PDO::PARAM_STR);
+        $addIncident -> bindParam(":description", $datos['description'], PDO::PARAM_STR);
+
+        if($addIncident -> execute()){
+            $request = true; 
+            return $request;
+        } else {
+            $request = false;    
+            return $request;
+        }
+
+    }
+
+    public static function modelShowIncidents(){
+
+        $connection = Connection::connect();
+
+        $connection->beginTransaction();
+
+        $showIncidents = $connection->prepare("select id_incident, id_contact, subject, description from incidents;");
+
+        $showIncidents->execute();
+
+        $showIncidents = $showIncidents->fetchAll(PDO::FETCH_ASSOC);
+
+        return $showIncidents;
+    }
+
+    public static function modelShowOneIncidents($datos){
+
+        $connection = Connection::connect();
+
+        $connection->beginTransaction();
+
+        $showOneIncident = $connection->prepare("select id_incident, id_contact, subject, description from incidents where id_incident;");
+
+        $addIncident -> bindParam(":id_contact", $datos['id_contact'], PDO::PARAM_INT);
+
+        $showOneIncident->execute();
+
+        $showOneIncident = $showOneIncident->fetchAll(PDO::FETCH_ASSOC);
+
+        return $showOneIncident;
+    }
     
 
 }

@@ -166,6 +166,34 @@ class ContactController{
 
         return $request;
     }
+
+    public static function controllerAddIncident(){
+
+        if(isset($_POST['subjectIncident']) && isset($_POST['commentsContact'])){
+
+            $datos = array("id_contact" => $_POST['id_contact'], "cause" => $_POST['subjectIncident'], "description" => isset($_POST['commentsContact']));
+
+            $request = ContactModel::modelAddIncident($datos);
+            return $request;
+
+        }
+
+    }
+
+    public static function controllerShowIndicents(){
+
+        $request = ContactModel::modelShowIncidents();
+
+        return $request;
+    }
+
+    
+    public static function controllerShowOneIndicents($datos){
+
+        $request = ContactModel::modelShowOneIncidents($datos);
+
+        return $request;
+    }
     
 
     /*AJAX */
@@ -200,6 +228,8 @@ class ContactController{
         return $request;
         
     }
+
+    
 
 }
 
