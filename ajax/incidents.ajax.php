@@ -14,7 +14,7 @@ class IncidentsAjax{
        $datos = array("id_incident" => $this->id_incident);
 
         
-        $request = ContactController::controllerAddIncident($datos);
+        $request = ContactController::controllerShowOneIndicents($datos);
 
         echo json_encode($request, true);
 
@@ -23,10 +23,9 @@ class IncidentsAjax{
 
 }
 
-if(isset($_POST["id_user"])){
+if(isset($_POST["id_incident"])){
     $incidents = new IncidentsAjax();
     $incidents -> id_incident = $_POST['id_incident'];
-
     $incidents ->ajaxAddIncident();
 }
 

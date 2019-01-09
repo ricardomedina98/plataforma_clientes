@@ -363,10 +363,7 @@ class ContactModel{
 
         $connection = Connection::connect();
 
-
         $addIncident = $connection->prepare("insert into incidents(id_contact, subject, description) values (:id_contact, :cause, :description)");
-
-        
 
         $addIncident -> bindParam(":id_contact", $datos['id_contact'], PDO::PARAM_INT);
         $addIncident -> bindParam(":cause", $datos['cause'], PDO::PARAM_STR);
@@ -386,8 +383,6 @@ class ContactModel{
 
         $connection = Connection::connect();
 
-        $connection->beginTransaction();
-
         $showIncidents = $connection->prepare("select id_incident, id_contact, subject, description from incidents;");
 
         $showIncidents->execute();
@@ -401,15 +396,14 @@ class ContactModel{
 
         $connection = Connection::connect();
 
-        $connection->beginTransaction();
 
-        $showOneIncident = $connection->prepare("select id_incident, id_contact, subject, description from incidents where id_incident;");
+        $showOneIncident = $connection->prepare("select id_incident, id_contact, subject, description from incidents where id_incident = :id_incident;");
 
-        $addIncident -> bindParam(":id_contact", $datos['id_contact'], PDO::PARAM_INT);
+        $showOneIncident -> bindParam(":id_incident", $datos['id_incident'], PDO::PARAM_INT);
 
         $showOneIncident->execute();
 
-        $showOneIncident = $showOneIncident->fetchAll(PDO::FETCH_ASSOC);
+        $showOneIncident = $showOneIncident->fetch(PDO::FETCH_ASSOC);
 
         return $showOneIncident;
     }

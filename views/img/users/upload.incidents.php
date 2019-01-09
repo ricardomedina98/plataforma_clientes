@@ -21,7 +21,7 @@ class IncidentsUploadHandler extends UploadHandler {
     protected function get_user_path() {
         if ($this->options['user_dirs']) {
             $id_type = (isset($_REQUEST['id_type'])) ? $_REQUEST['id_type'] : $_GET['id_type'];
-            $path_user = $id_type.'/'.$this->get_user_id().'/incidents'.'/';
+            $path_user = $id_type.'/'.$this->get_user_id().'/incidents'.'/'.$_REQUEST["id_incident"].'/';
             return $path_user;
         }
         return '';

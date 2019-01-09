@@ -169,9 +169,9 @@ class ContactController{
 
     public static function controllerAddIncident(){
 
-        if(isset($_POST['subjectIncident']) && isset($_POST['commentsContact'])){
+        if(isset($_POST['subjectIncident']) && isset($_POST['commentsIncident'])){
 
-            $datos = array("id_contact" => $_POST['id_contact'], "cause" => $_POST['subjectIncident'], "description" => isset($_POST['commentsContact']));
+            $datos = array("id_contact" => $_POST['id_contact'], "cause" => $_POST['subjectIncident'], "description" => $_POST['commentsIncident']);
 
             $request = ContactModel::modelAddIncident($datos);
             return $request;

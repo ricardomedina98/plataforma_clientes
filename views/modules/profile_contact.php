@@ -850,11 +850,11 @@ $addIncident = ContactController::controllerAddIncident();
 
                                 <div class="form-group">
 
-                                    <label for="commentsContact" class="col-sm-2 control-label">Comentarios</label>
+                                    <label for="commentsContactIncident" class="col-sm-2 control-label">Comentarios</label>
 
                                     <div class="col-sm-8">
 
-                                        <textarea name="commentsContact" id="commentsContactIncident" cols="85" rows="4"></textarea>
+                                        <textarea name="commentsIncident" id="commentsContactIncident" cols="85" rows="4"></textarea>
 
                                     </div>
 
@@ -903,7 +903,7 @@ $addIncident = ContactController::controllerAddIncident();
                                     <label for="frequencyContact" class="col-sm-2 control-label">Incidente</label>
 
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="subjectIncident" name="subjectIncident" placeholder="Causa" type="text" autocomplete="off">
+                                        <input class="form-control" id="subjectEditIncident" name="subjectIncident" placeholder="Causa" type="text" autocomplete="off">
                                     </div>
 
                                 </div>
@@ -917,7 +917,7 @@ $addIncident = ContactController::controllerAddIncident();
 
                                     <div class="col-sm-8">
 
-                                        <textarea name="commentsContact" id="commentsContactIncident" cols="85" rows="4"></textarea>
+                                        <textarea name="commentsContact" id="commentsEditIncident" cols="85" rows="4"></textarea>
 
                                     </div>
 
@@ -966,8 +966,9 @@ $addIncident = ContactController::controllerAddIncident();
                                                 
                                                 <?php                                                
                                                     echo '
-                                                    <input type="hidden" id="id_user" name="id_user" value="'.$requestContact['id_contact'].'">
-                                                    <input type="hidden" id="id_type" name="id_type" value="contactos">';
+                                                    <input type="hidden" id="id_user_edit" name="id_user" value="'.$requestContact['id_contact'].'">
+                                                    <input type="hidden" id="id_type_edit" name="id_type" value="contactos">
+                                                    <input type="hidden" id="id_incident_edit" name="id_incident">';
                                                 ?>
                                                 <!--Dropzone-->
                                                 

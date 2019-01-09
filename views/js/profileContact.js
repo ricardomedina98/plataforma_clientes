@@ -420,9 +420,8 @@ $("#addIncident").click(function(){
 
 $(".btnEditIncident").click(function(){
     
-    
     var urlWeb = getURL()+"ajax/incidents.ajax.php";
-    var id_incident = $(this).attr("idEditIncident");
+    var id_incident = $(this).attr("ideditincident");
     
     var data = new FormData();
     data.append("id_incident", id_incident);
@@ -435,9 +434,10 @@ $(".btnEditIncident").click(function(){
         processData: false,
         dataType:"json",
         success:function(respuesta){  
-
-            console.log(respuesta);
             
+            $("#subjectEditIncident").val(respuesta.subject);
+            $("#commentsEditIncident").val(respuesta.description);
+            $("#id_incident_edit").val(respuesta.id_incident);
         }
 
     });
