@@ -671,11 +671,11 @@ $addIncident = ContactController::controllerAddIncident();
 
                                                                         <div class="col-12 text-center">
 
-                                                                            <button class="btn btn-success btnViewIncident" style="width: 80px" idViewIncident="'.$valueInc['id_incident'].'" data-toggle="modal" data-target="#modalViewIncidents"><i class="fa fa-eye"></i></button>
+                                                                            <button class="btn btn-success btnViewIncident" style="width: 60px" idViewIncident="'.$valueInc['id_incident'].'" data-toggle="modal" data-target="#modalViewIncidents"><i class="fa fa-eye"></i></button>
 
-                                                                            <button class="btn btn-warning btnEditIncident" style="width: 80px" idEditIncident="'.$valueInc['id_incident'].'" data-toggle="modal" data-target="#modalEditIncidents"><i class="fa fa-pencil"></i></button>
+                                                                            <button class="btn btn-warning btnEditIncident" style="width: 60px" idEditIncident="'.$valueInc['id_incident'].'" data-toggle="modal" data-target="#modalEditIncidents"><i class="fa fa-pencil"></i></button>
                                                             
-                                                                            <button class="btn btn-danger btnDeleteIncident" style="width: 80px"><i class="fa fa-times"></i></button>
+                                                                            <button class="btn btn-danger btnDeleteIncident" style="width: 60px"><i class="fa fa-times"></i></button>
                                                                         
                                                                         </div>
                                                                         
@@ -955,11 +955,6 @@ $addIncident = ContactController::controllerAddIncident();
                                                         <i class="glyphicon glyphicon-ban-circle"></i>
                                                         <span>Cancelar</span>
                                                     </button>
-                                                    <button type="button" class="btn btn-danger delete">
-                                                        <i class="glyphicon glyphicon-trash"></i>
-                                                        <span>Eliminar</span>
-                                                    </button>
-                                                    <input type="checkbox" class="toggle">
                                                     <!-- The global file processing state -->
                                                     <span class="fileupload-process"></span>
                                                 </div>
@@ -985,7 +980,7 @@ $addIncident = ContactController::controllerAddIncident();
                                             </div>
 
                                             <!-- The table listing the files available for upload/download -->
-                                            <table role="presentation" id="tableShowImages" class="table table-striped"><tbody class="files"></tbody></table>
+                                            <table role="presentation" id="tableShowIncidents" class="table table-striped"><tbody class="files filesIncidents"></tbody></table>
                              
                                         </div>
 
@@ -1061,6 +1056,12 @@ $addIncident = ContactController::controllerAddIncident();
                                 
 
                                 <div class="row ">
+
+
+                                <div id="showImagesIncidents">
+                                
+                                
+                                </div>
                                 
                                     
 
@@ -1147,7 +1148,7 @@ $addIncident = ContactController::controllerAddIncident();
         </td>
         <td>
             {% if (file.deleteUrl) { %}
-                <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}<?php echo '&id_type=contactos&id_user='.$requestContact['id_contact']; ?>"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                <button class="btn btn-danger delete deleteEdit" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}<?php echo '&id_type=contactos&id_user='.$requestContact['id_contact']; ?>"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
                     <i class="glyphicon glyphicon-trash"></i>
                     <span>Eliminar</span>
                 </button>

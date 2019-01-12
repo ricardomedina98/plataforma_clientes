@@ -98,7 +98,6 @@ $(document).ready(function(){
         processData: false,
         dataType: 'json',
         success: function(respuesta){
-            console.log(respuesta);
             var estados = $('#addressState');
             var optionDefaul = '<option value="">Seleccione un estado</option>';
             estados.append(optionDefaul);
@@ -119,7 +118,7 @@ $(document).ready(function(){
 
 
 function getURL(){
-    return "http://localhost/plataforma_clientes/";
+    return "http://192.168.88.120/plataforma_clientes/";
 }
 
 

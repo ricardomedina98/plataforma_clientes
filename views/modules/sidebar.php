@@ -16,9 +16,11 @@
 
       <li><a href="<?php echo $url; ?>negocios/"><i class="fa fa-briefcase" aria-hidden="true"></i> <span>Negocios</span></a></li>
 
-      <li><a href="<?php echo $url; ?>duenos/"><i class="fa fa-users" aria-hidden="true"></i></i> <span>Dueños</span></a></li>
+      <li><a href="<?php echo $url; ?>duenos/"><i class="fa fa-user" aria-hidden="true"></i></i> <span>Dueños</span></a></li>
 
       <li><a href="<?php echo $url; ?>contactos/"><i class="fa fa-address-card" aria-hidden="true"></i> <span>Contactos</span></a></li>
+
+      <li><a href="<?php echo $url; ?>usuarios"><i class="fa fa-users" aria-hidden="true"></i> <span>Usuarios</span></a></li>
 
       <li class="treeview menu">
           <a href="#">

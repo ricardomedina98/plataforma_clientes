@@ -35,7 +35,7 @@
                     
                         <img src="<?php echo $url; ?>views/img/users/default/anonymous.jpg" class="user-image">
 
-                        <span class="hidden-xs">Usuario Administrador</span>
+                        <span class="hidden-xs"><?php echo $_SESSION["name_user"]; ?></span>
 
                     </a>
 
@@ -45,7 +45,7 @@
                         
                         <li class="user-body">
 
-                            <span>Jose Ricardo Medina Lopez</span>
+                            <span><b>Usuario: </b><?php echo $_SESSION["user_name"]; ?></span>
 
                             <div class="pull-right">
 

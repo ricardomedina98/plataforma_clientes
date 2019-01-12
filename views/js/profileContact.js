@@ -352,10 +352,124 @@ $("#form_contact").on("submit", function(){
 
   */
 
+ $(".btnEditIncident").click(function(){
+    
+    var urlWeb = getURL()+"ajax/incidents.ajax.php";
+    var id_incident = $(this).attr("ideditincident");
+    var id_user = $("#id_user").val();
+    var id_type = $("#id_type").val();
+    
+    var data = new FormData();
+    data.append("id_incident", id_incident);
+    $.ajax({
+        url:urlWeb,
+        method:"POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType:"json",
+        success:function(respuesta){  
+            
+            $("#subjectEditIncident").val(respuesta.subject);
+            $("#commentsEditIncident").val(respuesta.description);
+            $("#id_incident_edit").val(respuesta.id_incident);
+        }
+
+    });
+
+    
+    var jsonData = { id_type: id_type, id_user: id_user, id_incident: id_incident};
+  
+    $("#formEditIncidents").addClass("fileupload-processing");
+    $.ajax({
+      data: jsonData,
+      url: getURL() + "views/img/users/upload.incidents.php",
+      dataType: "json",
+      context: $("#formEditIncidents")[0]
+    })
+      .always(function() {
+        $(this).removeClass("fileupload-processing");
+        $("#tableShowIncidents tr").remove();
+      })
+      .done(function(files) {        
+        $(this)
+          .fileupload("option", "done")
+          .call(this, $.Event("done"), { result: files });
+      });
+
+    
+});
+
 
 $("#formEditIncidents").fileupload({
-    uploadTemplateId: "template-upload-incidents",
-    downloadTemplateId: "template-download-incidents",
+    filesContainer: $('.filesIncidents'),
+    uploadTemplateId: null,
+    downloadTemplateId: null,
+    uploadTemplate: function (o) {        
+        var rows = $();
+        $.each(o.files, function (index, file) {
+            var row = $('<tr class="template-upload fade">' +
+                '<td><span class="preview"></span></td>' +
+                '<td><p class="name"></p>' +
+                '<div class="error"></div>' +
+                '</td>' +
+                '<td><p class="size"></p>' +
+                '<div class="progress"></div>' +
+                '</td>' +
+                '<td>' +
+                (!index && !o.options.autoUpload ?
+                    '<button class="btn btn-primary start" disabled>Subir </button>' : '') +
+                (!index ? '<button class="btn btn-warning cancel">Cancelar</button>' : '') +
+                '</td>' +
+                '</tr>');
+            row.find('.name').text(file.name);
+            row.find('.size').text(o.formatFileSize(file.size));
+            if (file.error) {
+                row.find('.error').text(file.error);
+            }
+            rows = rows.add(row);
+        });
+        return rows;
+    },
+    downloadTemplate: function (o) {
+        var id_incident = $("#id_incident_edit").val();
+        var id_user = $("#id_user_edit").val(); 
+        var rows = $();
+        $(o.files).each(function (index, file) {
+            var row = $('<tr class="template-download fade">' +
+                '<td><span class="preview"></span></td>' +
+                '<td><p class="name"></p>' +
+                (file.error ? '<div class="error"></div>' : '') +
+                '</td>' +
+                '<td><span class="size"></span></td>' +
+                '<td><button class="btn btn-danger delete">Eliminar</button></td>' +
+                '</tr>');
+            row.find('.size').text(o.formatFileSize(file.size));
+            if (file.error) {
+                row.find('.name').text(file.name);
+                row.find('.error').text(file.error);
+            } else {
+                row.find('.name').append($('<a></a>').text(file.name));
+                if (file.thumbnailUrl) {
+                    row.find('.preview').append(
+                        $('<a></a>').append(
+                            $('<img>').prop('src', file.thumbnailUrl)
+                        )
+                    );
+                }
+                row.find('a')
+                    .attr('data-gallery', '')
+                    .attr('download', file.name)
+                    .prop('href', file.url);
+                row.find('button.delete')
+                    .attr('data-type', file.deleteType)
+                    .attr('data-url', file.deleteUrl + "&id_incident=" + id_incident + "&id_type=contactos&id_user=" + id_user);
+            }
+            rows = rows.add(row);
+        });
+        return rows;
+    },
     dropZone: $("#dropzoneIncident"),
     url: getURL() + "views/img/users/upload.incidents.php",
     drop: function(e, data) {
@@ -418,29 +532,10 @@ $("#addIncident").click(function(){
     $("#formAddIncidents").submit();
 });
 
-$(".btnEditIncident").click(function(){
-    
-    var urlWeb = getURL()+"ajax/incidents.ajax.php";
-    var id_incident = $(this).attr("ideditincident");
-    
-    var data = new FormData();
-    data.append("id_incident", id_incident);
-    $.ajax({
-        url:urlWeb,
-        method:"POST",
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType:"json",
-        success:function(respuesta){  
-            
-            $("#subjectEditIncident").val(respuesta.subject);
-            $("#commentsEditIncident").val(respuesta.description);
-            $("#id_incident_edit").val(respuesta.id_incident);
-        }
 
-    });
-    
+
+$(".deleteEdit").click(function(){
+    var url_data = $(this).attr("data-url");
+	console.log("​url_data", url_data);
 });
 

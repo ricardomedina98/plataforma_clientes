@@ -118,7 +118,7 @@ use PHPMailer\PHPMailer\Exception;
   
 
     <?php
-        if(isset($_SESSION['login']) && $_SESSION['login'] == "ok"){
+        if(isset($_SESSION['login']) && $_SESSION['login'] == true){
 
             echo '<div class="wrapper">';
             /*=============================================
@@ -261,7 +261,14 @@ use PHPMailer\PHPMailer\Exception;
                         
                         include "modules/404.php";   
                     }
-                }  
+                } 
+
+                
+                elseif($value1=="usuarios") {
+
+                    include "modules/users.php";
+                    
+                }
                 
                 
                 elseif($value1=="agregarDueno") {
@@ -329,6 +336,8 @@ use PHPMailer\PHPMailer\Exception;
 <script src="<?php echo $url; ?>views/js/profileBusiness.js"></script>
 <script src="<?php echo $url; ?>views/js/business.js"></script>
 <script src="<?php echo $url; ?>views/js/profileOwner.js"></script>
+
+<script src="<?php echo $url; ?>views/js/users.js"></script>
 
 
 
