@@ -9,16 +9,27 @@ class IncidentsAjax{
 
     public $id_incident;
 
-    public function ajaxAddIncident(){
+    public function ajaxShowOneIncident(){
 
-       $datos = array("id_incident" => $this->id_incident);
+       $data = array("id_incident" => $this->id_incident);
 
         
-        $request = ContactController::controllerShowOneIndicents($datos);
+        $request = ContactController::controllerShowOneIndicents($data);
 
         echo json_encode($request, true);
 
     }
+
+    public function ajaxDeleteIncident(){
+
+        $data = array("id_incident" => $this->id_incident);
+ 
+         
+         $request = ContactController::controllerDeleteIncident($data);
+ 
+         echo json_encode($request, true);
+ 
+     }
 
 
 }
@@ -26,7 +37,13 @@ class IncidentsAjax{
 if(isset($_POST["id_incident"])){
     $incidents = new IncidentsAjax();
     $incidents -> id_incident = $_POST['id_incident'];
-    $incidents ->ajaxAddIncident();
+    $incidents ->ajaxShowOneIncident();
+}
+
+if(isset($_POST["id_incident_delete"])){
+    $incidents = new IncidentsAjax();
+    $incidents -> id_incident = $_POST['id_incident_delete'];
+    $incidents ->ajaxDeleteIncident();
 }
 
 ?>

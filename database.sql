@@ -14,7 +14,7 @@ constraint id_user_users primary key(id_user),
 constraint user_name_unique unique(user_name)
 );
 
-select id_user from users where type_user 'Administrador';
+select count(id_user) admins from users where type_user = 'Administrador';
 update users set status = 1 where id_user = 1;
 
 

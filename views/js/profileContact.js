@@ -80,7 +80,7 @@ function loadImagesHome(files) {
         showThumbByDefault: false
     });
 
-  var photosContact = $("#photosContact");
+    var photosContact = $("#photosContact");
     for (i in files["files"]) {
         var html =
         '<a href="' +
@@ -352,7 +352,7 @@ $("#form_contact").on("submit", function(){
 
   */
 
- $(".btnEditIncident").click(function(){
+$(".btnEditIncident").click(function(){
     
     var urlWeb = getURL()+"ajax/incidents.ajax.php";
     var id_incident = $(this).attr("ideditincident");
@@ -532,10 +532,102 @@ $("#addIncident").click(function(){
     $("#formAddIncidents").submit();
 });
 
-
-
-$(".deleteEdit").click(function(){
-    var url_data = $(this).attr("data-url");
-	console.log("​url_data", url_data);
+$("#editIncident").click(function(){
+    $("#formEditIncidents").submit();
 });
 
+
+
+$(".btnViewIncident").click(function(){
+    var urlWeb = getURL()+"ajax/incidents.ajax.php";
+    var id_incident = $(this).attr("idviewincident");
+    var id_user = $("#id_user").val();
+    var id_type = $("#id_type").val();
+    
+    var data = new FormData();
+    data.append("id_incident", id_incident);
+    $.ajax({
+        url:urlWeb,
+        method:"POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType:"json",
+        success:function(respuesta){  
+            
+            $("#subjectViewIncident").text(respuesta.subject);
+            $("#commentsViewIncident").text(respuesta.description);
+        }
+
+    });
+
+    var jsonData = { id_type: id_type, id_user: id_user, id_incident: id_incident};
+    
+    $.ajax({
+        data: jsonData,
+        url: getURL() + "views/img/users/upload.incidents.php",
+        dataType: "json",
+        context: $("#fileupload")[0]
+    })
+        .done(function(files) {
+			$("#showImagesIncidents").empty();
+
+            $("#showImagesIncidents").lightGallery({
+                showThumbByDefault: false
+            });
+
+            var showImagesIncidents = $("#showImagesIncidents");
+            for (i in files["files"]) {
+                var html =
+                '<a href="' +
+                files["files"][i].url +
+                '"><img class="imagesIncidents" src="' +
+                files["files"][i].thumbnailUrl +
+                '"></a>';
+                showImagesIncidents.append(html);
+                showImagesIncidents.data("lightGallery").destroy(true);
+                showImagesIncidents.lightGallery();
+            }
+            
+        }
+    );
+      
+    
+});
+
+$(".btnDeleteIncident").click(function(e) {
+    e.preventDefault();
+  
+    swal({
+      title: "Estas seguro?",
+      text: "Se eliminara el incidente y toda su informacion incluyendo imagenes",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, eliminar"
+    }).then(result => {
+      if (result.value) {
+        var urlWeb = getURL() + "ajax/incidents.ajax.php";
+        var id_incident = $(this).attr("idDeleteIncident");
+  
+        var data = new FormData();
+        var id_user = $("#id_user").val();
+        data.append("id_incident_delete", id_incident);
+  
+        $.ajax({
+          url: urlWeb,
+          method: "POST",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function(respuesta) {
+            console.log(respuesta);
+            location.href = getURL() + "contactos/" + id_user;
+          }
+        });
+      }
+    });
+  });

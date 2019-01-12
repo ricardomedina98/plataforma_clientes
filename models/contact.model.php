@@ -379,11 +379,13 @@ class ContactModel{
 
     }
 
-    public static function modelShowIncidents(){
+    public static function modelShowIncidents($data){
 
         $connection = Connection::connect();
 
-        $showIncidents = $connection->prepare("select id_incident, id_contact, subject, description from incidents;");
+        $showIncidents = $connection->prepare("select id_incident, id_contact, subject, description from incidents where id_contact = :id_contact;");
+
+        $showIncidents -> bindParam(":id_contact", $data, PDO::PARAM_INT);
 
         $showIncidents->execute();
 
@@ -408,5 +410,50 @@ class ContactModel{
         return $showOneIncident;
     }
     
+    public static function modelUpdateIncident($data){
+
+        $connection = Connection::connect();
+
+        $updateIncident = $connection->prepare("update incidents set subject = :cause, description = :description where id_incident = :id_incident and id_contact = :id_user;");
+
+        $updateIncident -> bindParam(":id_user", $data['id_user'], PDO::PARAM_INT);
+
+        $updateIncident -> bindParam(":id_incident", $data['id_incident'], PDO::PARAM_INT);
+
+        $updateIncident -> bindParam(":cause", $data["cause"], PDO::PARAM_STR);
+
+        $updateIncident -> bindParam(":description", $data["description"], PDO::PARAM_STR);
+
+        $updateIncident->execute();
+
+        $rowsAffected = $updateIncident->rowCount();
+
+        if($rowsAffected > 0){
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public static function modelDeleteIncident($data){
+
+        $connection = Connection::connect();
+
+        $deleteIncident = $connection->prepare("delete from incidents where id_incident = :id_incident;");
+
+        $deleteIncident -> bindParam(":id_incident", $data['id_incident'], PDO::PARAM_INT);
+
+        $deleteIncident->execute();
+
+        $rowsAffected = $deleteIncident->rowCount();
+
+        if($rowsAffected > 0){
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 
 }

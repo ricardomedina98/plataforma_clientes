@@ -169,7 +169,7 @@ class ContactController{
 
     public static function controllerAddIncident(){
 
-        if(isset($_POST['subjectIncident']) && isset($_POST['commentsIncident'])){
+        if(isset($_POST['subjectIncident']) && isset($_POST['commentsIncident']) && isset($_POST['id_contact'])){
 
             $datos = array("id_contact" => $_POST['id_contact'], "cause" => $_POST['subjectIncident'], "description" => $_POST['commentsIncident']);
 
@@ -180,9 +180,9 @@ class ContactController{
 
     }
 
-    public static function controllerShowIndicents(){
+    public static function controllerShowIndicents($data){
 
-        $request = ContactModel::modelShowIncidents();
+        $request = ContactModel::modelShowIncidents($data);
 
         return $request;
     }
@@ -194,6 +194,26 @@ class ContactController{
 
         return $request;
     }
+
+    public static function controllerUpdateIncident(){
+
+        if(isset($_POST['subjectEditIncident']) && isset($_POST['commentsEditIncident']) && isset($_POST['id_user']) && isset($_POST['id_incident'])){
+
+            $data = array("cause" => $_POST['subjectEditIncident'], 
+                        "description" => $_POST['commentsEditIncident'], 
+                        "id_user" => $_POST['id_user'],
+                        "id_incident" => $_POST['id_incident']);
+
+            $request = ContactModel::modelUpdateIncident($data);
+
+            return $request;
+
+        }
+        
+
+    }
+
+    
     
 
     /*AJAX */
@@ -225,6 +245,13 @@ class ContactController{
     public static function controllerDeleteContact($datos){
         
         $request = ContactModel::modelDeleteContact($datos['id_user_delete']);
+        return $request;
+        
+    }
+
+    public static function controllerDeleteIncident($data){
+
+        $request = ContactModel::modelDeleteIncident($data);
         return $request;
         
     }

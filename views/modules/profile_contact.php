@@ -4,6 +4,8 @@ $updateContact = ContactController::controllerUpdateContact();
 
 $addIncident = ContactController::controllerAddIncident();
 
+$updateIncident = ContactController::controllerUpdateIncident();
+
 ?>
 
 <div class="content-wrapper">
@@ -675,7 +677,7 @@ $addIncident = ContactController::controllerAddIncident();
 
                                                                             <button class="btn btn-warning btnEditIncident" style="width: 60px" idEditIncident="'.$valueInc['id_incident'].'" data-toggle="modal" data-target="#modalEditIncidents"><i class="fa fa-pencil"></i></button>
                                                             
-                                                                            <button class="btn btn-danger btnDeleteIncident" style="width: 60px"><i class="fa fa-times"></i></button>
+                                                                            <button class="btn btn-danger btnDeleteIncident" style="width: 60px" idDeleteIncident="'.$valueInc['id_incident'].'"><i class="fa fa-times"></i></button>
                                                                         
                                                                         </div>
                                                                         
@@ -903,7 +905,7 @@ $addIncident = ContactController::controllerAddIncident();
                                     <label for="frequencyContact" class="col-sm-2 control-label">Incidente</label>
 
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="subjectEditIncident" name="subjectIncident" placeholder="Causa" type="text" autocomplete="off">
+                                        <input class="form-control" id="subjectEditIncident" name="subjectEditIncident" placeholder="Causa" type="text" autocomplete="off">
                                     </div>
 
                                 </div>
@@ -917,7 +919,7 @@ $addIncident = ContactController::controllerAddIncident();
 
                                     <div class="col-sm-8">
 
-                                        <textarea name="commentsContact" id="commentsEditIncident" cols="85" rows="4"></textarea>
+                                        <textarea name="commentsEditIncident" id="commentsEditIncident" cols="85" rows="4"></textarea>
 
                                     </div>
 
@@ -999,7 +1001,7 @@ $addIncident = ContactController::controllerAddIncident();
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Cerrar</button>
                 <button type="submit" id="editIncident" class="btn btn-primary">Actualizar</button>
             </div>
         </div>
@@ -1026,7 +1028,7 @@ $addIncident = ContactController::controllerAddIncident();
                                     <label for="frequencyContact" class="col-sm-2 control-label">Incidente</label>
 
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="subjectIncident" name="subjectIncident" placeholder="Causa" type="text" autocomplete="off">
+                                        <p id="subjectViewIncident" ></p>
                                     </div>
 
                                 </div>
@@ -1040,7 +1042,7 @@ $addIncident = ContactController::controllerAddIncident();
 
                                     <div class="col-sm-8">
 
-                                        <textarea name="commentsContact" id="commentsContactIncident" cols="85" rows="4"></textarea>
+                                        <p id="commentsViewIncident" ></p>
 
                                     </div>
 
@@ -1057,11 +1059,17 @@ $addIncident = ContactController::controllerAddIncident();
 
                                 <div class="row ">
 
+                                    <div class="col-12">
 
-                                <div id="showImagesIncidents">
-                                
-                                
-                                </div>
+                                        <div id="showImagesIncidents">
+                                        
+                                        
+                                        </div>
+                                    
+                                    </div>
+
+
+                                    
                                 
                                     
 
@@ -1183,6 +1191,23 @@ $addIncident = ContactController::controllerAddIncident();
         }
     }
 
+    if(isset($updateIncident)){
+        if($updateIncident){
+
+            echo '<script> 
+                showAlert("Correcto!", "Informacion actualizada correctamente", true);
+                
+            </script>';
+    
+           }else {
+    
+            echo '<script> 
+                showAlert("Error!", "La informacion se pudo actualizar correctamente", false);
+            </script>';
+    
+        }
+    }
+
     if(isset($addIncident)){
         if($addIncident){
 
@@ -1194,7 +1219,7 @@ $addIncident = ContactController::controllerAddIncident();
            }else {
     
             echo '<script> 
-                showAlert("Error!", "Error al agregar el incidente", false);
+                showAlert("Error!", "Error al actualizar el incidente", false);
             </script>';
     
         }

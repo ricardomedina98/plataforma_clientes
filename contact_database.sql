@@ -62,7 +62,8 @@ create table incidents(
     constraint id_contact_fk_inc foreign key(id_contact) references contacts(id_contact)
 );
 
-
+update incidents set subject = 'Algo', description = 'Algo' where id_incident = 1 and id_contact = 1;
+delete from incidents where id_incident = 1;
 
 
 select * from contacts;
@@ -140,3 +141,4 @@ delete from contact_business where id_contact = 2;
 
 update contact_business set id_business = (select id_business from business where commercial_name = 'Alcon Supermarket') where id_contact = 6;
 update contact_business set id_business = (select id_business from business where commercial_name = 'Alcon Supermarket') where id_contact = 36;
+
