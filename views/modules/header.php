@@ -47,6 +47,10 @@
 
                             <span><b>Usuario: </b><?php echo $_SESSION["user_name"]; ?></span>
 
+                            <br>
+
+                            <span><b>Tipo de Usuario: </b><?php echo $_SESSION["type_user"]; ?></span>
+
                             <div class="pull-right">
 
                                 <a href="<?php echo $url; ?>salir" class="btn btn-default btn-flat">Salir</a>
