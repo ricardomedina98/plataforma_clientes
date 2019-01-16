@@ -183,7 +183,6 @@ $("#deleteBusinessEdit").click(function (e){
           if(result.value) {
 
             var urlWeb = getURL()+"ajax/business.ajax.php";
-            var url = getURL()+"";
 
             var data = new FormData();
             data.append("id_business_delete", $("#id_user").val());
@@ -199,7 +198,7 @@ $("#deleteBusinessEdit").click(function (e){
                 processData: false,
                 success:function(respuesta){  
                                         
-                    location.href = url + "negocios/";
+                    location.href = getURL() + "negocios/";
                     
                 }
         

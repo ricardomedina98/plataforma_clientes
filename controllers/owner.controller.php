@@ -2,6 +2,7 @@
 class OwnerController{
 
     public static function controllerAddOwn(){
+
         if(isset($_POST['saveOwner']) || isset($_POST['saveShowOwner'])){
             
             $data = $_POST;
@@ -44,6 +45,7 @@ class OwnerController{
 
 
         }
+
     }
 
     public static function controllerShowOwners($base, $tope){
@@ -83,6 +85,14 @@ class OwnerController{
 
             return $request;
         }
+
+    }
+
+    public static function controllerDeleteOwner($data){
+
+        $request = OwnerModel::modelDeleteOwner($data);
+
+        return $request;
 
     }
 

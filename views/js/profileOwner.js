@@ -13,11 +13,11 @@ $("#deleteOwnerEdit").click(function (e){
 
           if(result.value) {
 
-            var urlWeb = getURL()+"ajax/business.ajax.php";
+            var urlWeb = getURL()+"ajax/owner.ajax.php";
             var url = getURL()+"";
 
             var data = new FormData();
-            data.append("id_business_delete", $("#id_user").val());
+            data.append("id_owner_delete", $("#id_user").val());
             
             
             $.ajax({
@@ -28,8 +28,9 @@ $("#deleteOwnerEdit").click(function (e){
                 contentType: false,
                 processData: false,
                 success:function(respuesta){  
+					console.log("​respuesta", respuesta)
                                         
-                    location.href = url + "negocios/";
+                    location.href = getURL() + "duenos/";
                     
                 }
         

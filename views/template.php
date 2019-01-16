@@ -150,7 +150,7 @@ use PHPMailer\PHPMailer\Exception;
                 }
 
                 /* SECCION DE CONTACTOS Y AGREGAR CONTACTO */
-                if($value1=="contactos"){
+                if($value1=="contactos" && ($_SESSION['type_user'] == 'Monitoreo' || $_SESSION['type_user'] == 'Administrador')){
                     $value3 = explode("-", $value2);
 
                     if($value3[0] == "pagina") {                    
@@ -179,7 +179,9 @@ use PHPMailer\PHPMailer\Exception;
                         include "modules/404.php";   
                     }
 
-                } elseif($value1=="agregarContacto") {
+                } 
+                
+                elseif($value1=="agregarContacto" && ($_SESSION['type_user'] == 'Monitoreo' || $_SESSION['type_user'] == 'Administrador')) {
 
                     include "modules/addContact.php";
                     
@@ -187,7 +189,7 @@ use PHPMailer\PHPMailer\Exception;
                 
                 
                 /* SECCION DE NEGOCIOS Y AGREGAR NEGOCIOS */
-                elseif($value1=="negocios") {
+                elseif($value1=="negocios" && ($_SESSION['type_user'] == 'Monitoreo' || $_SESSION['type_user'] == 'Administrador')) {
 
                     $value3 = explode("-", $value2);
 
@@ -221,7 +223,7 @@ use PHPMailer\PHPMailer\Exception;
                 } 
                 
                 
-                elseif($value1=="agregarNegocio") {
+                elseif($value1=="agregarNegocio" && ($_SESSION['type_user'] == 'Monitoreo' || $_SESSION['type_user'] == 'Administrador')) {
 
                     include "modules/addBusiness.php";
                     
@@ -230,7 +232,7 @@ use PHPMailer\PHPMailer\Exception;
                 
                 
                 /* SECCION DE DUEÑOS Y AGREGAR DUEÑOS */
-                elseif($value1=="duenos") {
+                elseif($value1=="duenos" && ($_SESSION['type_user'] == 'Monitoreo' || $_SESSION['type_user'] == 'Administrador')) {
 
                     $value3 = explode("-", $value2);
 
@@ -263,21 +265,26 @@ use PHPMailer\PHPMailer\Exception;
                     }
                 } 
 
-                
-                elseif($value1=="usuarios") {
-
-                    include "modules/users.php";
-                    
-                }
-                
-                
-                elseif($value1=="agregarDueno") {
+                elseif($value1=="agregarDueno" && ($_SESSION['type_user'] == 'Monitoreo' || $_SESSION['type_user'] == 'Administrador')) {
 
                     include "modules/addOwner.php";
                     
                 }
+
                 
+                elseif($value1=="usuarios" && $_SESSION['type_user'] == 'Administrador') {
+
+                    include "modules/users.php";
+                    
+                }
+
+                elseif($value1=="propios" && $_SESSION['type_user'] == 'Administrador') {
+
+                    include "modules/own_businesses.php";
+                    
+                }
                 
+
                 /*JSON FILES*/
                 elseif($value1=="jsonfiles") {
                     
@@ -336,7 +343,6 @@ use PHPMailer\PHPMailer\Exception;
 <script src="<?php echo $url; ?>views/js/profileBusiness.js"></script>
 <script src="<?php echo $url; ?>views/js/business.js"></script>
 <script src="<?php echo $url; ?>views/js/profileOwner.js"></script>
-
 <script src="<?php echo $url; ?>views/js/users.js"></script>
 
 

@@ -324,14 +324,16 @@
             $deleteContactAddres = $connection->prepare("delete from business_address where id_business = :id_business");
             $deleteContactAbout = $connection->prepare("delete from friends_family_business where id_business = :id_business");
             $deleteTickets = $connection->prepare("delete from referenced_business where id_business = :id_business");
-            $deleteBus = $connection->prepare("delete from business where id_business = :id_business");
+            $altAdress = $connection->prepare("delete from alternatives_address_business where id_business = :id_business");
             $deleteRelation = $connection->prepare("delete from contact_business where id_business = :id_business");
             $deleteRelation2 = $connection->prepare("delete from owner_business where id_business = :id_business;");
+            $deleteBus = $connection->prepare("delete from business where id_business = :id_business");
             
             $deleteContact->bindParam(":id_business", $id_user);
             $deleteContactAddres->bindParam(":id_business", $id_user);
             $deleteContactAbout->bindParam(":id_business", $id_user);
             $deleteTickets->bindParam(":id_business", $id_user);
+            $altAdress->bindParam(":id_business", $id_user);
             $deleteBus->bindParam(":id_business", $id_user);
             $deleteRelation->bindParam(":id_business", $id_user);
             $deleteRelation2->bindParam(":id_business", $id_user);
@@ -342,12 +344,13 @@
             $c = $deleteContactAddres->execute();
             $d = $deleteContactAbout->execute();
             $a = $deleteTickets->execute();
+            $l = $altAdress->execute();
             $f = $deleteRelation->execute();
             $j = $deleteRelation2->execute();
             $e = $deleteBus->execute();                                    
             
             
-            if($a && $b && $c && $d && $e && $f && $j){
+            if($a && $b && $c && $d && $e && $f && $j && $l){
                 $deleteFolderUser = new Helper();
                 
                 $connection->commit();

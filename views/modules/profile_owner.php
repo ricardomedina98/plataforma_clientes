@@ -687,7 +687,7 @@ $updateOwner = OwnerController::controllerUpdateOwner();
                                     </div>
 
                                     <div class="col-sm-3 pull-right">
-                                        <button type="submit" id="deleteOwnerEdit" name="deleteOwnerEdit" class="btn btn-danger">Eliminar Contacto</button>
+                                        <button type="submit" id="deleteOwnerEdit" name="deleteOwnerEdit" class="btn btn-danger">Eliminar Dueño</button>
                                     </div>
                                 </div>
 

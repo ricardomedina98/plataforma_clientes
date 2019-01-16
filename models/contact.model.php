@@ -221,6 +221,8 @@ class ContactModel{
         $deleteContactAbout = $connection->prepare("delete from about_contact where id_contact = :id_contact");
         $deleteTickets = $connection->prepare("delete from tickets where id_contact = :id_contact");
         $deleteBus = $connection->prepare("delete from contact_business where id_contact = :id_contact");
+        $incidents = $connection->prepare("delete from incidents where id_contact = :id_contact");
+        
 
         
         $deleteContact->bindParam(":id_contact", $id_user);
@@ -228,15 +230,17 @@ class ContactModel{
         $deleteContactAbout->bindParam(":id_contact", $id_user);
         $deleteTickets->bindParam(":id_contact", $id_user);
         $deleteBus->bindParam(":id_contact", $id_user);
+        $incidents->bindParam(":id_contact", $id_user);
         
 
         $e = $deleteBus->execute();
         $b = $deleteContactAddres->execute();
         $c = $deleteContactAbout->execute();
         $d = $deleteTickets->execute();
+        $u = $incidents->execute();
         $a = $deleteContact->execute();
         
-        if($a && $b && $c && $d && $e){
+        if($a && $b && $c && $d && $e && $u){
             $deleteFolderUser = new Helper();
             $deleteFolderUser->deleteDirectoryContact($id_user, "contactos");
             $connection->commit();
@@ -453,6 +457,10 @@ class ContactModel{
         } else {
             return false;
         }
+
+    }
+
+    public static function modelDeleteOwner($data){
 
     }
 

@@ -50,13 +50,15 @@ create table owner_business(
     constraint id_owner_fk_own_bu foreign key(id_owner) references owners(id_owner)
 );
 
-delete from aboutBusiness where id_business = 1;
-delete from business_address where id_business = 1;
-delete from friends_family_business where id_business = 1;
-delete from referenced_business where id_business = 1;
-delete from contact_business where id_business = 1;
-delete from owner_business where id_business = 1;
-delete from business where id_business = 1;
+delete from aboutBusiness where id_business = 2;
+delete from business_address where id_business = 2;
+delete from friends_family_business where id_business = 2;
+delete from referenced_business where id_business = 2;
+delete from alternatives_address_business where id_business = 2;
+
+delete from contact_business where id_business = 2;
+delete from owner_business where id_business = 2;
+delete from business where id_business = 2;
 
 SELECT * FROM users;
 
@@ -64,11 +66,10 @@ SELECT * FROM users;
 
 create table own_businesses(
 id_own_business int auto_increment,
-cause text not null,
-description_incident text,
-id_contact int not null,
+
 constraint id_own_business_pk_own primary key(id_own_business),
 constraint id_contact_fk_own_b foreign key(id_contact) references contacts(id_contact)
 );
-select user_name from users where user_name = 'ricardo_medina03';
+
+select * from own_businesses;
 

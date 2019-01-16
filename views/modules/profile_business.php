@@ -679,7 +679,7 @@ $addressAlt -> controllerAddAddressAlt();
                                     </div>
 
                                     <div class="col-sm-3 pull-right">
-                                        <button type="submit" id="deleteBusinessEdit" name="deleteBusinessEdit" class="btn btn-danger">Eliminar Contacto</button>
+                                        <button type="submit" id="deleteBusinessEdit" name="deleteBusinessEdit" class="btn btn-danger">Eliminar negocio</button>
                                     </div>
                                 </div>
 

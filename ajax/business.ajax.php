@@ -23,7 +23,7 @@
 
         public function ajaxDeleteBusiness(){
 
-            $datos = array("id_user_address" => $this->id_user_addressAlt);
+            $datos = array("id_user_address" => $this->id_business_delete);
 
             $request = BusinessController::controllerDeleteBusiness($datos);
 
@@ -42,7 +42,7 @@
 
     if(isset($_POST['id_business_delete'])){
         $businessAddress = new AjaxBusiness();
-        $businessAddress -> id_user_addressAlt = $_POST['id_business_delete'];
+        $businessAddress -> id_business_delete = $_POST['id_business_delete'];
         $businessAddress -> ajaxDeleteBusiness();
     }
 

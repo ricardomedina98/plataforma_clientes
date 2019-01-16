@@ -53,12 +53,27 @@ class OwnerModel{
             $addressOwner->bindParam(':local', $data['addressLocal'], PDO::PARAM_STR);
 
 
-            $habitsOwner = $connection->prepare("insert into buying_habits(id_owner, products, days_buy) 
-                                                    values (:id_owner, :products, :days_buy)");
+            $habitsOwner = $connection->prepare("insert into buying_habits(id_owner, products, days_buy) values (:id_owner, :products, :days_buy)");
 
-            $products = Helper::ArrayToString($data['mercancia']);
-            $days_buys = Helper::ArrayToString($data['daysAvailable']);
+            $products = null;
+            if(!empty($data['mercancia'])){
+                $products = Helper::ArrayToString($data['mercancia']);
+            }
+            
+            $days_buys = null;
+            if(!empty($data['daysAvailable'])){
+                $days_buys = Helper::ArrayToString($data['daysAvailable']);
+            }
 
+            $competencias = null;
+            if(!empty($data['competencias'])){
+                $competencias = Helper::ArrayToString($data['competencias']);
+            }
+            
+            if(!empty($data['comunication'])){
+                $comunicacion = Helper::ArrayToString($data['comunication']);
+            }
+            
             $habitsOwner->bindParam(':id_owner', $id, PDO::PARAM_INT);
             $habitsOwner->bindParam(':products', $products, PDO::PARAM_STR);
             $habitsOwner->bindParam(':days_buy', $days_buys, PDO::PARAM_STR);
@@ -67,8 +82,7 @@ class OwnerModel{
             $departamentsOwner = $connection->prepare("insert into departaments(id_owner, name_departament, orderby) 
                                                             values (:id_owner, :name_departament, :orderby)");
              
-            $competencias = Helper::ArrayToString($data['competencias']);
-            $comunicacion = Helper::ArrayToString($data['comunication']);
+            
             $departamentsOwner->bindParam(':id_owner', $id, PDO::PARAM_INT);
             $departamentsOwner->bindParam(':name_departament', $competencias, PDO::PARAM_STR);
             $departamentsOwner->bindParam(':orderby', $comunicacion, PDO::PARAM_STR);
@@ -270,6 +284,46 @@ class OwnerModel{
                 $imageRestored ->restoreImage($imageDataBase["profile_photo"]);
             }
             
+            return false;
+        }
+
+    }
+
+    public static function modelDeleteOwner($data){
+
+        $connection = Connection::connect();
+        $connection->beginTransaction();
+
+        $departaments = $connection->prepare("delete from departaments where id_owner = :id_owner");
+        $address_owner = $connection->prepare("delete from address_owner where id_owner = :id_owner");
+        $buying_habits = $connection->prepare("delete from buying_habits where id_owner = :id_owner");
+        $aboutOwners = $connection->prepare("delete from aboutOwners where id_owner = :id_owner");
+        $owner_business = $connection->prepare("delete from owner_business where id_owner = :id_owner");
+        $owners = $connection->prepare("delete from owners where id_owner = :id_owner");
+
+        $departaments->bindParam(':id_owner', $data['id_owner_delete'], PDO::PARAM_INT);
+        $address_owner->bindParam(':id_owner', $data['id_owner_delete'], PDO::PARAM_INT);
+        $buying_habits->bindParam(':id_owner', $data['id_owner_delete'], PDO::PARAM_INT);
+        $aboutOwners->bindParam(':id_owner', $data['id_owner_delete'], PDO::PARAM_INT);
+        $owner_business->bindParam(':id_owner', $data['id_owner_delete'], PDO::PARAM_INT);
+        $owners->bindParam(':id_owner', $data['id_owner_delete'], PDO::PARAM_INT);
+
+        $a = $departaments->execute();
+        $b = $address_owner->execute();
+        $c = $buying_habits->execute();
+        $d = $aboutOwners->execute();
+        $e = $owner_business->execute();
+        $f = $owners->execute();
+
+        $id_user = $data['id_owner_delete'];
+
+        if($a && $b && $c && $d && $e && $f){
+            $deleteFolderUser = new Helper();
+            $deleteFolderUser->deleteDirectoryContact($id_user, "duenos");
+            $connection->commit();
+            return true;
+        } else {
+            $rollback->rollback();
             return false;
         }
 

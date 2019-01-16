@@ -66,6 +66,8 @@ drop table aboutOwners;
 drop table owners;
 
 
+
+
 insert into owners(id_owner, name_owner, first_surname, second_surname) values (1, 'Jose Ricardo', 'Medina', 'Lopez');
 
 update owners set name_owner = 'Nombre', first_surname = 'Apellido1', second_surname = 'Apellido2' where id_owner = 1;
@@ -117,3 +119,12 @@ select ab.id_owner, name_owner, first_surname, second_surname, profile_photo, al
         inner join address_owner ad on own.id_owner = ad.id_owner
         inner join buying_habits hb on own.id_owner = hb.id_owner
         inner join departaments dep on own.id_owner = dep.id_owner where own.id_owner = 4;
+        
+        
+        
+delete from departaments where id_owner = 1;
+delete from address_owner where id_owner = 1;
+delete from buying_habits where id_owner = 1;
+delete from aboutOwners where id_owner = 1;
+delete from owner_business where id_owner = 1;
+delete from owners where id_owner = 1;
