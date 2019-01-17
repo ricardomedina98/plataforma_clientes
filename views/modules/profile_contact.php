@@ -1068,11 +1068,6 @@ $updateIncident = ContactController::controllerUpdateIncident();
                                     
                                     </div>
 
-
-                                    
-                                
-                                    
-
                                 </div>
 
                             </div>

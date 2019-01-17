@@ -17,7 +17,7 @@ $("#fileupload")
 
     jsonData["Data"] = array;
 
-    console.log(jsonData);
+    
 
     ("use strict");
 
@@ -29,7 +29,7 @@ $("#fileupload")
   })
 
   .bind("fileuploadadded", function(e, data) {
-    console.log(data);
+    
   })
 
   .bind("dragover", function(e) {
@@ -107,7 +107,6 @@ $("#dataImageTicket").change(function() {
   deleteAlters();
 
   var imageTicket = this.files[0];
-  console.log(imageTicket);
 
   if (imageTicket["type"] != "image/jpeg") {
     $("#dataImageTicket").val("");
@@ -495,7 +494,7 @@ $("#formEditIncidents")
     })
 
     .bind("fileuploadadded", function(e, data) {
-        console.log(data);
+        
     })
 
     .bind("dragover", function(e) {
@@ -571,6 +570,8 @@ $(".btnViewIncident").click(function(){
         context: $("#fileupload")[0]
     })
         .done(function(files) {
+            console.log("​files", files)
+            
 			$("#showImagesIncidents").empty();
 
             $("#showImagesIncidents").lightGallery({
@@ -579,16 +580,31 @@ $(".btnViewIncident").click(function(){
 
             var showImagesIncidents = $("#showImagesIncidents");
             for (i in files["files"]) {
-                var html =
-                '<a href="' +
-                files["files"][i].url +
-                '"><img class="imagesIncidents" src="' +
-                files["files"][i].thumbnailUrl +
-                '"></a>';
-                showImagesIncidents.append(html);
-                showImagesIncidents.data("lightGallery").destroy(true);
-                showImagesIncidents.lightGallery();
+                //var extension = (/[.]/.exec(files["files"][i].url)) ? /[^.]+$/.exec(files["files"][i].url) : undefined;
+                if((/\.(gif|jpg|jpeg|png)$/i).test(files["files"][i].url)){
+                    var html =
+                    '<a href="' +
+                    files["files"][i].url +
+                    '"><img class="imagesIncidents" src="' +
+                    files["files"][i].thumbnailUrl +
+                    '"></a>';
+                    showImagesIncidents.append(html);
+                    
+                } 
+                
+                if((/\.(mp4|wmv|webm)$/i).test(files["files"][i].url)) {
+                    var html =
+                    '<video width="300" class="imagesIncidents" controls>' + 
+                    '<source src="'+files["files"][i].url+'" type="video/mp4">' +                    
+                    'Your browser does not support HTML5 video. '+
+                    '</video>';
+                    showImagesIncidents.append(html);
+                }
+ 
             }
+
+            showImagesIncidents.data("lightGallery").destroy(true);
+            showImagesIncidents.lightGallery();
             
         }
     );
