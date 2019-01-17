@@ -169,9 +169,17 @@ class ContactController{
 
     public static function controllerAddIncident(){
 
-        if(isset($_POST['subjectIncident']) && isset($_POST['commentsIncident']) && isset($_POST['id_contact'])){
+        if(isset($_POST['subjectIncident']) && isset($_POST["dateRegistration"]) && isset($_POST["timePickerI"]) && isset($_POST["placeIncident"]) && isset($_POST["personalIncident"]) && isset($_POST['commentsIncident']) && isset($_POST['id_contact'])){
 
-            $datos = array("id_contact" => $_POST['id_contact'], "cause" => $_POST['subjectIncident'], "description" => $_POST['commentsIncident']);
+            $datos = array(
+                "id_contact" => $_POST['id_contact'], 
+                "subject" => $_POST['subjectIncident'], 
+                "date" => $_POST['dateRegistration'],
+                "time" => $_POST['timePickerI'],
+                "place" => $_POST['placeIncident'],
+                "personal" => $_POST['personalIncident'],
+                "description" => $_POST['commentsIncident']  
+            );
 
             $request = ContactModel::modelAddIncident($datos);
             return $request;
@@ -197,12 +205,16 @@ class ContactController{
 
     public static function controllerUpdateIncident(){
 
-        if(isset($_POST['subjectEditIncident']) && isset($_POST['commentsEditIncident']) && isset($_POST['id_user']) && isset($_POST['id_incident'])){
+        if(isset($_POST["subjectIncident"]) && isset($_POST['dateRegistration']) && isset($_POST['timePickerI']) && isset($_POST['placeIncident']) && isset($_POST['personalIncident']) && isset($_POST["commentsIncident"]) && isset($_POST['id_user']) && isset($_POST['id_incident'])){
 
-            $data = array("cause" => $_POST['subjectEditIncident'], 
-                        "description" => $_POST['commentsEditIncident'], 
+            $data = array("cause" => $_POST['subjectIncident'], 
+                        "description" => $_POST['commentsIncident'], 
                         "id_user" => $_POST['id_user'],
-                        "id_incident" => $_POST['id_incident']);
+                        "id_incident" => $_POST['id_incident'],
+                        "date" => $_POST['dateRegistration'],
+                        "time" => $_POST['timePickerI'],
+                        "place" => $_POST['placeIncident'],
+                        "personal" => $_POST['personalIncident']);
 
             $request = ContactModel::modelUpdateIncident($data);
 

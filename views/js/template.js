@@ -8,6 +8,22 @@ $(document).ready(function(){
         startDate: '-50y'
     });
 
+    $('#dateRegistrationModal').datepicker({
+        autoclose: true,
+        maxViewMode: 'years',
+        language: 'es',
+        format: 'dd/mm/yyyy',
+        startDate: '-50y'
+    });
+
+    $('#dateRegistrationModalEdit').datepicker({
+        autoclose: true,
+        maxViewMode: 'years',
+        language: 'es',
+        format: 'dd/mm/yyyy',
+        startDate: '-50y'
+    });
+
     $('#birthdayContact').datepicker({
         autoclose: true,
         maxViewMode: 'years',
@@ -46,6 +62,8 @@ $(document).ready(function(){
 
     $("#timePickerI").timepicker({ 'step': 30 });
     $("#timePickerF").timepicker({ 'step': 30 });
+
+    $("#timePickerEdit").timepicker({ 'step': 30 });
 
     $("#comunication").select2({
         width: '100%',

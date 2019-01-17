@@ -368,15 +368,25 @@ $(".btnEditIncident").click(function(){
         contentType: false,
         processData: false,
         dataType:"json",
-        success:function(respuesta){  
-            
+        success:function(respuesta){  			
+			console.log("​respuesta", respuesta)
+            var date = ConvertDate(respuesta.dateIncident);
             $("#subjectEditIncident").val(respuesta.subject);
+            $("#dateRegistrationModalEdit").datepicker("setDate", date);
+            $("#timePickerEdit").timepicker("setTime", respuesta.timeIncident);
+            $("#placeEditIncident").val(respuesta.place);
+            $("#personalEditIncident").val(respuesta.personal_involved);
             $("#commentsEditIncident").val(respuesta.description);
             $("#id_incident_edit").val(respuesta.id_incident);
-        }
+    }
 
-    });
+});
 
+function ConvertDate(inputFormat){
+    var temp = inputFormat.split('-');
+    var date = temp[2]+"/"+temp[1]+"/"+temp[0];
+    return date;
+}
     
     var jsonData = { id_type: id_type, id_user: id_user, id_incident: id_incident};
   
@@ -554,9 +564,14 @@ $(".btnViewIncident").click(function(){
         processData: false,
         dataType:"json",
         success:function(respuesta){  
+			console.log("​respuesta", respuesta)
             
             $("#subjectViewIncident").text(respuesta.subject);
             $("#commentsViewIncident").text(respuesta.description);
+            $("#dateViewIncident").text(respuesta.dateIncident);
+            $("#timeViewIncident").text(respuesta.timeIncident);
+            $("#placeViewIncident").text(respuesta.place);
+            $("#personalViewIncident").text(respuesta.personal_involved);
         }
 
     });
@@ -569,8 +584,7 @@ $(".btnViewIncident").click(function(){
         dataType: "json",
         context: $("#fileupload")[0]
     })
-        .done(function(files) {
-            console.log("​files", files)
+        .done(function(files) {            
             
 			$("#showImagesIncidents").empty();
 

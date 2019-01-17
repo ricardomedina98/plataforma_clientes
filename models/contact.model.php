@@ -367,18 +367,24 @@ class ContactModel{
 
         $connection = Connection::connect();
 
-        $addIncident = $connection->prepare("insert into incidents(id_contact, subject, description) values (:id_contact, :cause, :description)");
+        $addIncident = $connection->prepare("insert into incidents(id_contact, subject, description, dateIncident, timeIncident, place, personal_involved) values (:id_contact,:subject,:description,:dateIncident,:timeIncident,:place,:personal_involved)");
+
+        $time = Helper::fixTime($datos['time']);
+        $date = Helper::fixDate($datos['date']);
 
         $addIncident -> bindParam(":id_contact", $datos['id_contact'], PDO::PARAM_INT);
-        $addIncident -> bindParam(":cause", $datos['cause'], PDO::PARAM_STR);
+        $addIncident -> bindParam(":subject", $datos['subject'], PDO::PARAM_STR);
         $addIncident -> bindParam(":description", $datos['description'], PDO::PARAM_STR);
+        $addIncident -> bindParam(":dateIncident", $date, PDO::PARAM_STR);
+        $addIncident -> bindParam(":timeIncident", $time, PDO::PARAM_STR);
+        $addIncident -> bindParam(":place", $datos['place'], PDO::PARAM_STR);
+        $addIncident -> bindParam(":personal_involved", $datos['personal'], PDO::PARAM_STR);
+        
 
-        if($addIncident -> execute()){
-            $request = true; 
-            return $request;
+        if($addIncident -> execute()){            
+            return true;
         } else {
-            $request = false;    
-            return $request;
+            return false;
         }
 
     }
@@ -387,7 +393,7 @@ class ContactModel{
 
         $connection = Connection::connect();
 
-        $showIncidents = $connection->prepare("select id_incident, id_contact, subject, description from incidents where id_contact = :id_contact;");
+        $showIncidents = $connection->prepare("select id_incident, id_contact, subject, description, dateIncident, timeIncident, place, personal_involved from incidents where id_contact = :id_contact;");
 
         $showIncidents -> bindParam(":id_contact", $data, PDO::PARAM_INT);
 
@@ -403,13 +409,17 @@ class ContactModel{
         $connection = Connection::connect();
 
 
-        $showOneIncident = $connection->prepare("select id_incident, id_contact, subject, description from incidents where id_incident = :id_incident;");
+        $showOneIncident = $connection->prepare("select id_incident, id_contact, subject, description, dateIncident, timeIncident, place, personal_involved from incidents where id_incident = :id_incident;");
 
         $showOneIncident -> bindParam(":id_incident", $datos['id_incident'], PDO::PARAM_INT);
 
         $showOneIncident->execute();
 
         $showOneIncident = $showOneIncident->fetch(PDO::FETCH_ASSOC);
+
+        $showOneIncident['dateIncident'] = Helper::ConvertDate($showOneIncident['dateIncident']);
+
+        $showOneIncident['timeIncident'] = Helper::convertToAMPM($showOneIncident['timeIncident']);
 
         return $showOneIncident;
     }
@@ -418,7 +428,10 @@ class ContactModel{
 
         $connection = Connection::connect();
 
-        $updateIncident = $connection->prepare("update incidents set subject = :cause, description = :description where id_incident = :id_incident and id_contact = :id_user;");
+        $updateIncident = $connection->prepare("update incidents set subject = :cause, description = :description, dateIncident = :date, timeIncident = :time, place = :place, personal_involved = :personal where id_incident = :id_incident and id_contact = :id_user;");
+
+        $time = Helper::fixTime($data['time']);
+        $date = Helper::fixDate($data['date']);
 
         $updateIncident -> bindParam(":id_user", $data['id_user'], PDO::PARAM_INT);
 
@@ -428,11 +441,15 @@ class ContactModel{
 
         $updateIncident -> bindParam(":description", $data["description"], PDO::PARAM_STR);
 
-        $updateIncident->execute();
+        $updateIncident -> bindParam(":date", $date, PDO::PARAM_STR);
 
-        $rowsAffected = $updateIncident->rowCount();
+        $updateIncident -> bindParam(":time", $time, PDO::PARAM_STR);
 
-        if($rowsAffected > 0){
+        $updateIncident -> bindParam(":place", $data["place"], PDO::PARAM_STR);
+
+        $updateIncident -> bindParam(":personal", $data["personal"], PDO::PARAM_STR);
+
+        if($updateIncident->execute()){
             return true;
         } else {
             return false;

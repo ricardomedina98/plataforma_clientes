@@ -650,6 +650,10 @@ $updateIncident = ContactController::controllerUpdateIncident();
                     
                                                         <th style="width:10px">#</th>
                                                         <th>Causa</th>                                           
+                                                        <th>Fecha</th>
+                                                        <th>Hora</th>
+                                                        <th>Lugar</th>
+                                                        <th>Personal Involucrado</th>
                                                         <th>Acciones</th>
                                             
                                                     </tr> 
@@ -666,6 +670,10 @@ $updateIncident = ContactController::controllerUpdateIncident();
                                                             <tr>
                                                                 <td>'.($key+1).'</td>
                                                                 <td>'.$valueInc['subject'].'</td>
+                                                                <td>'.Helper::ConvertDate($valueInc['dateIncident']).'</td>
+                                                                <td>'.Helper::convertToAMPM($valueInc['timeIncident']).'</td>
+                                                                <td>'.$valueInc['place'].'</td>
+                                                                <td>'.$valueInc['personal_involved'].'</td>
                                                                                                                                                                                                                         
                                                                 <td>
                                                     
@@ -830,39 +838,82 @@ $updateIncident = ContactController::controllerUpdateIncident();
                 <div class="container-fluid">
 
                     <div class="col-sm-12">
-                        <form id="formAddIncidents" method="post" enctype=multipart/form-data>
-                        <?php
+                        <form id="formAddIncidents" class="form-horizontal" method="post" enctype=multipart/form-data>
+                            <?php
 
-                            echo '<input type="hidden" id="id_contact" name="id_contact" value="'.$requestContact['id_contact'].'">';
+                                echo '<input type="hidden" id="id_contact" name="id_contact" value="'.$requestContact['id_contact'].'">';
 
-                        ?>
+                            ?>
                             
-                            <div class="row">
-                                <div class="form-group">
-                                    <label for="frequencyContact" class="col-sm-2 control-label">Incidente</label>
-
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="subjectIncident" name="subjectIncident" placeholder="Causa" type="text" autocomplete="off">
-                                    </div>
-
-                                </div>
-                            </div>
                             
-                            <div class="row" style="margin-top: 15px;">
+                            <div class="form-group">
+                                <label for="frequencyContact" class="col-sm-2 control-label">Causa</label>
 
-                                <div class="form-group">
-
-                                    <label for="commentsContactIncident" class="col-sm-2 control-label">Comentarios</label>
-
-                                    <div class="col-sm-8">
-
-                                        <textarea name="commentsIncident" id="commentsContactIncident" cols="85" rows="4"></textarea>
-
-                                    </div>
-
+                                <div class="col-sm-8">
+                                    <input class="form-control" id="subjectIncident" name="subjectIncident" placeholder="Causa" type="text" autocomplete="off">
                                 </div>
 
                             </div>
+                            
+
+                            <div class="form-group">
+                                <label for="dateRegistrationModal" class="col-sm-2 control-label">Fecha</label>
+
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input class="form-control" id="dateRegistrationModal" name="dateRegistration" type="text" autocomplete="off">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="timePickerI" class="col-sm-2 control-label">Hora</label>
+
+                                <div class="col-sm-2">
+                                    <input class="form-control time ui-timepicker-input" id="timePickerI" name="timePickerI" type="text" autocomplete="off">
+                                </div>                               
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="placeIncident" class="col-sm-2 control-label">Lugar</label>
+
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="placeIncident" name="placeIncident" placeholder="Lugar" type="text" autocomplete="off">
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="personalIncident" class="col-sm-2 control-label">Personal Involucrado</label>
+
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="personalIncident" name="personalIncident" placeholder="Personal Involucrado" type="text" autocomplete="off">
+                                </div>
+
+                            </div>
+
+                                                        
+
+                            <div class="form-group">
+
+                                <label for="commentsContactIncident" class="col-sm-2 control-label">Comentarios</label>
+
+                                <div class="col-sm-8">
+
+                                    <textarea name="commentsIncident" id="commentsContactIncident" cols="85" rows="4"></textarea>
+
+                                </div>
+
+                            </div>
+                            
+                            
+                            
 
                         </form>
 
@@ -878,7 +929,7 @@ $updateIncident = ContactController::controllerUpdateIncident();
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Cerrar</button>
                 <button type="submit" id="addIncident" class="btn btn-primary">Agregar</button>
             </div>
         </div>
@@ -899,29 +950,68 @@ $updateIncident = ContactController::controllerUpdateIncident();
                 <div class="container-fluid">
 
                     <div class="col-sm-12">
-                        <form id="formEditIncidents" method="post" enctype=multipart/form-data>
-                            <div class="row">
-                                <div class="form-group">
-                                    <label for="frequencyContact" class="col-sm-2 control-label">Incidente</label>
+                        <form id="formEditIncidents" class="form-horizontal" method="post" enctype=multipart/form-data>
+                        <div class="form-group">
+                                <label for="frequencyContact" class="col-sm-2 control-label">Causa</label>
 
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="subjectEditIncident" name="subjectEditIncident" placeholder="Causa" type="text" autocomplete="off">
-                                    </div>
-
+                                <div class="col-sm-8">
+                                    <input class="form-control" id="subjectEditIncident" name="subjectIncident" placeholder="Causa" type="text" autocomplete="off">
                                 </div>
+
                             </div>
                             
-                            <div class="row" style="margin-top: 15px;">
 
-                                <div class="form-group">
+                            <div class="form-group">
+                                <label for="dateRegistrationModal" class="col-sm-2 control-label">Fecha</label>
 
-                                    <label for="commentsContact" class="col-sm-2 control-label">Comentarios</label>
-
-                                    <div class="col-sm-8">
-
-                                        <textarea name="commentsEditIncident" id="commentsEditIncident" cols="85" rows="4"></textarea>
-
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input class="form-control" id="dateRegistrationModalEdit" name="dateRegistration" type="text" autocomplete="off">
                                     </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <label for="timePickerI" class="col-sm-2 control-label">Hora</label>
+
+                                <div class="col-sm-2">
+                                    <input class="form-control time ui-timepicker-input" id="timePickerEdit" name="timePickerI" type="text" autocomplete="off">
+                                </div>                               
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="placeIncident" class="col-sm-2 control-label">Lugar</label>
+
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="placeEditIncident" name="placeIncident" placeholder="Lugar" type="text" autocomplete="off">
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="personalIncident" class="col-sm-2 control-label">Personal Involucrado</label>
+
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="personalEditIncident" name="personalIncident" placeholder="Personal Involucrado" type="text" autocomplete="off">
+                                </div>
+
+                            </div>
+
+                                                        
+
+                            <div class="form-group">
+
+                                <label for="commentsContactIncident" class="col-sm-2 control-label">Comentarios</label>
+
+                                <div class="col-sm-8">
+
+                                    <textarea name="commentsIncident" id="commentsEditIncident" cols="85" rows="4"></textarea>
 
                                 </div>
 
@@ -1022,37 +1112,73 @@ $updateIncident = ContactController::controllerUpdateIncident();
                 <div class="container-fluid">
 
                     <div class="col-sm-12">
-                        <form id="formViewIncidents" method="post" enctype=multipart/form-data>
-                            <div class="row">
-                                <div class="form-group">
-                                    <label for="frequencyContact" class="col-sm-2 control-label">Incidente</label>
-
-                                    <div class="col-sm-8">
-                                        <p id="subjectViewIncident" ></p>
-                                    </div>
-
-                                </div>
-                            </div>
+                        <form id="formViewIncidents" class="form-horizontal" method="post" enctype=multipart/form-data>
                             
-                            <div class="row" style="margin-top: 15px;">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Incidente</label>
 
-                                <div class="form-group">
+                                <div class="col-sm-8">
+                                    <p id="subjectViewIncident" ></p>
+                                </div>
 
-                                    <label for="commentsContact" class="col-sm-2 control-label">Comentarios</label>
+                            </div>
 
-                                    <div class="col-sm-8">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Fecha</label>
 
-                                        <p id="commentsViewIncident" ></p>
+                                <div class="col-sm-8">
+                                    <p id="dateViewIncident" ></p>
+                                </div>
 
-                                    </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Hora</label>
+
+                                <div class="col-sm-8">
+                                    <p id="timeViewIncident" ></p>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Lugar</label>
+
+                                <div class="col-sm-8">
+                                    <p id="placeViewIncident" ></p>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Personal Involucrado</label>
+
+                                <div class="col-sm-8">
+                                    <p id="personalViewIncident" ></p>
+                                </div>
+
+                            </div>
+                        
+                        
+                        
+
+                            <div class="form-group">
+
+                                <label for="commentsContact" class="col-sm-2 control-label">Comentarios</label>
+
+                                <div class="col-sm-8">
+
+                                    <p id="commentsViewIncident" ></p>
 
                                 </div>
 
                             </div>
 
-                            <div class="row" style="margin-top: 15px"></div>
+                        
 
-                                <div class="form-group">
+                        
+
+                            <div class="form-group">
 
                                 <label for="inputfilephoto" class="col-sm-2 control-label">Evidencia</label>
                                 
@@ -1069,8 +1195,10 @@ $updateIncident = ContactController::controllerUpdateIncident();
                                     </div>
 
                                 </div>
-
+                                
                             </div>
+
+                            
 
                         </form>
 
@@ -1194,7 +1322,7 @@ $updateIncident = ContactController::controllerUpdateIncident();
                 
             </script>';
     
-           }else {
+        } else {
     
             echo '<script> 
                 showAlert("Error!", "La informacion se pudo actualizar correctamente", false);
