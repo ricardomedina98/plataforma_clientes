@@ -1188,9 +1188,13 @@ $updateIncident = ContactController::controllerUpdateIncident();
                                     <div class="col-12">
 
                                         <div id="showImagesIncidents">
+
+                                            
                                         
                                         
                                         </div>
+
+                                        
                                     
                                     </div>
 

@@ -104,7 +104,7 @@ use PHPMailer\PHPMailer\Exception;
     <link rel="stylesheet" href="<?php echo $url; ?>views/bower_components/jquery-typeahead/src/jquery.typeahead.css">
     
     <script src="<?php echo $url; ?>views/bower_components/jquery-typeahead/src/jquery.typeahead.js"></script>
-
+    
     <!--Alert-->
     <script src="<?php echo $url; ?>views/js/alerts.js"></script>
 
@@ -284,6 +284,12 @@ use PHPMailer\PHPMailer\Exception;
                 elseif($value1=="propios" && $_SESSION['type_user'] == 'Administrador') {
 
                     include "modules/own_businesses.php";
+                    
+                }
+
+                elseif($value1=="contratos" && $_SESSION['type_user'] == 'Administrador' || $_SESSION['type_user'] == 'Recursos Humanos') {
+
+                    include "modules/contracts.php";
                     
                 }
                 

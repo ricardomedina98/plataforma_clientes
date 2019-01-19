@@ -1,11 +1,11 @@
 <?php
 error_reporting(E_ALL | E_STRICT);
-require('UploadHandler.php');
+require('UploadHandlerVideo.php');
 $options=array(
     'user_dirs' => true
 );
 
-class IncidentsUploadHandler extends UploadHandler {
+class IncidentsUploadHandler extends UploadHandlerVideo {
 
     protected function initialize() {
         parent::initialize();
@@ -26,6 +26,23 @@ class IncidentsUploadHandler extends UploadHandler {
         }
         return '';
     }
+
+    protected function generate_filename($filename = "")
+            {
+
+                $extension = "";
+                if ( $filename != "" )
+                {
+                    $extension = pathinfo($filename , PATHINFO_EXTENSION);
+
+                    if ( $extension != "" )
+                    {
+                        $extension = "." . $extension;
+                    }
+                }
+                $name = md5(date('Y-m-d H:i:s:u')) . $extension;
+                return $name;
+            }
 
 }
 
