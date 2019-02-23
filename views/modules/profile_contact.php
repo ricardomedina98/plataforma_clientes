@@ -1432,7 +1432,7 @@ $updateIncident = ContactController::controllerUpdateIncident();
 {% } %}
 </script>
 
-<!-- MODAL AGREGAR AMIGOS Y FAMILIA-->
+<!-- MODAL AGREGAR AMIGOS NEGOCIO-->
 <div id="modalShowBusiness" class="modal fade" role="dialog">
   <div class="modal-dialog modal-md">
 

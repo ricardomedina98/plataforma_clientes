@@ -8,7 +8,7 @@ name_user varchar(30) not null,
 user_name varchar(30) not null,
 password_user text not null,
 type_user text not null,
-status boolean DEFAULT 1,
+status boolean DEFAULT ,
 last_logged datetime null,
 constraint id_user_users primary key(id_user),
 constraint user_name_unique unique(user_name)

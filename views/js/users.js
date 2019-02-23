@@ -70,7 +70,7 @@ $(".btnDeleteuser").click(function(e) {
                 } else if(respuesta == "true"){
 
                     location.href = getURL() + "usuarios";
-d
+
                 } else {
 
                     showAlert("Error!", "Error al eliminar el usuario", false);

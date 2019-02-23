@@ -1,38 +1,6 @@
 $(document).ready(function(){
 
-    $('#dateRegistration').datepicker({
-        autoclose: true,
-        maxViewMode: 'years',
-        language: 'es',
-        format: 'dd/mm/yyyy',
-        startDate: '-50y'
-    });
-
-    $('#dateRegistrationModal').datepicker({
-        autoclose: true,
-        maxViewMode: 'years',
-        language: 'es',
-        format: 'dd/mm/yyyy',
-        startDate: '-50y'
-    });
-
-    $('#dateRegistrationModalEdit').datepicker({
-        autoclose: true,
-        maxViewMode: 'years',
-        language: 'es',
-        format: 'dd/mm/yyyy',
-        startDate: '-50y'
-    });
-
-    $('#birthdayContact').datepicker({
-        autoclose: true,
-        maxViewMode: 'years',
-        language: 'es',
-        format: 'dd/mm/yyyy',
-        startDate: '-50y'
-    });
-
-    $('#birthday').datepicker({
+    $('#dateRegistration, #dateRegistrationModal, #dateRegistrationModalEdit, #birthdayContact, #birthday, #birthdayEmployee, #businessCustomer, #businessAntiquity').datepicker({
         autoclose: true,
         maxViewMode: 'years',
         language: 'es',
@@ -41,29 +9,8 @@ $(document).ready(function(){
     });
 
 
-    
 
-    $('#businessCustomer').datepicker({
-        autoclose: true,
-        maxViewMode: 'years',
-        language: 'es',
-        format: 'dd/mm/yyyy',
-        startDate: '-50y'
-    });
-
-    $('#businessAntiquity').datepicker({
-        autoclose: true,
-        maxViewMode: 'years',
-        language: 'es',
-        format: 'dd/mm/yyyy',
-        startDate: '-50y'
-    });
-
-
-    $("#timePickerI").timepicker({ 'step': 30 });
-    $("#timePickerF").timepicker({ 'step': 30 });
-
-    $("#timePickerEdit").timepicker({ 'step': 30 });
+    $("#timePickerI, #timePickerF, #timePickerEdit").timepicker({ 'step': 30 });    
 
     $("#comunication").select2({
         width: '100%',
@@ -99,19 +46,32 @@ $(document).ready(function(){
 
     
     
+    $('#addressStatePlaceBirth').selectpicker({
+        noneSelectedText : 'Estado de Nacimiento'
+    });
+    $('#addressCityPlaceBirth').selectpicker({
+        noneSelectedText : 'Ciudad de Nacimiento'
+    });
 
+    
     $('#addressState').selectpicker({
         noneSelectedText : 'Seleccione un estado'
     }); 
     $('#addressCity').selectpicker({
         noneSelectedText : 'Seleccione una ciudad'
     });
-    var urlStates = getURL()+"jsonFiles/states";    
+
+
+    var urlStates = getURL()+"ajax/json.ajax.php";    
+
+    var data = new FormData();
+    data.append("states", true);
 
     $.ajax({
         url:urlStates,
-        type:'GET',
-        cache: false,
+        data: data,
+        type:'POST',
+        cache: false,        
         contentType:false,
         processData: false,
         dataType: 'json',
@@ -119,11 +79,11 @@ $(document).ready(function(){
             var estados = $('#addressState');
             var optionDefaul = '<option value="">Seleccione un estado</option>';
             estados.append(optionDefaul);
-            for (i in respuesta) {
+            for (i in respuesta) {                
                 var estadosNombre = '<option value="'+respuesta[i].NOM_ENT+'">'+respuesta[i].NOM_ENT+'</option>';
                 estados.append(estadosNombre);
-            }
-
+            }            
+            
             var selectedState = $("#valState").val();
             $(estados).val(selectedState);
             $(estados).selectpicker('refresh');
@@ -136,7 +96,7 @@ $(document).ready(function(){
 
 
 function getURL(){
-    return "http://192.168.88.120/plataforma_clientes/";
+    return "http://localhost/plataforma_clientes/";
 }
 
 
@@ -147,12 +107,15 @@ $('#addressState').change(function(){
 });
 
 function laodCitys(val){
+    var data = new FormData();
+    data.append("cities", true);
 
-    var urlCities = getURL()+"jsonFiles/cities";
+    var urlCities = getURL()+"ajax/json.ajax.php";
     
     $.ajax({
         url:urlCities,
-        type:'GET',
+        data: data,
+        type:'POST',
         cache: false,
         contentType:false,
         processData: false,

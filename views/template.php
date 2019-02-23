@@ -1,11 +1,9 @@
 <?php
-
-use PHPMailer\PHPMailer\Exception;
   session_start();
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -104,7 +102,19 @@ use PHPMailer\PHPMailer\Exception;
     <link rel="stylesheet" href="<?php echo $url; ?>views/bower_components/jquery-typeahead/src/jquery.typeahead.css">
     
     <script src="<?php echo $url; ?>views/bower_components/jquery-typeahead/src/jquery.typeahead.js"></script>
-    
+
+    <!--DateRangePicker-->
+
+    <link rel="stylesheet" href="<?php echo $url; ?>views/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+
+    <script src="<?php echo $url; ?>views/bower_components/bootstrap-daterangepicker/moment.min.js"></script>
+
+    <script src="<?php echo $url; ?>views/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+    <!--DateTimePicker-->
+    <script src="<?php echo $url; ?>views/bower_components/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
+    <link rel="stylesheet" href="<?php echo $url; ?>views/bower_components/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
     <!--Alert-->
     <script src="<?php echo $url; ?>views/js/alerts.js"></script>
 
@@ -295,7 +305,7 @@ use PHPMailer\PHPMailer\Exception;
                 
 
                 /*JSON FILES*/
-                elseif($value1=="jsonfiles") {
+                elseif($value1 == "jsonFiles") {
                     
                     include "modules/json_files/json_files.php";
 
@@ -353,6 +363,7 @@ use PHPMailer\PHPMailer\Exception;
 <script src="<?php echo $url; ?>views/js/business.js"></script>
 <script src="<?php echo $url; ?>views/js/profileOwner.js"></script>
 <script src="<?php echo $url; ?>views/js/users.js"></script>
+<script src="<?php echo $url; ?>views/js/contracts.js"></script>
 
 
 

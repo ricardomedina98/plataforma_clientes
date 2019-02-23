@@ -19,12 +19,36 @@ class Helper{
         $dateFiexed = null;
         if(!empty($date)){
 
-            $arrayDate = explode('-', $date);
-            $day = $arrayDate[2];
-            $month = $arrayDate[1];
-            $year = $arrayDate[0];
+            date_default_timezone_set('America/Monterrey');
+            $dateFiexed = new DateTime($date);
+            $dateFiexed = $dateFiexed->format("d/m/Y");
 
-            $dateFiexed = $day.'/'.$month.'/'.$year;
+        }
+        
+        return $dateFiexed;
+    }
+
+    public static function ConvertDateTime($date){
+        $dateFiexed = null;
+        if(!empty($date)){
+
+            date_default_timezone_set('America/Monterrey');
+            $dateFiexed = new DateTime($date);
+            $dateFiexed = $dateFiexed->format("d/m/Y h:i A");
+
+        }
+        
+        return $dateFiexed;
+    }
+
+    public static function fixDateTime($date){
+        $dateFiexed = null;
+        if(!empty($date)){
+
+            date_default_timezone_set('America/Monterrey');
+            $dateFiexed = new DateTime(str_replace("/", "-",$date));
+            $dateFiexed = $dateFiexed->format("Y-m-d H:i:s");
+
         }
         
         return $dateFiexed;
@@ -344,6 +368,204 @@ class Helper{
         return $newDateTime;
         
     }
+
+    public static function RangeDateFix($dateTimeContract){
+        //16/02/2019 02:00 PM - 23/03/2019 02:00 PM
+
+        $dateFiexed = null;
+        if(!empty($dateTimeContract)){
+
+            $dates = explode('-', $dateTimeContract);
+            $dates = array(trim($dates[0]), trim($dates[1]));
+
+            
+            date_default_timezone_set('America/Monterrey');
+
+            $startContract = new DateTime(str_replace("/", "-",$dates[0]));
+            //$startDate = $startContract->format('Y-m-d');
+            //$startTime = $startContract->format('H:i');
+
+            $endContract = new DateTime(str_replace("/", "-",$dates[1]));
+            //$endDate = $endContract->format('Y-m-d');
+            //$endTime = $endContract->format('H:i');
+
+            $dateFiexed = array('Start' => $startContract->format("Y-m-d H:i:s"), 
+                                'End' => $endContract->format("Y-m-d H:i:s"));
+
+           
+        }
+        
+        return $dateFiexed;
+
+    }
+
+    public static function ConvertRangeDatesStart($start_contract){
+
+        $dateFiexed = null;
+
+        if(!empty($start_contract)){
+
+            date_default_timezone_set('America/Monterrey');
+
+            $startContract = new DateTime($start_contract);
+                
+
+            $dateFiexed = ($startContract->format("d/m/Y h:i A"));
+        }
+
+        return $dateFiexed;
+        
+
+    }
+
+    public static function ConvertRangeDatesEnd($end_contract){
+
+        $dateFiexed = null;
+
+        if(!empty($end_contract)){
+
+            date_default_timezone_set('America/Monterrey');            
+    
+            $endContract = new DateTime($end_contract);
+
+            $dateFiexed = ($endContract->format("d/m/Y h:i A"));
+        }
+
+        return $dateFiexed;
+        
+
+    }
+
+    public static function CalculateMonth($mes){
+        if ($mes=="January") $mes="Enero";
+        if ($mes=="February") $mes="Febrero";
+        if ($mes=="March") $mes="Marzo";
+        if ($mes=="April") $mes="Abril";
+        if ($mes=="May") $mes="Mayo";
+        if ($mes=="June") $mes="Junio";
+        if ($mes=="July") $mes="Julio";
+        if ($mes=="August") $mes="Agosto";
+        if ($mes=="September") $mes="Setiembre";
+        if ($mes=="October") $mes="Octubre";
+        if ($mes=="November") $mes="Noviembre";
+        if ($mes=="December") $mes="Diciembre";
+        return $mes;
+    }
+
+
+    public static function ConvertRangeDatesEndName($end_contract){
+
+        $dateFiexed = null;
+
+        if(!empty($end_contract)){
+
+            setlocale(LC_ALL,"es_ES");
+            
+            date_default_timezone_set('America/Monterrey');  
+            
+            
+    
+            $endContract = new DateTime($end_contract);
+            $month = self::CalculateMonth($endContract->format("F"));
+            $day = self::CalculateMonth($endContract->format("d"));
+            $dateFiexed = $day."/".$month.($endContract->format("/Y h:i A"));
+        }
+
+        return $dateFiexed;
+        
+    }
+
+    public static function terminateOrNotStringtoDate($endDate)
+    {
+        date_default_timezone_set('America/Monterrey');  
+        $crtDate = new DateTime(date("Y-m-d H:i:s"));
+        $termDate = new DateTime($endDate);
+        $remaining = date_diff($crtDate, $termDate);
+        $remaining = $remaining->format("%R%a");
+        return $remaining;
+    }
+
+    public static function CalculateTime($fechaFin){
+
+        date_default_timezone_set('America/Monterrey');  
+
+        $fecha1 = new DateTime(date("Y-m-d H:i:s"));
+        $fecha2 = new DateTime($fechaFin);
+        $fecha = $fecha1->diff($fecha2);
+
+        $remaining = date_diff($fecha1, $fecha2);
+        $remaining = $remaining->format("%R%a");
+        $tiempo = "";
+            
+        
+        //años 
+        /*
+        if($fecha->y > 0)
+        {
+            $tiempo .= $fecha->y;
+                
+            if($fecha->y == 1)
+                $tiempo .= " año, ";
+            else
+                $tiempo .= " años ";
+        }
+          
+        //meses
+        if($fecha->m > 0)
+        {
+            $tiempo .= $fecha->m;
+                
+            if($fecha->m == 1)
+                $tiempo .= " mes, ";
+            else
+                $tiempo .= " meses ";
+        }
+        */
+        //dias
+        if($fecha->d > 0)
+        {
+            $tiempo .= $fecha->d;
+                
+            if($fecha->d == 1)
+                $tiempo .= " día, ";
+            else
+                $tiempo .= " días ";
+        }
+        
+        //horas
+        if($fecha->h > 0)
+        {
+            $tiempo .= $fecha->h;
+                
+            if($fecha->h == 1)
+                $tiempo .= " hora, ";
+            else
+                $tiempo .= " horas, ";
+        }
+            
+        //minutos
+        if($fecha->i > 0)
+        {
+            $tiempo .= $fecha->i;
+                
+            if($fecha->i == 1)
+                $tiempo .= " minuto";
+            else
+                $tiempo .= " minutos";
+        }
+
+        //segundos
+
+        /*
+        else if($fecha->i == 0) {
+            $tiempo .= $fecha->s." segundos";
+        }
+        */  
+        
+        return $tiempo = array('time' => $tiempo, 'remaining' => $remaining, 'daysRemaining' => $fecha->d);
+    }
+
+
 
 
 }
