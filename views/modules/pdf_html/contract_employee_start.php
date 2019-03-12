@@ -428,7 +428,7 @@
 </tr>
 <tr>
 <td style="width: 55%; text-align: center; font-size: 9.5pt; padding-top: 20px; padding-botton: 20px;">SR. RAUL OCA&Ntilde;AS AGUIRRE</td>
-<td style="width: 55%; text-align: center; font-size: 9.5pt; padding-top: 20px; padding-botton: 20px;">JOSE RICARDO MEDINA LOPEZ</td>
+<td style="width: 55%; text-align: center; font-size: 9.5pt; padding-top: 20px; padding-botton: 20px;"><b><span style="background-color: silver;">C. <?php echo $employee['nameEmployee'].' '.$employee['surName1Employee'].' '.$employee['surName2Employee']?></span></b></td>
 </tr>
 
 <tr>

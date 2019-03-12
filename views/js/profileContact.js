@@ -369,10 +369,9 @@ $(".btnEditIncident").click(function(){
         processData: false,
         dataType:"json",
         success:function(respuesta){  			
-			console.log("​respuesta", respuesta)
-            var date = ConvertDate(respuesta.dateIncident);
+			console.log("​respuesta", respuesta)            
             $("#subjectEditIncident").val(respuesta.subject);
-            $("#dateRegistrationModalEdit").datepicker("setDate", date);
+            $("#dateRegistrationModalEdit").datepicker("setDate", new Date(respuesta.dateIncident));
             $("#timePickerEdit").timepicker("setTime", respuesta.timeIncident);
             $("#placeEditIncident").val(respuesta.place);
             $("#personalEditIncident").val(respuesta.personal_involved);
