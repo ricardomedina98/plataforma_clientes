@@ -19,8 +19,6 @@
 
     </section>
 
-
-
     <section class="content">
 
         <div id="alert">

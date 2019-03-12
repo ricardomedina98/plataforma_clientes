@@ -18,14 +18,9 @@ require_once "models/contract.model.php";
 require_once "models/route.php";
 
 require_once "models/helper.php";
-
-
+  
+require __DIR__."/vendor/autoload.php"; 
 
 $template = new ControllerTemplate();
 
 $template -> template();
-
-
-
-
-?>

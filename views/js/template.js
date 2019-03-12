@@ -96,7 +96,7 @@ $(document).ready(function(){
 
 
 function getURL(){
-    return "http://localhost/plataforma_clientes/";
+    return "http://127.0.0.1/plataforma_clientes/";
 }
 
 

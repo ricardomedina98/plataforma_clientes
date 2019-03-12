@@ -19,6 +19,11 @@
     font-weight: bold;
 }
 
+.form-group.required .control-label:after { 
+    content:"*";
+    color:red;
+}
+
 
 #dropzone, #dropzoneTickets, #dropzoneIncident {
     background: #d2d6de;

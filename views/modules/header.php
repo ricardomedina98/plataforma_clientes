@@ -1,3 +1,6 @@
+<?php
+ob_start();
+?>
 <header class="main-header">
 
 
@@ -70,3 +73,6 @@
     </nav>
     
 </header>
+<?php
+ob_end_flush();
+?>

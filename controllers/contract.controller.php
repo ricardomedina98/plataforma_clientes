@@ -1,10 +1,10 @@
 <?php
-
+    
     class ContractController{
 
-        public static function controllerCreateContract(){
+        public static function controllerCreateEmployee(){
 
-            if(!empty($_POST)){
+            if(isset($_POST['AddEmployee'])){
                 
                 $data = array('nameEmployee' => $_POST['nameEmployee'], 'surName1Employee' => $_POST['surName1Employee'],
                              'surName2Employee' => $_POST['surName2Employee'], 'sexEmployee' => $_POST['sexEmployee'], 
@@ -30,38 +30,47 @@
                              'attendance_prize' => $_POST['attendance_prize']
                 );
                 
-                $request = ModelContract::modelCreateContract($data);                                                
+                $request = ModelContract::modelCreateEmployee($data);      
+                
+                return $request;
             }
 
         }
 
         public static function controllerUpdateEmployee(){
-            if(!empty($_POST)){
+            
+            if(isset($_POST['updateEmployee'])){
                 
-                $data = array('nameEmployee' => $_POST['nameEmployee'], 'surName1Employee' => $_POST['surName1Employee'],
-                             'surName2Employee' => $_POST['surName2Employee'], 'sexEmployee' => $_POST['sexEmployee'], 
-                             'civil_status' => $_POST['civil_status'], 'nss_employee' => $_POST['nss_employee'], 
-                             'birthdayEmployee' => Helper::fixDate($_POST['birthdayEmployee']), 
-                             
-                             'addressCityPlaceBirth' => $_POST['addressCityPlaceBirth'],                             
-                             'addressStatePlaceBirth' => $_POST['addressStatePlaceBirth'], 
-                             
-                             'position_employee' => $_POST['position_employee'],
+                $data = array(
+                            'id_employee' => $_POST['id_employee'],
+                            'nameEmployee' => $_POST['nameEmployee'], 'surName1Employee' => $_POST['surName1Employee'],
+                            'surName2Employee' => $_POST['surName2Employee'], 'sexEmployee' => $_POST['sexEmployee'], 
+                            'civil_status' => $_POST['civil_status'], 'nss_employee' => $_POST['nss_employee'], 
+                            'birthdayEmployee' => Helper::fixDate($_POST['birthdayEmployee']), 
 
-                             'addressStreet' => $_POST['addressStreet'], 
-                             'addressColony' => $_POST['addressColony'], 
-                             'addressCodePostal'=> $_POST['addressCodePostal'],
-                             'addressCityA' => $_POST['addressCityA'], 
-                             'addressStateA' => $_POST['addressStateA'], 
+                            'num_employee' => $_POST['num_employee'],
+                            
+                            'addressCityPlaceBirth' => $_POST['addressCityPlaceBirth'],                             
+                            'addressStatePlaceBirth' => $_POST['addressStatePlaceBirth'], 
+                            
+                            'position_employee' => $_POST['position_employee'],
 
-                             'dateTimeContract' => Helper::RangeDateFix($_POST['dateTimeContract']),
+                            'addressStreet' => $_POST['addressStreet'], 
+                            'addressColony' => $_POST['addressColony'], 
+                            'addressCodePostal'=> $_POST['addressCodePostal'],
+                            'addressCityA' => $_POST['addressCityA'], 
+                            'addressStateA' => $_POST['addressStateA'], 
 
-                             'monthly_balance' => $_POST['monthly_balance'],
-                             'punctuality_award' => $_POST['punctuality_award'],
-                             'attendance_prize' => $_POST['attendance_prize']
+                            'dateTimeContract' => Helper::RangeDateFix($_POST['dateTimeContract']),
+                            'contract_created' => Helper::fixDateTime($_POST['contract_created']),
+                            'monthly_balance' => $_POST['monthly_balance'],
+                            'punctuality_award' => $_POST['punctuality_award'],
+                            'attendance_prize' => $_POST['attendance_prize']
                 );
                 
-                $request = ModelContract::modelUpdateEmployee($data);                                                
+                $request = ModelContract::modelUpdateEmployee($data);  
+                
+                return $request;
             }
         }
 
@@ -110,4 +119,48 @@
             return $request;
         }
 
+        public static function controllerShowOneEmployeePDF($id_employee){
+
+            $request = ModelContract::modelShowOneEmployees($id_employee);
+
+            $request = array('id_employee' => $request['id_employee'], 
+                             'nameEmployee' => $request['name_employee'], 'surName1Employee' => $request["first_surname"],
+                             'surName2Employee' => $request["second_surname"], 'sexEmployee' => $request["sex_employee"], 
+                             'civil_status' => $request["civil_status"], 'nss_employee' => $request["nss_employee"], 
+                             'num_employee' => $request['num_employee'],
+
+                             'birthdayEmployee' => $request["date_birthday_empl"], 
+                             
+                             'num_employee' => $request["num_employee"],
+
+                             'addressCityPlaceBirth' => $request['placeCityBirthday'],                             
+                             'addressStatePlaceBirth' => $request['placeStateBirthday'], 
+                             
+                             'position_employee' => $request["position_employee"],
+
+                             'addressStreet' => $request["street"], 
+                             'addressColony' => $request["colony"], 
+                             'addressCodePostal'=> $request["postal_code"],
+                             'addressCityA' => $request["city"], 
+                             'addressStateA' => $request["state"], 
+
+                             'start_contract' => $request['start_contract'],
+                             'end_contract' => $request['end_contract'],
+                             
+                             'contract_created' => $request['contract_created'],
+                             'weekly_balance' => $request['weekly_balance'],
+                             'punctuality_award' => $request['punctuality_award'],
+                             'attendance_prize' => $request['attendance_prize']
+            );
+
+            return $request;
+        }
+
+        public static function controllerDeleteEmployee($id_employee){
+
+            $request = ModelContract::modelDeleteEmployee($id_employee);
+            return $request;
+
+        }
+        
     }

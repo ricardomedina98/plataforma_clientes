@@ -565,6 +565,70 @@ class Helper{
         return $tiempo = array('time' => $tiempo, 'remaining' => $remaining, 'daysRemaining' => $fecha->d);
     }
 
+    //FORMATO DE CONTRATO
+
+    public static function RangeDateContract($start_contract, $end_contract)
+    {
+        date_default_timezone_set('America/Monterrey');  
+        $start_contract = new DateTime($start_contract);
+        $end_contract = new DateTime($end_contract);
+
+        
+        $range1 = explode("-",$start_contract->format("d-F-Y"));
+        $range2 = explode("-",$end_contract->format("d-F-Y"));
+
+        $range = $range1[0]." DE ".strtoupper(self::CalculateMonth($range1[1]))." DEL ".$range1[2]." AL ".$range2[0]." DE ".strtoupper(self::CalculateMonth($range2[1]))." DEL ".$range1[2];
+        return $range;
+
+        
+    }
+
+    public static function BirthDayContract($date)
+    {
+        date_default_timezone_set('America/Monterrey');  
+        $date = new DateTime($date);        
+
+        $date = explode("-",$date->format("d-F-Y"));        
+
+        $date = $date[0]." ".strtoupper(self::CalculateMonth($date[1]))." ".$date[2];
+        return $date;
+        
+    }
+
+    public static function DateStringContract($date)
+    {
+        date_default_timezone_set('America/Monterrey');  
+        $date = new DateTime($date);        
+
+        $date = explode("-",$date->format("d-F-Y"));        
+
+        $date = $date[0]." DE ".strtoupper(self::CalculateMonth($date[1]))." DEL ".$date[2];
+        return $date;
+        
+    }
+
+
+    public static function DateTimeStringContracteEnd($end_contract){
+        //15:01 DEL 21 DE ENERO DEL 2019
+
+        date_default_timezone_set('America/Monterrey');  
+        $end_contract = new DateTime($end_contract);
+        $end_contract = explode("-", $end_contract->format("H:i-d-F-Y"));
+
+        $date = $end_contract[0]." DEL ".$end_contract[1]." DE ".strtoupper(self::CalculateMonth($end_contract[2]))." DEL ".$end_contract[3];
+        return $date;
+    }
+
+    public static function DateTimeStringContracteStart($start_contract){
+        // 6:00 HORAS DEL DÍA 05 DE ENERO DEL 2019
+
+        date_default_timezone_set('America/Monterrey');  
+        $start_contract = new DateTime($start_contract);
+        $start_contract = explode("-", $start_contract->format("H:i-d-F-Y"));
+
+        $date = $start_contract[0]." HORAS DEL DIA ".$start_contract[1]." DE ".strtoupper(self::CalculateMonth($start_contract[2]))." DEL ".$start_contract[3];
+        return $date;
+    }
 
 
 

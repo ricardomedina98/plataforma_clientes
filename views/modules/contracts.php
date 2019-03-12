@@ -1,7 +1,8 @@
 <?php
 
-    $addEmployee = new ContractController();
-    $addEmployee -> controllerCreateContract();
+    $addEmployee = ContractController::controllerCreateEmployee();    
+
+    $updateEmployee = ContractController::controllerUpdateEmployee();
 
 ?>
 <div class="content-wrapper">
@@ -62,6 +63,7 @@
                     <th>Apellido Paterno</th>
                     <th>Apellido Materno</th>
                     <th>Vencimiento del contrato</th>
+                    <th>Descargas</th>
                     <th>Acciones</th>
 
                 </tr>
@@ -99,17 +101,30 @@
                                 } else {
                                     echo '<td><span>'.$dateName.' <span style="font-weight: bold;">(Dias Restantes '.$date['daysRemaining'].') </span></span></td>';
                                 }
-                                
-                                
                                 echo '
                                 <td>
                     
                                     <div class="row">
         
                                         <div class="col-12 text-center">
+                                                
+                                            <button class="btn btn-success btnDownloadContract" style="width: 60px" idDownloadContract="'.$valueEmpl['id_employee'].'" data-toggle="modal" data-target="#modalViewEmployee"><i class="fa fa-download"></i></button>
+
+                                            <button class="btn btn-danger btnDownloadContractRed" style="width: 60px" idDownloadContract="'.$valueEmpl['id_employee'].'" data-toggle="modal" data-target="#modalViewEmployee"><i class="fa fa-download"></i></button>                                            
+                                        
+                                        </div>
+                                        
+                                     </div>  
+                    
+                                </td>';
+                                
+                                echo '
+                                <td>
+                    
+                                    <div class="row">
         
-                                            <button class="btn btn-success btnViewEmployee" style="width: 60px" idViewEmployee="'.$valueEmpl['id_employee'].'" data-toggle="modal" data-target="#modalViewEmployee"><i class="fa fa-eye"></i></button>
-        
+                                        <div class="col-12 text-center">                                                                                            
+
                                             <button class="btn btn-warning btnEditEmployee" style="width: 60px" idEditEmployee="'.$valueEmpl['id_employee'].'" data-toggle="modal" data-target="#modalEditEmployee"><i class="fa fa-pencil"></i></button>
                             
                                             <button class="btn btn-danger btnDeleteEmployee" style="width: 60px" idDeleteEmployee="'.$valueEmpl['id_employee'].'"><i class="fa fa-times"></i></button>
@@ -155,19 +170,17 @@
 
                     <div class="col-sm-12">
                         <form id="formAddEmployee" class="form-horizontal" method="post" enctype=multipart/form-data>
-                            <?php
-
-                                //echo '<input type="hidden" id="id_contact" name="id_contact" value="'.$requestContact['id_contact'].'">';
-
-                            ?>
                             
-                            <div class="form-group">
-                                
+
+                            <input type="hidden" name="AddEmployee">                            
+                            
+                            <div class="form-group required">
+                                                                
                                 <label for="contract_created" class="col-sm-3 control-label">Fecha Creacion de Contrato</label>
                                 
                                 <div class="col-sm-3">
-                                    <input class="form-control" id="contract_created" name="contract_created" placeholder="Creacion de Contrato" type="text" autocomplete="off">
-                                </div>
+                                    <input class="form-control " id="contract_created" name="contract_created" placeholder="Creacion de Contrato" type="text" autocomplete="off">
+                                </div>                                
 
                             </div>
                             
@@ -180,8 +193,9 @@
                                 </div>
 
                             </div>  
-                            
-                            <div class="form-group">
+                                                        
+                            <div class="form-group required">
+                                
                                 <label for="nameContact" class="col-sm-3 control-label">Nombre</label>
 
                                 <div class="col-sm-3">
@@ -196,10 +210,12 @@
                                     <input class="form-control" id="surName2Employee" name="surName2Employee" placeholder="Apellido Materno" type="text" autocomplete="off">
                                 </div>
 
+                                
+
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group required">
                                 <label for="sexEmployee" class="col-sm-3 control-label">Sexo</label>
                                 
                                 <select class="col-sm-3" id="sexEmployee" name="sexEmployee" title="Selecciona un sexo">                                    
@@ -209,7 +225,7 @@
 
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group required">
                                 <label for="civil_status" class="col-sm-3 control-label">Estado Civil</label>
                                 
                                 <select class="col-sm-3" id="civil_status" name="civil_status" title="Estado Civil">                                    
@@ -218,15 +234,16 @@
 
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group required">
                                 <label for="position_employee" class="col-sm-3 control-label">NSS de Empleado</label>
 
                                 <div class="col-sm-4">
-                                    <input class="form-control" id="nss_employee" name="nss_employee" placeholder="NSS de Empleado" type="text" autocomplete="off">
-                                </div>
+                                    <input class="form-control" id="nss_employee" name="nss_employee" placeholder="NSS de Empleado" type="text" autocomplete="off">                                    
+                                </div>                                                                
+                                
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group required">
                                 <label for="birthdayEmployee" class="col-sm-3 control-label">Fecha de Nacimiento</label>
 
                                 <div class="col-sm-3">
@@ -241,7 +258,7 @@
                             </div>
                             
 
-                            <div class="form-group">
+                            <div class="form-group required">
                                 <label for="addressStatePlaceBirth" class="col-sm-3 control-label">Lugar de Nacimiento</label>
 
                                 <div class="col-sm-4">
@@ -256,7 +273,7 @@
                             
                             <br>
 
-                            <div class="form-group">
+                            <div class="form-group required">
                                 <label for="position_employee" class="col-sm-3 control-label">Puesto del Empleado</label>
 
                                 <div class="col-sm-4">
@@ -266,7 +283,7 @@
 
                             <br>
 
-                            <div class="form-group">
+                            <div class="form-group required">
 
                                 <label for="addressStreet" class="col-sm-3 control-label">Direccion</label>
 
@@ -300,7 +317,7 @@
 
                             <br>
 
-                            <div class="form-group">
+                            <div class="form-group required">
                             
                                 <label for="addressStreet" class="col-sm-3 control-label">Fecha y Hora de Contrato</label>
                                 
@@ -313,18 +330,18 @@
 
                             <br>
 
-                            <div class="form-group">
+                            <div class="form-group required">
                             
-                                <label for="addressStreet" class="col-sm-3 control-label">Sueldo Mensual</label>
+                                <label for="addressStreet" class="col-sm-3 control-label">Sueldo Semanal</label>
                                 
                                 <div class="col-sm-3">
-                                    <input class="form-control" id="monthly_balance" name="monthly_balance" placeholder="Sueldo Mensual" type="text" autocomplete="off">
+                                    <input class="form-control" id="monthly_balance" name="monthly_balance" placeholder="Sueldo Semanal" type="text" autocomplete="off">
                                 </div>
 
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group required">
                             
                                 <label for="addressStreet" class="col-sm-3 control-label">Premio de Puntualidad</label>
                                 
@@ -334,7 +351,7 @@
 
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group required">
                             
                                 <label for="addressStreet" class="col-sm-3 control-label">Premio de Asistencia</label>
                                 
@@ -347,8 +364,6 @@
                         </form>
 
                     </div>
-
-                    
 
                     
                 </div>
@@ -377,14 +392,15 @@
                     <div class="col-sm-12">
                         <form id="formEditEmployee" class="form-horizontal" method="post" enctype=multipart/form-data>
 
-                            <input type="hidden" id="id_employee" name="id_employee" value=""/>
+                            <input type="hidden" id="id_employee" name="id_employee">
+                            <input type="hidden" name="updateEmployee">
                             
-                            <div class="form-group">
+                            <div class="form-group required">
                                 
                                 <label for="contract_createdEdit" class="col-sm-3 control-label">Fecha Creacion de Contrato</label>
                                 
                                 <div class="col-sm-3">
-                                    <input class="form-control" id="contract_createdEdit" name="contract_created" placeholder="Creacion de Contrato" type="text" autocomplete="off">
+                                    <input class="form-control" id="contract_createdEdit" name="contract_created" placeholder="Creacion de Contrato" type="text" autocomplete="off" readonly >
                                 </div>
 
                             </div>
@@ -399,7 +415,7 @@
 
                             </div>                           
                             
-                            <div class="form-group">
+                            <div class="form-group required">
                                 <label for="nameEmployeeEdit" class="col-sm-3 control-label">Nombre</label>
 
                                 <div class="col-sm-3">
@@ -417,7 +433,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group required">
                                 <label for="sexEmployeeEdit" class="col-sm-3 control-label">Sexo</label>
                                 
                                 <select class="col-sm-3" id="sexEmployeeEdit" name="sexEmployee" title="Selecciona un sexo">                                    
@@ -427,7 +443,7 @@
 
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group required">
 
                                 <label for="civil_statusEdit" class="col-sm-3 control-label">Estado Civil</label>
                                 
@@ -437,7 +453,7 @@
 
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group required">
 
                                 <label for="nss_employeeEdit" class="col-sm-3 control-label">NSS de Empleado</label>
 
@@ -447,7 +463,7 @@
 
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group required">
 
                                 <label for="birthdayEmployeeEdit" class="col-sm-3 control-label">Fecha de Nacimiento</label>
 
@@ -463,7 +479,7 @@
                             </div>
                             
 
-                            <div class="form-group">
+                            <div class="form-group required">
 
                                 <label for="addressCityPlaceBirthEdit" class="col-sm-3 control-label">Lugar de Nacimiento</label>
 
@@ -479,7 +495,7 @@
                             
                             <br>
 
-                            <div class="form-group">
+                            <div class="form-group required">
 
                                 <label for="position_employeeEdit" class="col-sm-3 control-label">Puesto del Empleado</label>
 
@@ -490,7 +506,7 @@
 
                             <br>
 
-                            <div class="form-group">
+                            <div class="form-group required">
 
                                 <label for="addressStreetEdit" class="col-sm-3 control-label">Direccion</label>
 
@@ -524,7 +540,7 @@
 
                             <br>
 
-                            <div class="form-group">
+                            <div class="form-group required">
                             
                                 <label for="dateTimeContractEdit" class="col-sm-3 control-label">Fecha y Hora de Contrato</label>
                                 
@@ -537,18 +553,18 @@
 
                             <br>
 
-                            <div class="form-group">
+                            <div class="form-group required">
                             
-                                <label for="weekly_balanceEdit" class="col-sm-3 control-label">Sueldo Mensual</label>
+                                <label for="weekly_balanceEdit" class="col-sm-3 control-label">Sueldo Semanal</label>
                                 
                                 <div class="col-sm-3">
-                                    <input class="form-control" id="weekly_balanceEdit" name="monthly_balance" placeholder="Sueldo Mensual" type="text" autocomplete="off">
+                                    <input class="form-control" id="weekly_balanceEdit" name="monthly_balance" placeholder="Sueldo Semanal" type="text" autocomplete="off">
                                 </div>
 
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group required">
                             
                                 <label for="punctuality_awardEdit" class="col-sm-3 control-label">Premio de Puntualidad</label>
                                 
@@ -558,7 +574,7 @@
 
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group required">
                             
                                 <label for="attendance_prizeEdit" class="col-sm-3 control-label">Premio de Asistencia</label>
                                 
@@ -574,6 +590,7 @@
 
                     <?php
 
+                    
 
                     ?>
 
@@ -582,7 +599,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Cerrar</button>
-                <button type="submit" id="EditEmployee" class="btn btn-primary">Agregar</button>
+                <button type="submit" id="EditEmployee" class="btn btn-primary">Actualizar</button>
             </div>
         </div>
     </div>

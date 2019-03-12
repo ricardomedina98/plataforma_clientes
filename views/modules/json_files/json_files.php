@@ -1,6 +1,6 @@
 <?php
 
-header_remove($value2);
+//header_remove($value2);
 header('Content-Type: application/json');
 
 class Json_Files{

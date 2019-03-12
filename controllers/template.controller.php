@@ -12,5 +12,3 @@ class ControllerTemplate{
         return $request;
     }
 }
-
-?>

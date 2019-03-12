@@ -109,6 +109,36 @@ $("#addEmployee").click(function(){
     $("#formAddEmployee").submit();
 });
 
+$("#EditEmployee").click(function(){
+    $("#formEditEmployee").submit();
+});
+/*
+$("#formEditEmployee").on( "submit", function( event ) {
+    event.preventDefault();    
+
+    var urlWeb = getURL()+"ajax/contracts.ajax.php"; 
+    console.log($(this).serialize());
+    $.post(urlWeb, $('#formEditEmployee').serialize())    
+
+    
+    $.ajax({
+        url:urlWeb,
+        method:"POST",
+        data:  $(this).serialize(),
+        cache: false,
+        contentType: false,
+        processData: false,
+        success:function(respuesta){  
+            console.log("​respuesta", respuesta)
+                                            
+            
+        }
+
+    });
+    
+});
+
+*/
 
 $(".btnEditEmployee").click(function (){
 
@@ -134,8 +164,7 @@ $(".btnEditEmployee").click(function (){
         
             $("#id_employee").val(respuesta.id_employee);              
             
-            $('#contract_createdEdit').data("DateTimePicker").date(new Date(respuesta.contract_created));
-            $('#contract_createdEdit').data("DateTimePicker").disable();            
+            $('#contract_createdEdit').data("DateTimePicker").date(new Date(respuesta.contract_created));                      
 
             $("#num_employeeEdit").val(respuesta.num_employee);
             
@@ -176,4 +205,57 @@ $(".btnEditEmployee").click(function (){
 
     });
     
+});
+
+
+$("#nss_employee").change(function(){
+    console.log("test");
+});
+
+
+$(".btnDeleteEmployee").click(function (e){
+    e.preventDefault();
+
+    swal({
+        title: "Estas seguro?",
+        text: "Se eliminara el empleado y toda su informacion",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, eliminar"        
+      }).then((result) => {
+
+          if(result.value) {
+
+            var urlWeb = getURL()+"ajax/contracts.ajax.php";            
+
+            var data = new FormData();
+            data.append("id_employeeDelete", $(this).attr("iddeleteemployee"));
+                        
+            $.ajax({
+                url:urlWeb,
+                method:"POST",
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success:function(respuesta){  
+					console.log("​respuesta", respuesta)
+                                        
+                    location.href = getURL() + "contratos/";
+                    
+                }
+        
+            });
+            
+          }
+      })
+});
+
+$(".btnDownloadContract ").click(function (){
+
+    var urlWeb = getURL();
+    var id_employee = $(this).attr("idDownloadContract");	
+    window.open(urlWeb + "contratos/descargar-contrato-"+id_employee);
 });
