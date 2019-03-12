@@ -1,6 +1,14 @@
-$(document).ready(function(){
+﻿$(document).ready(function(){
 
-    $('#dateRegistration, #dateRegistrationModal, #dateRegistrationModalEdit, #birthdayContact, #birthday, #birthdayEmployee, #businessCustomer, #businessAntiquity').datepicker({
+    $('#dateRegistrationModalEdit').datepicker({
+        autoclose: true,
+        maxViewMode: 'years',
+        language: 'es',
+        format: 'dd/mm/yyyy',
+        startDate: '-50y'
+    });
+
+    $('#dateRegistration, #dateRegistrationModal, #birthdayContact, #birthday, #birthdayEmployee, #businessCustomer, #businessAntiquity').datepicker({
         autoclose: true,
         maxViewMode: 'years',
         language: 'es',
