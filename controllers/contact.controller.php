@@ -37,11 +37,14 @@ class ContactController{
                 case 'searchEmail':
                     $data['filterSQL'] = "email like '%".$data["searchText"]."%'";
                     break;
+                case 'searchPhone':
+                    $data['filterSQL'] = "mobile_phone like '%".$data["searchText"]."%'";
+                    break;
                 case '':
                     $data['filterSQL'] = "";
                     break;
                 default:
-                $data['filterSQL'] = "name_contact like '%".$data["searchText"]."%' or first_surname like '%".$data["searchText"]."%' or second_surname like '%".$data["searchText"]."%' or email like '%".$data["searchText"]."%' or alias like '%".$data["searchText"]."%'";
+                $data['filterSQL'] = "name_contact like '%".$data["searchText"]."%' or first_surname like '%".$data["searchText"]."%' or second_surname like '%".$data["searchText"]."%' or email like '%".$data["searchText"]."%' or alias like '%".$data["searchText"]."%' or mobile_phone like '%".$data["searchText"]."%'";
                     break;
             }
 
@@ -75,7 +78,7 @@ class ContactController{
                 $where = "where ".$data['filterSQL'];
 
             } elseif(!empty($data['searchText'])){
-                $where = "where name_contact like '%".$data["searchText"]."%' or first_surname like '%".$data["searchText"]."%' or second_surname like '%".$data["searchText"]."%' or email like '%".$data["searchText"]."%' or alias like '%".$data["searchText"]."%'";
+                $where = "where name_contact like '%".$data["searchText"]."%' or first_surname like '%".$data["searchText"]."%' or second_surname like '%".$data["searchText"]."%' or email like '%".$data["searchText"]."%' or alias like '%".$data["searchText"]."%' or mobile_phone like '%".$data["searchText"]."%'";
             }
             if(!empty($where)){
                 $request = ContactModel::modelSearchContacts($base, $tope, $where);
@@ -85,9 +88,6 @@ class ContactController{
                 return null;
             }
 
-            
-
-            
 
         } else {
             return null;

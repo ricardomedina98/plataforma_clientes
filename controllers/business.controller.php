@@ -145,8 +145,11 @@ class BusinessController{
                 case 'searchEmail':
                     $data['filterSQL'] = "email like '%".$data["searchText"]."%'";
                     break;
+                case 'searchPhone':
+                    $data['filterSQL'] = "phone_business like '%".$data["searchText"]."%'";
+                    break;
                 default:
-                $data['filterSQL'] = "commercial_name like '%".$data["searchText"]."%' or fiscal_name like '%".$data["searchText"]."%' or email like '%".$data["searchText"]."%'";
+                $data['filterSQL'] = "commercial_name like '%".$data["searchText"]."%' or fiscal_name like '%".$data["searchText"]."%' or email like '%".$data["searchText"]."%' or phone_business like '%".$data["searchText"]."%'";
                     break;
             }
 
@@ -180,7 +183,7 @@ class BusinessController{
                 $where = "where ".$data['filterSQL'];
 
             } elseif(!empty($data['searchText'])){
-                $where = "where commercial_name like '%".$data["searchText"]."%' or fiscal_name like '%".$data["searchText"]."%' or email like '%".$data["searchText"]."%'";
+                $where = "where commercial_name like '%".$data["searchText"]."%' or fiscal_name like '%".$data["searchText"]."%' or email like '%".$data["searchText"]."%' or phone_business like '%".$data["searchText"]."%'";
             }
             if(!empty($where)){
                 $request = BusinessModel::modelSearchBusiness($base, $tope, $where);                
@@ -198,6 +201,13 @@ class BusinessController{
     public static function controlerCountBusiness(){
 
         $request = BusinessModel::modelCountBusiness();
+
+        return $request;
+    }
+
+    public static function controllerContactsBusiness($id_business) {
+
+        $request = BusinessModel::modelContactsBusiness($id_business);
 
         return $request;
     }

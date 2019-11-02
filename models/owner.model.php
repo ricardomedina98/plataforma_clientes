@@ -20,7 +20,7 @@ class OwnerModel{
             } else {
                 $dataDirectory = Helper::createDirectoryImage($nameFolder, $id, 'views/img/users/default/anonymous.jpg', $imageDataBase = null);
             }
-            $aboutOwner = $connection->prepare("insert into aboutOwners(id_owner, profile_photo, alias, birthday, date_registration, mobile_phone, perfil_facebook, url_facebook, frequency, email, comments, type_business, name_business) 
+            $aboutOwner = $connection->prepare("insert into aboutowners(id_owner, profile_photo, alias, birthday, date_registration, mobile_phone, perfil_facebook, url_facebook, frequency, email, comments, type_business, name_business) 
             values (:id_owner, :profile_photo, :alias, :birthday, :date_registration, :mobile_phone, :perfil_facebook, :url_facebook, :frequency, :email, :comments, :type_business, :name_business)");
 
             $birthday = Helper::fixDate($data['birthday']);
@@ -119,7 +119,7 @@ class OwnerModel{
     public static function modelshowOwners($base, $tope){
         $showOwners = Connection::connect() -> prepare("select own.id_owner, name_owner, first_surname, second_surname, profile_photo, mobile_phone, email
         from owners own 
-        inner join aboutOwners ab on own.id_owner = ab.id_owner limit :base, :tope");
+        inner join aboutowners ab on own.id_owner = ab.id_owner limit :base, :tope");
 
         $showOwners->bindParam(":base", $base, PDO::PARAM_INT);
         $showOwners->bindParam(":tope", $tope, PDO::PARAM_INT);
@@ -134,7 +134,7 @@ class OwnerModel{
     public static function modelShowProfile($value){
 
         $showOwners = Connection::connect() -> prepare("select ab.id_owner, name_owner, first_surname, second_surname, profile_photo, alias, birthday, date_registration, mobile_phone, perfil_facebook, url_facebook, frequency, email, comments, state, city, street, colony, local, products, days_buy, name_departament, orderby, type_business, name_business from owners own 
-        inner join aboutOwners ab on own.id_owner = ab.id_owner
+        inner join aboutowners ab on own.id_owner = ab.id_owner
         inner join address_owner ad on own.id_owner = ad.id_owner
         inner join buying_habits hb on own.id_owner = hb.id_owner
         inner join departaments dep on own.id_owner = dep.id_owner where own.id_owner = :id_owner");
@@ -156,7 +156,7 @@ class OwnerModel{
         profile_photo, email, 
         phones_business, dateRegistration
         from business
-        INNER JOIN aboutBusiness about on about.id_business = business.id_business
+        INNER JOIN aboutbusiness about on about.id_business = business.id_business
         INNER JOIN owner_business own_bus on own_bus.id_business = business.id_business where own_bus.id_owner = :id_owner");
 
         $stmt->BindParam(":id_owner", $value);
@@ -184,19 +184,19 @@ class OwnerModel{
         $owner->bindParam(':second_surname', $data['surName2Owner'], PDO::PARAM_STR);
 
         if(isset($data['profile_photo'])){
-            $stmtimageDataBase = $connection->query('select profile_photo from aboutOwners where id_owner='.$data['id_user']);
+            $stmtimageDataBase = $connection->query('select profile_photo from aboutowners where id_owner='.$data['id_user']);
             $imageDataBase = $stmtimageDataBase->fetch(PDO::FETCH_ASSOC);
             $dataDirectory = Helper::createDirectoryImage($nameFolder, $data['id_user'], $data['profile_photo'], $imageDataBase["profile_photo"]);
 
             
 
-            $aboutOwner = $connection->prepare("update aboutOwners set profile_photo = :profile_photo, alias = :alias, birthday = :birthday, date_registration = :date_registration,
+            $aboutOwner = $connection->prepare("update aboutowners set profile_photo = :profile_photo, alias = :alias, birthday = :birthday, date_registration = :date_registration,
             mobile_phone = :mobile_phone, perfil_facebook = :perfil_facebook, url_facebook = :url_facebook, frequency = :frequency,
             email = :email, comments = :comments, type_business = :type_business, name_business = :name_business where id_owner = :id_owner");
             $aboutOwner->bindParam(':profile_photo', $dataDirectory['pathImage'], PDO::PARAM_STR);
             
         } else {
-            $aboutOwner = $connection->prepare("update aboutOwners set alias = :alias, birthday = :birthday, date_registration = :date_registration,
+            $aboutOwner = $connection->prepare("update aboutowners set alias = :alias, birthday = :birthday, date_registration = :date_registration,
             mobile_phone = :mobile_phone, perfil_facebook = :perfil_facebook, url_facebook = :url_facebook, frequency = :frequency,
             email = :email, comments = :comments, type_business = :type_business, name_business = :name_business where id_owner = :id_owner");
         }
@@ -297,21 +297,21 @@ class OwnerModel{
         $departaments = $connection->prepare("delete from departaments where id_owner = :id_owner");
         $address_owner = $connection->prepare("delete from address_owner where id_owner = :id_owner");
         $buying_habits = $connection->prepare("delete from buying_habits where id_owner = :id_owner");
-        $aboutOwners = $connection->prepare("delete from aboutOwners where id_owner = :id_owner");
+        $aboutowners = $connection->prepare("delete from aboutowners where id_owner = :id_owner");
         $owner_business = $connection->prepare("delete from owner_business where id_owner = :id_owner");
         $owners = $connection->prepare("delete from owners where id_owner = :id_owner");
 
         $departaments->bindParam(':id_owner', $data['id_owner_delete'], PDO::PARAM_INT);
         $address_owner->bindParam(':id_owner', $data['id_owner_delete'], PDO::PARAM_INT);
         $buying_habits->bindParam(':id_owner', $data['id_owner_delete'], PDO::PARAM_INT);
-        $aboutOwners->bindParam(':id_owner', $data['id_owner_delete'], PDO::PARAM_INT);
+        $aboutowners->bindParam(':id_owner', $data['id_owner_delete'], PDO::PARAM_INT);
         $owner_business->bindParam(':id_owner', $data['id_owner_delete'], PDO::PARAM_INT);
         $owners->bindParam(':id_owner', $data['id_owner_delete'], PDO::PARAM_INT);
 
         $a = $departaments->execute();
         $b = $address_owner->execute();
         $c = $buying_habits->execute();
-        $d = $aboutOwners->execute();
+        $d = $aboutowners->execute();
         $e = $owner_business->execute();
         $f = $owners->execute();
 

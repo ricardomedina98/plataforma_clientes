@@ -24,7 +24,7 @@
                 } else {
                     $dataDirectory = Helper::createDirectoryImage($nameFolder, $id, 'views/img/users/default/business.jpg', $imageDataBase = null);
                 }
-                $aboutBusiness = $connection->prepare("insert into aboutBusiness(id_business, profile_photo, phone_business, invoice, business_antiquity, 
+                $aboutbusiness = $connection->prepare("insert into aboutbusiness(id_business, profile_photo, phone_business, invoice, business_antiquity, 
                 customer_antiquity, timeBusinessI, timeBusinessF, perfil_facebook, url_facebook, 
                 email, url_googlemaps, comments, phones_business, days_available, how_know_us, frequency, dateRegistration) 
                 
@@ -53,25 +53,25 @@
                 }
                 
 
-                $aboutBusiness->bindParam(':id_business', $id, PDO::PARAM_INT);
-                $aboutBusiness->bindParam(':profile_photo', $dataDirectory['pathImage'], PDO::PARAM_STR);
-                $aboutBusiness->bindParam(':invoice', $data['invoice'], PDO::PARAM_BOOL);
-                $aboutBusiness->bindParam(':business_antiquity', $businessAntiquity, PDO::PARAM_STR);
-                $aboutBusiness->bindParam(':customer_antiquity', $businessCustomer, PDO::PARAM_STR);
-                $aboutBusiness->bindParam(':timeBusinessI', $timeBusinessI, PDO::PARAM_STR);
-                $aboutBusiness->bindParam(':timeBusinessF', $timeBusinessF, PDO::PARAM_STR);
-                $aboutBusiness->bindParam(':perfil_facebook', $data['facebook'], PDO::PARAM_STR);
-                $aboutBusiness->bindParam(':url_facebook', $data['urlFacebook'], PDO::PARAM_STR);
-                $aboutBusiness->bindParam(':email', $data['emailBusiness'], PDO::PARAM_STR);
-                $aboutBusiness->bindParam(':url_googlemaps', $data['urlMaps'], PDO::PARAM_STR);
-                $aboutBusiness->bindParam(':comments', $data['commentsBusiness'], PDO::PARAM_STR);
-                $aboutBusiness->bindParam(':phones_business', $phones, PDO::PARAM_STR);
-                $aboutBusiness->bindParam(':days_available', $days_available, PDO::PARAM_STR);
-                $aboutBusiness->bindParam(':how_know_us', $how_know_us, PDO::PARAM_STR);
-                $aboutBusiness->bindParam(':frequency', $data['frequencyBusiness'], PDO::PARAM_STR);
-                $aboutBusiness->bindParam(':dateRegistration', $dateRegistration, PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':id_business', $id, PDO::PARAM_INT);
+                $aboutbusiness->bindParam(':profile_photo', $dataDirectory['pathImage'], PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':invoice', $data['invoice'], PDO::PARAM_BOOL);
+                $aboutbusiness->bindParam(':business_antiquity', $businessAntiquity, PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':customer_antiquity', $businessCustomer, PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':timeBusinessI', $timeBusinessI, PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':timeBusinessF', $timeBusinessF, PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':perfil_facebook', $data['facebook'], PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':url_facebook', $data['urlFacebook'], PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':email', $data['emailBusiness'], PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':url_googlemaps', $data['urlMaps'], PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':comments', $data['commentsBusiness'], PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':phones_business', $phones, PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':days_available', $days_available, PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':how_know_us', $how_know_us, PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':frequency', $data['frequencyBusiness'], PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':dateRegistration', $dateRegistration, PDO::PARAM_STR);
 
-                $aboutBusiness->bindParam(':phone_business', $data['phoneBusiness'], PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':phone_business', $data['phoneBusiness'], PDO::PARAM_STR);
                 
 
                 
@@ -86,15 +86,16 @@
                 $addressBusiness->bindParam(':street', $data['addressStreet'], PDO::PARAM_STR);
                 $addressBusiness->bindParam(':local', $data['addressLocal'], PDO::PARAM_STR);
 
-
-                if($aboutBusiness->execute() && $addressBusiness->execute()){
+                $boolaboutbusiness = $aboutbusiness->execute();
+                $booladdressBusiness = $addressBusiness->execute();
+                if($boolaboutbusiness && $booladdressBusiness){
                     $connection->commit();
                     $result['id'] = $id;
                     $result['nameFolder'] = $nameFolder;
                     $result['result'] = 'OK';
                     return $result;
                 } else {
-                    (isset($dataDirectory['directory'])) ? unlink($dataDirectory['directory']): null;
+                    (isset($dataDirectory['pathImage'])) ? unlink($dataDirectory['pathImage']): null;
                     return $result['result'] = 'ERROR';
                 }
                 
@@ -111,7 +112,7 @@
             timeBusinessF, perfil_facebook, url_facebook, url_googlemaps, phones_business, days_available, 
             how_know_us, frequency, comments, dateRegistration, state, city, street, colony, local, phone_business
             from business
-            INNER JOIN aboutBusiness about on about.id_business = business.id_business
+            INNER JOIN aboutbusiness about on about.id_business = business.id_business
             INNER JOIN business_address address on address.id_business = business.id_business where business.id_business = :id_business");
 
             $stmt->BindParam(":id_business", $value);
@@ -127,7 +128,7 @@
             profile_photo, email, 
             phone_business
             from business
-            INNER JOIN aboutBusiness about on about.id_business = business.id_business limit :base, :tope");
+            INNER JOIN aboutbusiness about on about.id_business = business.id_business limit :base, :tope");
         
 
             $showBusiness->bindParam(":base", $base, PDO::PARAM_INT);
@@ -156,17 +157,17 @@
             $business->bindParam(':type_business', $data["typeBusiness"], PDO::PARAM_STR);
 
             if(isset($data['profile_photo'])){
-                $stmtimageDataBase = $connection->query('select profile_photo from aboutBusiness where id_business = '.$data['id_user']);
+                $stmtimageDataBase = $connection->query('select profile_photo from aboutbusiness where id_business = '.$data['id_user']);
                 $imageDataBase = $stmtimageDataBase->fetch(PDO::FETCH_ASSOC);
                 $dataDirectory = Helper::createDirectoryImage($nameFolder, $data['id_user'], $data['profile_photo'], $imageDataBase["profile_photo"]);
                 
-                $aboutBusiness = $connection->prepare("update aboutBusiness set profile_photo = :profile_photo, invoice = :invoice, business_antiquity = :business_antiquity, customer_antiquity = :customer_antiquity, email = :email, timeBusinessI = :timeBusinessI, 
+                $aboutbusiness = $connection->prepare("update aboutbusiness set profile_photo = :profile_photo, invoice = :invoice, business_antiquity = :business_antiquity, customer_antiquity = :customer_antiquity, email = :email, timeBusinessI = :timeBusinessI, 
                 timeBusinessF = :timeBusinessF, perfil_facebook = :perfil_facebook, url_facebook = :url_facebook, url_googlemaps = :url_googlemaps, phones_business = :phones_business, days_available = :days_available, 
                 how_know_us = :how_know_us, frequency = :frequency, comments = :comments, dateRegistration = :dateRegistration, phone_business = :phone_business where id_business = :id_business");
-                $aboutBusiness->bindParam(':profile_photo', $dataDirectory['pathImage'], PDO::PARAM_STR);
+                $aboutbusiness->bindParam(':profile_photo', $dataDirectory['pathImage'], PDO::PARAM_STR);
                 
             } else {
-                $aboutBusiness = $connection->prepare("update aboutBusiness set invoice = :invoice, business_antiquity = :business_antiquity, customer_antiquity = :customer_antiquity, email = :email, timeBusinessI = :timeBusinessI, 
+                $aboutbusiness = $connection->prepare("update aboutbusiness set invoice = :invoice, business_antiquity = :business_antiquity, customer_antiquity = :customer_antiquity, email = :email, timeBusinessI = :timeBusinessI, 
                 timeBusinessF = :timeBusinessF, perfil_facebook = :perfil_facebook, url_facebook = :url_facebook, url_googlemaps = :url_googlemaps, phones_business = :phones_business, days_available = :days_available, 
                 how_know_us = :how_know_us, frequency = :frequency, comments = :comments, dateRegistration = :dateRegistration, phone_business = :phone_business where id_business = :id_business");
             }
@@ -193,24 +194,24 @@
                 $how_know_us = Helper::ArrayToString($data['comunication']);
             }
             
-            $aboutBusiness->bindParam(':id_business', $data['id_user'], PDO::PARAM_INT);
-            $aboutBusiness->bindParam(':invoice', $data['invoice'], PDO::PARAM_BOOL);
-            $aboutBusiness->bindParam(':business_antiquity', $businessAntiquity, PDO::PARAM_STR);
-            $aboutBusiness->bindParam(':customer_antiquity', $businessCustomer, PDO::PARAM_STR);
-            $aboutBusiness->bindParam(':timeBusinessI', $timeBusinessI, PDO::PARAM_STR);
-            $aboutBusiness->bindParam(':timeBusinessF', $timeBusinessF, PDO::PARAM_STR);
-            $aboutBusiness->bindParam(':perfil_facebook', $data['facebook'], PDO::PARAM_STR);
-            $aboutBusiness->bindParam(':url_facebook', $data['urlFacebook'], PDO::PARAM_STR);
-            $aboutBusiness->bindParam(':email', $data['emailBusiness'], PDO::PARAM_STR);
-            $aboutBusiness->bindParam(':url_googlemaps', $data['urlMaps'], PDO::PARAM_STR);
-            $aboutBusiness->bindParam(':comments', $data['commentsBusiness'], PDO::PARAM_STR);
-            $aboutBusiness->bindParam(':phones_business', $phones, PDO::PARAM_STR);
-            $aboutBusiness->bindParam(':days_available', $days_available, PDO::PARAM_STR);
-            $aboutBusiness->bindParam(':how_know_us', $how_know_us, PDO::PARAM_STR);
-            $aboutBusiness->bindParam(':frequency', $data['frequencyBusiness'], PDO::PARAM_STR);
-            $aboutBusiness->bindParam(':dateRegistration', $dateRegistration, PDO::PARAM_STR);
+            $aboutbusiness->bindParam(':id_business', $data['id_user'], PDO::PARAM_INT);
+            $aboutbusiness->bindParam(':invoice', $data['invoice'], PDO::PARAM_BOOL);
+            $aboutbusiness->bindParam(':business_antiquity', $businessAntiquity, PDO::PARAM_STR);
+            $aboutbusiness->bindParam(':customer_antiquity', $businessCustomer, PDO::PARAM_STR);
+            $aboutbusiness->bindParam(':timeBusinessI', $timeBusinessI, PDO::PARAM_STR);
+            $aboutbusiness->bindParam(':timeBusinessF', $timeBusinessF, PDO::PARAM_STR);
+            $aboutbusiness->bindParam(':perfil_facebook', $data['facebook'], PDO::PARAM_STR);
+            $aboutbusiness->bindParam(':url_facebook', $data['urlFacebook'], PDO::PARAM_STR);
+            $aboutbusiness->bindParam(':email', $data['emailBusiness'], PDO::PARAM_STR);
+            $aboutbusiness->bindParam(':url_googlemaps', $data['urlMaps'], PDO::PARAM_STR);
+            $aboutbusiness->bindParam(':comments', $data['commentsBusiness'], PDO::PARAM_STR);
+            $aboutbusiness->bindParam(':phones_business', $phones, PDO::PARAM_STR);
+            $aboutbusiness->bindParam(':days_available', $days_available, PDO::PARAM_STR);
+            $aboutbusiness->bindParam(':how_know_us', $how_know_us, PDO::PARAM_STR);
+            $aboutbusiness->bindParam(':frequency', $data['frequencyBusiness'], PDO::PARAM_STR);
+            $aboutbusiness->bindParam(':dateRegistration', $dateRegistration, PDO::PARAM_STR);
 
-            $aboutBusiness->bindParam(':phone_business', $data["phoneBusiness"], PDO::PARAM_STR);
+            $aboutbusiness->bindParam(':phone_business', $data["phoneBusiness"], PDO::PARAM_STR);
 
             
             
@@ -225,7 +226,7 @@
             $businessAddress->bindParam(':local', $data['addressLocal'], PDO::PARAM_STR);
 
 
-            if($business->execute() && $aboutBusiness->execute() && $businessAddress->execute()){
+            if($business->execute() && $aboutbusiness->execute() && $businessAddress->execute()){
                 if(!empty($imageDataBase["profile_photo"])){
                     $imageBackup = new Helper();
                     $imageBackup->deleteBackup($imageDataBase["profile_photo"]);
@@ -320,7 +321,7 @@
             $connection = Connection::connect();
             $connection->beginTransaction();
 
-            $deleteContact = $connection->prepare("delete from aboutBusiness where id_business = :id_business");
+            $deleteContact = $connection->prepare("delete from aboutbusiness where id_business = :id_business");
             $deleteContactAddres = $connection->prepare("delete from business_address where id_business = :id_business");
             $deleteContactAbout = $connection->prepare("delete from friends_family_business where id_business = :id_business");
             $deleteTickets = $connection->prepare("delete from referenced_business where id_business = :id_business");
@@ -369,7 +370,7 @@
             profile_photo, email, 
             phone_business
             from business
-            INNER JOIN aboutBusiness about on about.id_business = business.id_business ".$where." limit :base, :tope    ");
+            INNER JOIN aboutbusiness about on about.id_business = business.id_business ".$where." limit :base, :tope    ");
     
             
             $searchBusiness->bindParam(":base", $base, PDO::PARAM_INT);
@@ -401,7 +402,7 @@
 
             $showBusiness = Connection::connect() -> prepare("select commercial_name
             from business
-            INNER JOIN aboutBusiness about on about.id_business = business.id_business");
+            INNER JOIN aboutbusiness about on about.id_business = business.id_business");
 
             $showBusiness -> execute();        
             
@@ -409,6 +410,21 @@
         
             return $request;
 
+        }
+
+        public static function modelContactsBusiness($id_business) {
+            $contactsBusiness = Connection::connect() -> prepare("select c.id_contact, c.name_contact, c.second_surname, c.first_surname, ac.profile_photo from contacts c
+            inner join contact_business cb on c.id_contact = cb.id_contact 
+            inner join about_contact ac on c.id_contact = ac.id_contact
+            where cb.id_business = :id_business;");
+    
+            $contactsBusiness->bindParam(":id_business", $id_business, PDO::PARAM_INT);
+
+            $contactsBusiness -> execute();
+            
+            $request = $contactsBusiness -> fetchAll(PDO::FETCH_ASSOC);
+        
+            return $request;
         }
 
     }

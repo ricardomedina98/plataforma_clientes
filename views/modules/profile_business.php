@@ -208,11 +208,19 @@ $addressAlt -> controllerAddAddressAlt();
                 <div class="tab-content">
 
                     <div class="active tab-pane" id="informacion">
-                        <div class="box box-primary">
 
-                            <div class="box-body">
-                                <?php
-                                    $dateCurrent = date('Y-m-d');
+                    <?
+
+                        if (!empty($requestBusiness["timeBusinessI"]) && !empty($requestBusiness["timeBusinessF"]) 
+                        && !empty($requestBusiness["days_available"]) && !empty($requestBusiness["how_know_us"])
+                        && !empty($requestBusiness["business_antiquity"]) && !empty($requestBusiness["customer_antiquity"])) {
+
+                            echo '
+                            <div class="box box-primary">
+
+                                <div class="box-body">';
+
+                                $dateCurrent = date('Y-m-d');
                                     if(!empty($requestBusiness["timeBusinessI"]) || !empty($requestBusiness["timeBusinessF"])){
                                         echo '<h4 class="information">Horario</h4><span>' . Helper::convertToAMPM($requestBusiness["timeBusinessI"]).' a '.Helper::convertToAMPM($requestBusiness["timeBusinessF"]).'</span>';
                                     }
@@ -231,11 +239,88 @@ $addressAlt -> controllerAddAddressAlt();
 
                                     if(!empty($requestBusiness["customer_antiquity"])){
                                         echo '<h4 class="information">Antiguedad como cliente</h4><span>'.(Helper::timeAgo($requestBusiness["customer_antiquity"], $dateCurrent)).'</span>';
-                                    }
-                                    
-                                ?>
-                            </div>
+                                    } 
 
+                            echo '
+                                </div>
+
+                            </div>
+    ';
+                        }
+
+                    ?>
+
+
+                        <div class="box box-primary">
+
+                            <div class="box-body">
+
+                                <div class="box-header with-border">
+
+                                    <h3 class="box-title">Contactos</h3>
+
+                                </div>
+
+                                <div class="box-body no-padding">
+
+                                    <ul class="users-list clearfix">
+
+                                        <?php
+
+                                            $contacts = BusinessController::controllerContactsBusiness($requestBusiness['id_business']);
+
+                                            foreach ($contacts as $key => $contact) {
+                                                echo '
+                                                <li class="col-lg-2 col-md-3 col-sm-6 col-xs-12" style="height: 240px;">
+                                                <a href="'.$url.'contactos/'.$contact['id_contact'].'"> <img src="'.$url.$contact['profile_photo'].'" alt="User Image" style="width: 150px; height: 150px;"></a>
+                                                ';
+
+                                                if(!empty($contact['name_contact'] || $contact['first_surname'] || $contact['second_surname'])){
+                                                    echo '<a class="users-list-name" href="'.$url.'contactos/'.$contact['id_contact'].'">'.$contact['name_contact'].' '.$contact['first_surname'].' '.$contact['second_surname'].'</a>';
+                                                } else {
+                                                    echo '<a class="users-list-name" href="'.$url.'contactos/'.$contact['id_contact'].'">Nombre Desconocido</a>';
+                                                }
+
+                                                if(!empty($contact['mobile_phone'])){
+                                                    echo '
+                                                    <span class="fa fa-phone fa-fw text-muted" data-toggle="tooltip"></span>
+                                                    <span class="text-muted small">'.$contact['mobile_phone'].'</span>
+                                                    ';
+                                                } else {
+                                                    echo '
+                                                    <span class="fa fa-phone fa-fw text-muted" data-toggle="tooltip"></span>
+                                                    <span class="text-muted small">Desconocido</span>
+                                                    ';
+                                                }
+
+                                                if(!empty($contact['email'])){
+                                                    echo '
+                                                    <br>
+                                                    <span class="fa fa-envelope fa-fw text-muted" data-toggle="tooltip"></span>
+                                                    <span class="text-muted small text-truncate">'.$contact['email'].'</span>
+
+                                                    ';
+                                                } else {
+                                                    echo '
+                                                    <br>
+                                                    <span class="fa fa-envelope fa-fw text-muted" data-toggle="tooltip"></span>
+                                                    <span class="text-muted small">Desconocido</span>
+                                                    ';
+                                                }
+                                                echo '
+                                                </li>
+                                                ';
+                                                
+                                            }                   
+
+                                        ?>
+                                    
+                                    </ul>
+                                
+                                </div>
+
+                            </div>
+                        
                         </div>
             
 

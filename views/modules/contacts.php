@@ -80,8 +80,9 @@
                                             <option value="searchSurNames">Apellidos</option>
                                             <option value="searchAlias">Alias</option>
                                             <option value="searchEmail">Correo</option>
-
+                                            <option value="searchPhone">Telefono</option>
                                         </select>
+                                        
                                     </div>
 
                                     <div class="col-sm-2">

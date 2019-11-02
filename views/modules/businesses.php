@@ -79,6 +79,7 @@
                                             <option value="searchComercialName">Nombre Comercial</option>
                                             <option value="searchNameFiscal">Nombre Fiscal</option>                                            
                                             <option value="searchEmail">Correo</option>
+                                            <option value="searchPhone">Telefono</option>
 
                                         </select>
                                     </div>

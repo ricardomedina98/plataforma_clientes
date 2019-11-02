@@ -277,7 +277,7 @@ class ContactModel{
         profile_photo, email, 
         phones_business, dateRegistration
         from business
-        INNER JOIN aboutBusiness about on about.id_business = business.id_business
+        INNER JOIN aboutbusiness about on about.id_business = business.id_business
         INNER JOIN contact_business cont_bus on cont_bus.id_business = business.id_business where cont_bus.id_contact = :id_contact");
 
         $stmt->BindParam(":id_contact", $value);

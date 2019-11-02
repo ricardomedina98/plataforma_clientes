@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
     <!--LightGallery-->
-    <link rel="stylesheet" type="text/css" href="<?php echo $url;?>views/bower_components/lightGallery/dist/css/lightGallery.css" /> 
+    <link rel="stylesheet" type="text/css" href="<?php echo $url;?>views/bower_components/lightGallery/dist/css/lightgallery.css" /> 
 
     <!--jQuery-File-Upload-->
     <link rel="stylesheet" type="text/css" href="<?php echo $url;?>views/css/plugins/fileupload/jquery.fileupload.css" />
@@ -314,15 +314,6 @@
                     
                     
                 }
-                
-
-                /*JSON FILES*/
-                elseif($value1 == "jsonFiles") {
-                    
-                    include "modules/json_files/json_files.php";
-
-                }
-                
                 
                 elseif($value1=="salir") {
 
