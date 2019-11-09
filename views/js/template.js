@@ -104,7 +104,7 @@
 
 
 function getURL(){
-    return "http://192.168.88.118/plataforma_clientes/";
+    return "http://127.0.0.1/plataforma_clientes/";
 }
 
 

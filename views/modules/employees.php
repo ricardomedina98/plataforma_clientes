@@ -11,7 +11,7 @@
 
         <h1>
         
-            Contratos
+            Empleados
 
         </h1>
 
@@ -19,7 +19,7 @@
         
             <li><a href="<?php echo $url; ?>inicio"><i class="fa fa-dashboard"></i> Inicio</a></li>
 
-            <li class="active">Contratos</li>
+            <li class="active">Empleados</li>
 
         </ol>
 
@@ -63,7 +63,7 @@
                     <th>Apellido Paterno</th>
                     <th>Apellido Materno</th>
                     <th>Vencimiento del contrato</th>
-                    <th>Descargas</th>
+                    <!-- <th>Descargas</th> -->
                     <th>Acciones</th>
 
                 </tr>
@@ -101,22 +101,22 @@
                                 } else {
                                     echo '<td><span>'.$dateName.' <span style="font-weight: bold;">(Dias Restantes '.$date['daysRemaining'].') </span></span></td>';
                                 }
-                                echo '
-                                <td>
+                                // echo '
+                                // <td>
                     
-                                    <div class="row">
+                                //     <div class="row">
         
-                                        <div class="col-12 text-center">
+                                //         <div class="col-12 text-center">
                                                 
-                                            <button class="btn btn-success btnDownloadContract" style="width: 60px" idDownloadContract="'.$valueEmpl['id_employee'].'" data-toggle="modal" data-target="#modalViewEmployee"><i class="fa fa-download"></i></button>
+                                //             <button class="btn btn-success btnDownloadContract" style="width: 60px" idDownloadContract="'.$valueEmpl['id_employee'].'" data-toggle="modal" data-target="#modalViewEmployee"><i class="fa fa-download"></i></button>
 
-                                            <button class="btn btn-danger btnDownloadContractRed" style="width: 60px" idDownloadContract="'.$valueEmpl['id_employee'].'" data-toggle="modal" data-target="#modalViewEmployee"><i class="fa fa-download"></i></button>                                            
+                                //             <button class="btn btn-danger btnDownloadContractRed" style="width: 60px" idDownloadContract="'.$valueEmpl['id_employee'].'" data-toggle="modal" data-target="#modalViewEmployee"><i class="fa fa-download"></i></button>                                            
                                         
-                                        </div>
+                                //         </div>
                                         
-                                     </div>  
+                                //      </div>  
                     
-                                </td>';
+                                // </td>';
                                 
                                 echo '
                                 <td>
@@ -125,9 +125,11 @@
         
                                         <div class="col-12 text-center">                                                                                            
 
-                                            <button class="btn btn-warning btnEditEmployee" style="width: 60px" idEditEmployee="'.$valueEmpl['id_employee'].'" data-toggle="modal" data-target="#modalEditEmployee"><i class="fa fa-pencil"></i></button>
+                                            <button class="btn btn-primary btnShowFormats" style="width: 40px; margin-right: 10px;" idShowFormats="'.$valueEmpl['id_employee'].'" data-toggle="modal" data-target="#modalShowFormats"><i class="fa fa-file-text"></i></button>
+
+                                            <button class="btn btn-warning btnEditEmployee" style="width: 40px; margin-right: 10px;" idEditEmployee="'.$valueEmpl['id_employee'].'" data-toggle="modal" data-target="#modalEditEmployee"><i class="fa fa-pencil"></i></button>
                             
-                                            <button class="btn btn-danger btnDeleteEmployee" style="width: 60px" idDeleteEmployee="'.$valueEmpl['id_employee'].'"><i class="fa fa-times"></i></button>
+                                            <button class="btn btn-danger btnDeleteEmployee" style="width: 40px; margin-right: 10px;" idDeleteEmployee="'.$valueEmpl['id_employee'].'"><i class="fa fa-times"></i></button>
                                         
                                         </div>
                                         
@@ -305,11 +307,11 @@
 
                                 <label for="addressStreet" class="col-sm-3 control-label"></label>
                                 
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <input class="form-control" id="addressCityA" name="addressCityA" placeholder="Ciudad" type="text" autocomplete="off">
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <input class="form-control" id="addressStateA" name="addressStateA" placeholder="Estado" type="text" autocomplete="off">
                                 </div> 
 
@@ -370,7 +372,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Cerrar</button>
-                <button type="submit" id="addEmployee" class="btn btn-primary">Agregar</button>
+                <button type="submit" id="addEmployee" class="btn btn-primary">Agregar empleado</button>
             </div>
         </div>
     </div>
@@ -436,7 +438,7 @@
                             <div class="form-group required">
                                 <label for="sexEmployeeEdit" class="col-sm-3 control-label">Sexo</label>
                                 
-                                <select class="col-sm-3" id="sexEmployeeEdit" name="sexEmployee" title="Selecciona un sexo">                                    
+                                <select class="col-sm-3" id="sexEmployeeEdit" name="sexEmployee" title="Seleccione un sexo">                                    
                                     <option value="H">HOMBRE</option>
                                     <option value="M">MUJER</option>                                    
                                 </select>
@@ -528,11 +530,11 @@
 
                                 <label for="addressCityAEdit" class="col-sm-3 control-label"></label>
                                 
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <input class="form-control" id="addressCityAEdit" name="addressCityA" placeholder="Ciudad" type="text" autocomplete="off">
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <input class="form-control" id="addressStateAEdit" name="addressStateA" placeholder="Estado" type="text" autocomplete="off">
                                 </div> 
 
@@ -604,3 +606,83 @@
         </div>
     </div>
 </div>
+
+<!-- MODAL FORMATOS EMPLEADOS -->
+<div class="modal fade" tabindex="-1" id="modalShowFormats" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modelTitleId">Formatos</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="col-sm-12">
+                        <form id="formFormatEmployee" class="form-horizontal" method="post" enctype=multipart/form-data>
+                            <div class="box">
+                                <div class="box-header">
+                                <h3 class="box-title">Striped Full Width Table</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body no-padding">
+                                <table class="table table-striped">
+                                    <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Task</th>
+                                    <th>Progress</th>
+                                    <th style="width: 40px">Label</th>
+                                    </tr>
+                                    <tr>
+                                    <td>1.</td>
+                                    <td>Update software</td>
+                                    <td>
+                                        <div class="progress progress-xs">
+                                        <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-red">55%</span></td>
+                                    </tr>
+                                    <tr>
+                                    <td>2.</td>
+                                    <td>Clean database</td>
+                                    <td>
+                                        <div class="progress progress-xs">
+                                        <div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-yellow">70%</span></td>
+                                    </tr>
+                                    <tr>
+                                    <td>3.</td>
+                                    <td>Cron job running</td>
+                                    <td>
+                                        <div class="progress progress-xs progress-striped active">
+                                        <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-light-blue">30%</span></td>
+                                    </tr>
+                                    <tr>
+                                    <td>4.</td>
+                                    <td>Fix and squish bugs</td>
+                                    <td>
+                                        <div class="progress progress-xs progress-striped active">
+                                        <div class="progress-bar progress-bar-success" style="width: 90%"></div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge bg-green">90%</span></td>
+                                    </tr>
+                                </table>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

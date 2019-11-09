@@ -49,7 +49,7 @@
             }
 
             if($_SESSION['type_user'] == 'Recursos Humanos' || $_SESSION['type_user'] == 'Administrador'){
-                echo '<li><a href="'.$url.'contratos/"><i class="fa fa-file-text" aria-hidden="true"></i> <span>Contratos</span></a></li>';
+                echo '<li><a href="'.$url.'empleados/"><i class="fa fa-file-text" aria-hidden="true"></i> <span>Empleados</span></a></li>';
             }?>
         
 

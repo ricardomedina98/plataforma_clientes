@@ -298,7 +298,7 @@
                     
                 }
 
-                elseif($value1=="contratos" && $_SESSION['type_user'] == 'Administrador' || $_SESSION['type_user'] == 'Recursos Humanos') {
+                elseif($value1=="empleados" && $_SESSION['type_user'] == 'Administrador' || $_SESSION['type_user'] == 'Recursos Humanos') {
 
                     $value3 = explode("-", $value2);
                     if($value3[0] == "descargar"){
@@ -309,7 +309,7 @@
                             include "modules/employee_pdf.php";
                         }
                     } else {
-                        include "modules/contracts.php";
+                        include "modules/employees.php";
                     }
                     
                     
@@ -364,7 +364,7 @@
 <script src="<?php echo $url;?>views/js/business.js"></script>
 <script src="<?php echo $url;?>views/js/profileOwner.js"></script>
 <script src="<?php echo $url;?>views/js/users.js"></script>
-<script src="<?php echo $url;?>views/js/contracts.js"></script>
+<script src="<?php echo $url;?>views/js/employees.js"></script>
 
 
 

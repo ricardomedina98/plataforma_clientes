@@ -89,7 +89,7 @@ $(document).ready(function(){
 
 function loadSexEmployee(sexEmployee, civilStatus){  
 
-        var value = $(sexEmployee).val();        
+        var value = $(sexEmployee).val();    
 		console.log('TCL: loadSexEmployee -> value', value)
         var civil_status = $(civilStatus);
         $(civil_status).empty();
@@ -143,6 +143,8 @@ $("#formEditEmployee").on( "submit", function( event ) {
 $(".btnEditEmployee").click(function (){
 
     var id_employee = $(this).attr("idEditEmployee");	 
+
+    console.log(id_employee);
 
     $("#id_employee").val(id_employee);
     
@@ -243,7 +245,7 @@ $(".btnDeleteEmployee").click(function (e){
                 success:function(respuesta){  
 					console.log("​respuesta", respuesta)
                                         
-                    location.href = getURL() + "contratos/";
+                    location.href = getURL() + "empleados/";
                     
                 }
         
@@ -257,5 +259,5 @@ $(".btnDownloadContract ").click(function (){
 
     var urlWeb = getURL();
     var id_employee = $(this).attr("idDownloadContract");	
-    window.open(urlWeb + "contratos/descargar-contrato-"+id_employee);
+    window.open(urlWeb + "empleados/descargar-contrato-"+id_employee);
 });

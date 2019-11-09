@@ -57,6 +57,9 @@ class ModelContract{
             $createEmpInfoContract -> bindParam(":punctuality_award", $data['punctuality_award'], PDO::PARAM_STR);
             $createEmpInfoContract -> bindParam(":attendance_prize", $data['attendance_prize'], PDO::PARAM_STR);            
 
+            $createEmpAddressBirthbool = $createEmpAddressBirth -> execute();
+            $createEmpAddressbool = $createEmpAddress -> execute();
+            $createEmpInfoContractbool = $createEmpInfoContract -> execute();
             if($createEmpAddressBirth -> execute() && $createEmpAddress -> execute() && $createEmpInfoContract -> execute()){
                 $connection->commit();
                 return true;
@@ -86,26 +89,10 @@ class ModelContract{
 
     public static function modelShowOneEmployees($id_employee){
 
-        $showEmployees = Connection::connect() -> prepare("
-        
-        SELECT empl.id_employee, name_employee, first_surname, second_surname, sex_employee, position_employee, 
-		date_birthday_empl, civil_status,nss_employee, num_employee, status_employee,
-        
-        placeCityBirthday, placeStateBirthday,
-        
-        state, city, street, colony, postal_code,
-        
-        start_contract, end_contract, contract_created, weekly_balance, punctuality_award, attendance_prize
-        
-        FROM employees empl inner join addressBirthday_employee Baddress on empl.id_employee = Baddress.id_employee
-            inner join employee_address emplAddress on empl.id_employee = emplAddress.id_employee 
-            inner join employees_contract_info infoContract on empl.id_employee = infoContract.id_employee
-            WHERE status_employee = 'A' AND empl.id_employee = :id_employee"
-        
-        );
+        $showEmployees = Connection::connect() -> prepare("select * from view_employees_a where id_employee = :id_employee");
 
 
-        $showEmployees -> bindParam(":id_employee", $id_employee, PDO::PARAM_STR);        
+        $showEmployees -> bindParam(":id_employee", $id_employee, PDO::PARAM_INT);        
 
         $showEmployees -> execute();    
                     
@@ -123,7 +110,7 @@ class ModelContract{
         position_employee = :position_employee, date_birthday_empl = :date_birthday_empl, civil_status = :civil_status, nss_employee = :nss_employee, 
         num_employee = :num_employee WHERE id_employee = :id_employee");
         
-        $updateEmpAddressBirth = $connection -> prepare("UPDATE addressBirthday_employee SET placeCityBirthday = :placeCityBirthday, placeStateBirthday = :placeStateBirthday WHERE id_employee = :id_employee");
+        $updateEmpAddressBirth = $connection -> prepare("UPDATE addressbirthday_employee SET placeCityBirthday = :placeCityBirthday, placeStateBirthday = :placeStateBirthday WHERE id_employee = :id_employee");
 
         $updateEmpAddress = $connection -> prepare("UPDATE employee_address SET state = :state, city = :city, street = :street, colony = :colony, postal_code = :postal_code WHERE id_employee = :id_employee;");
 
