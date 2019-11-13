@@ -1,8 +1,8 @@
 <?php
 
-    $addEmployee = ContractController::controllerCreateEmployee();    
+    $addEmployee = EmployeeController::controllerCreateEmployee();    
 
-    $updateEmployee = ContractController::controllerUpdateEmployee();
+    $updateEmployee = EmployeeController::controllerUpdateEmployee();
 
 ?>
 <div class="content-wrapper">
@@ -74,7 +74,7 @@
 
                 <?php
 
-                    $resultContracts = ContractController::controllerShowEmployees();                                        
+                    $resultContracts = EmployeeController::controllerShowEmployees();                                        
                                         
                     foreach ($resultContracts as $key => $valueEmpl) {
                         echo '
@@ -174,21 +174,11 @@
                         <form id="formAddEmployee" class="form-horizontal" method="post" enctype=multipart/form-data>
                             
 
-                            <input type="hidden" name="AddEmployee">                            
-                            
-                            <div class="form-group required">
-                                                                
-                                <label for="contract_created" class="col-sm-3 control-label">Fecha Creacion de Contrato</label>
-                                
-                                <div class="col-sm-3">
-                                    <input class="form-control " id="contract_created" name="contract_created" placeholder="Creacion de Contrato" type="text" autocomplete="off">
-                                </div>                                
-
-                            </div>
+                            <input type="hidden" name="AddEmployee">
                             
                             <div class="form-group">
 
-                                <label for="num_employee" class="col-sm-3 control-label">Numero de Empleado</label>
+                                <label for="num_employee" class="col-sm-3 control-label">Numero</label>
 
                                 <div class="col-sm-4">
                                     <input class="form-control" id="num_employee" name="num_employee" placeholder="Numero de Empleado" type="text" autocomplete="off">
@@ -237,7 +227,7 @@
                             </div>
 
                             <div class="form-group required">
-                                <label for="position_employee" class="col-sm-3 control-label">NSS de Empleado</label>
+                                <label for="position_employee" class="col-sm-3 control-label">NSS</label>
 
                                 <div class="col-sm-4">
                                     <input class="form-control" id="nss_employee" name="nss_employee" placeholder="NSS de Empleado" type="text" autocomplete="off">                                    
@@ -260,107 +250,17 @@
                             </div>
                             
 
+
                             <div class="form-group required">
-                                <label for="addressStatePlaceBirth" class="col-sm-3 control-label">Lugar de Nacimiento</label>
+                                <label for="position_employee" class="col-sm-3 control-label">Puesto</label>
 
                                 <div class="col-sm-4">
-                                    <input class="form-control" id="addressCityPlaceBirth" name="addressCityPlaceBirth" placeholder="Ciudad" type="text" autocomplete="off">
+                                    <input class="form-control" id="category_employee" name="category_employee" placeholder="Categoria" type="text" autocomplete="off">
                                 </div>
-
-                                <div class="col-sm-3">
-                                    <input class="form-control" id="addressStatePlaceBirth" name="addressStatePlaceBirth" placeholder="Estado" type="text" autocomplete="off">
-                                </div>                                                                
-
-                            </div>
-                            
-                            <br>
-
-                            <div class="form-group required">
-                                <label for="position_employee" class="col-sm-3 control-label">Puesto del Empleado</label>
 
                                 <div class="col-sm-4">
                                     <input class="form-control" id="position_employee" name="position_employee" placeholder="Puesto del Empleado" type="text" autocomplete="off">
                                 </div>
-                            </div>
-
-                            <br>
-
-                            <div class="form-group required">
-
-                                <label for="addressStreet" class="col-sm-3 control-label">Direccion</label>
-
-                                <div class="col-sm-3">
-                                    <input class="form-control" id="addressStreet" name="addressStreet" placeholder="Calle" type="text" autocomplete="off">
-                                </div>
-                
-                                <div class="col-sm-4">
-                                    <input class="form-control" id="addressColony" name="addressColony" placeholder="Colonia" type="text" autocomplete="off">
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <input class="form-control" id="addressCodePostal" name="addressCodePostal" placeholder="Codigo Postal" type="text" autocomplete="off">
-                                </div>
-
-                            </div>
-
-                            <div class="form-group">
-
-                                <label for="addressStreet" class="col-sm-3 control-label"></label>
-                                
-                                <div class="col-sm-4">
-                                    <input class="form-control" id="addressCityA" name="addressCityA" placeholder="Ciudad" type="text" autocomplete="off">
-                                </div>
-
-                                <div class="col-sm-4">
-                                    <input class="form-control" id="addressStateA" name="addressStateA" placeholder="Estado" type="text" autocomplete="off">
-                                </div> 
-
-                            </div>
-
-                            <br>
-
-                            <div class="form-group required">
-                            
-                                <label for="addressStreet" class="col-sm-3 control-label">Fecha y Hora de Contrato</label>
-                                
-                                <div class="col-sm-5">
-                                    <input class="form-control" type="text" id="dateTimeContract" name="dateTimeContract" value="01/01/2018 - 01/15/2018" />
-                                </div>
-
-                                
-                            </div>
-
-                            <br>
-
-                            <div class="form-group required">
-                            
-                                <label for="addressStreet" class="col-sm-3 control-label">Sueldo Semanal</label>
-                                
-                                <div class="col-sm-3">
-                                    <input class="form-control" id="monthly_balance" name="monthly_balance" placeholder="Sueldo Semanal" type="text" autocomplete="off">
-                                </div>
-
-                            </div>
-
-
-                            <div class="form-group required">
-                            
-                                <label for="addressStreet" class="col-sm-3 control-label">Premio de Puntualidad</label>
-                                
-                                <div class="col-sm-3">
-                                    <input class="form-control" id="punctuality_award" name="punctuality_award" placeholder="Premio de Puntualidad" type="text" autocomplete="off">
-                                </div>
-
-                            </div>
-
-                            <div class="form-group required">
-                            
-                                <label for="addressStreet" class="col-sm-3 control-label">Premio de Asistencia</label>
-                                
-                                <div class="col-sm-3">
-                                    <input class="form-control" id="attendance_prize" name="attendance_prize" placeholder="Premio de Asistencia" type="text" autocomplete="off">
-                                </div>
-
                             </div>
 
                         </form>

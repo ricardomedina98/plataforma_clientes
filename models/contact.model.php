@@ -477,8 +477,91 @@ class ContactModel{
 
     }
 
-    public static function modelDeleteOwner($data){
+    public static function modelAddProduct($data) {
+        $connection = Connection::connect();
 
+        $addProduct = $connection->prepare("insert into contact_products(id_contact, name_product, quantity_total, quantity_unitary) 
+        values (:id_contact, :name_product, :quantity_total, :quantity_unitary)");
+
+        $addProduct -> bindParam(":id_contact", $data['id_contact'], PDO::PARAM_INT);
+
+        $addProduct -> bindParam(":name_product", $data['name_product'], PDO::PARAM_STR);
+        $addProduct -> bindParam(":quantity_total", $data['quantity_total'], PDO::PARAM_STR);
+        $addProduct -> bindParam(":quantity_unitary", $data['quantity_unitary'], PDO::PARAM_STR);
+
+        if($addProduct -> execute()){            
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function modelShowProducts($id_contact) {
+
+        $connection = Connection::connect();
+
+        $showProducts = $connection->prepare("select id_contact_product, id_contact, name_product, quantity_total, quantity_unitary from contact_products where id_contact = :id_contact");
+
+        $showProducts -> bindParam(":id_contact", $id_contact, PDO::PARAM_INT);
+
+        $showProducts->execute();
+
+        $showProducts = $showProducts->fetchAll(PDO::FETCH_ASSOC);
+
+        return $showProducts;
+    }
+
+    public static function modelShowOneProduct($id_contact_product) {
+
+        $connection = Connection::connect();
+
+        $showProducts = $connection->prepare("select id_contact_product, id_contact, name_product, quantity_total, quantity_unitary from contact_products where id_contact_product = :id_contact_product");
+
+        $showProducts -> bindParam(":id_contact_product", $id_contact_product, PDO::PARAM_INT);
+
+        $showProducts->execute();
+
+        $showProducts = $showProducts->fetch(PDO::FETCH_ASSOC);
+
+        return $showProducts;
+    }
+
+    public static function modelUpdateProduct($data) {
+
+        $connection = Connection::connect();
+
+        $addProduct = $connection->prepare("update contact_products 
+            set name_product = :name_product, quantity_total = :quantity_total, quantity_unitary = :quantity_unitary where id_contact_product = :id_contact_product");
+
+        $addProduct -> bindParam(":id_contact_product", $data['id_contact_product'], PDO::PARAM_INT);
+
+        $addProduct -> bindParam(":name_product", $data['name_product'], PDO::PARAM_STR);
+        $addProduct -> bindParam(":quantity_total", $data['quantity_total'], PDO::PARAM_STR);
+        $addProduct -> bindParam(":quantity_unitary", $data['quantity_unitary'], PDO::PARAM_STR);
+
+        if($addProduct -> execute()){            
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function modelDeleteProduct($id_contact_product){
+        $connection = Connection::connect();
+
+        $deleteProduct = $connection->prepare("delete from contact_products where id_contact_product = :id_contact_product");
+
+        $deleteProduct -> bindParam(":id_contact_product", $id_contact_product, PDO::PARAM_INT);
+
+        $deleteProduct->execute();
+
+        $rowsAffected = $deleteProduct->rowCount();
+
+        if($rowsAffected > 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

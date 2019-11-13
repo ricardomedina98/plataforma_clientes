@@ -1,6 +1,6 @@
 <?php
     
-    class ContractController{
+    class EmployeeController{
 
         public static function controllerCreateEmployee(){
 
@@ -11,9 +11,7 @@
                              'civil_status' => $_POST['civil_status'], 'nss_employee' => $_POST['nss_employee'], 
                              'num_employee' => $_POST['num_employee'],
                              'birthdayEmployee' => Helper::fixDate($_POST['birthdayEmployee']), 
-                             
-                             'addressCityPlaceBirth' => $_POST['addressCityPlaceBirth'],                             
-                             'addressStatePlaceBirth' => $_POST['addressStatePlaceBirth'], 
+
                              
                              'position_employee' => $_POST['position_employee'],
 
@@ -30,7 +28,7 @@
                              'attendance_prize' => $_POST['attendance_prize']
                 );
                 
-                $request = ModelContract::modelCreateEmployee($data);      
+                $request = EmployeeModel::modelCreateEmployee($data);      
                 
                 return $request;
             }
@@ -68,7 +66,7 @@
                             'attendance_prize' => $_POST['attendance_prize']
                 );
                 
-                $request = ModelContract::modelUpdateEmployee($data);  
+                $request = EmployeeModel::modelUpdateEmployee($data);  
                 
                 return $request;
             }
@@ -76,7 +74,7 @@
 
         public static function controllerShowEmployees(){
 
-            $request = ModelContract::modelShowEmployees();
+            $request = EmployeeModel::modelShowEmployees();
 
             return $request;
 
@@ -84,7 +82,7 @@
 
         public static function controllerShowOneEmployee($id_employee){
 
-            $request = ModelContract::modelShowOneEmployees($id_employee);
+            $request = EmployeeModel::modelShowOneEmployees($id_employee);
 
             $request = array('id_employee' => $request['id_employee'], 
                              'nameEmployee' => $request['name_employee'], 'surName1Employee' => $request["first_surname"],
@@ -121,7 +119,7 @@
 
         public static function controllerShowOneEmployeePDF($id_employee){
 
-            $request = ModelContract::modelShowOneEmployees($id_employee);
+            $request = EmployeeModel::modelShowOneEmployees($id_employee);
 
             $request = array('id_employee' => $request['id_employee'], 
                              'nameEmployee' => $request['name_employee'], 'surName1Employee' => $request["first_surname"],
@@ -158,7 +156,7 @@
 
         public static function controllerDeleteEmployee($id_employee){
 
-            $request = ModelContract::modelDeleteEmployee($id_employee);
+            $request = EmployeeModel::modelDeleteEmployee($id_employee);
             return $request;
 
         }

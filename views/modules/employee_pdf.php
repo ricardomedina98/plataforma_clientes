@@ -7,7 +7,7 @@
         ob_clean();
         ob_start();        
         error_reporting(E_ALL | E_STRICT);
-        $employee = ContractController::controllerShowOneEmployeePDF($idEmployeePDF);
+        $employee = EmployeeController::controllerShowOneEmployeePDF($idEmployeePDF);
         
         include 'pdf_html/contract_employee_start.php';
         

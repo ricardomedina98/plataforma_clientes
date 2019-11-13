@@ -225,6 +225,57 @@ class ContactController{
 
     }
 
+    public static function controllerAddProduct() {
+
+        if(isset($_POST['name_product']) && isset($_POST["quantity_unitary"]) && isset($_POST["quantity_total"]) && isset($_POST["id_contact"])){
+
+            $data = array(
+                "id_contact" => $_POST["id_contact"],
+                "name_product" => $_POST['name_product'], 
+                "quantity_unitary" => $_POST['quantity_unitary'], 
+                "quantity_total" => $_POST['quantity_total']
+            );
+
+            $request = ContactModel::modelAddProduct($data);
+            return $request;
+
+        }
+    }
+
+    public static function controllerShowProducts($id_contact) {
+
+        $request = ContactModel::modelShowProducts($id_contact);
+
+        return $request;
+    }
+
+    public static function controllerUpdateProduct() {
+
+        if(isset($_POST['nameEditproduct']) && isset($_POST["quantityEditunitary"]) && isset($_POST["quantityEditTotal"]) && isset($_POST["id_contact_product"])){
+
+            $data = array(
+                "id_contact_product" => $_POST["id_contact_product"],
+                "name_product" => $_POST['nameEditproduct'], 
+                "quantity_unitary" => $_POST['quantityEditunitary'], 
+                "quantity_total" => $_POST['quantityEditTotal']
+            );
+
+            $request = ContactModel::modelUpdateProduct($data);
+            return $request;
+
+        }
+        
+    }
+
+    public static function controllerDeleteProduct($id_contact_product) {
+
+        $request = ContactModel::modelDeleteProduct($id_contact_product);
+
+        return $request;
+    }
+
+
+
     
     
 
@@ -268,6 +319,13 @@ class ContactController{
         
     }
 
+    public static function controllerShowOneProduct($id_contact_product) {
+
+        $request = ContactModel::modelShowOneProduct($id_contact_product);
+
+        return $request;
+
+    }
     
 
 }

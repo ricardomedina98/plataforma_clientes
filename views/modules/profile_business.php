@@ -209,7 +209,7 @@ $addressAlt -> controllerAddAddressAlt();
 
                     <div class="active tab-pane" id="informacion">
 
-                    <?
+                    <?php
 
                         if (!empty($requestBusiness["timeBusinessI"]) && !empty($requestBusiness["timeBusinessF"]) 
                         && !empty($requestBusiness["days_available"]) && !empty($requestBusiness["how_know_us"])
@@ -244,8 +244,7 @@ $addressAlt -> controllerAddAddressAlt();
                             echo '
                                 </div>
 
-                            </div>
-    ';
+                            </div>';
                         }
 
                     ?>
@@ -271,7 +270,7 @@ $addressAlt -> controllerAddAddressAlt();
 
                                             foreach ($contacts as $key => $contact) {
                                                 echo '
-                                                <li class="col-lg-2 col-md-3 col-sm-6 col-xs-12" style="height: 240px;">
+                                                <li class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                                                 <a href="'.$url.'contactos/'.$contact['id_contact'].'"> <img src="'.$url.$contact['profile_photo'].'" alt="User Image" style="width: 150px; height: 150px;"></a>
                                                 ';
 

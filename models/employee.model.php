@@ -2,7 +2,7 @@
 
 require_once "connection.php";
 
-class ModelContract{
+class EmployeeModel{
 
     public static function modelCreateEmployee($data){
 

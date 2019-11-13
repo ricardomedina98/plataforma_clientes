@@ -16,10 +16,7 @@ $("#fileupload")
     var jsonData = { id_type: id_type, id_user: id_user };
 
     jsonData["Data"] = array;
-
     
-
-    ("use strict");
 
     $("#fileupload").fileupload({
       uploadTemplateId: "template-upload",
@@ -660,3 +657,98 @@ $(".btnDeleteIncident").click(function(e) {
       }
     });
   });
+
+
+  $("#addProduct").click(function() {
+    var name_product = $("#name_product").val();
+    var quantity_unitary = $("#quantity_unitary").val();
+    var quantity_total = $("#quantity_total").val();
+
+    if (
+        name_product != "" &&
+        quantity_unitary != "" ||
+        quantity_total != ""
+    ) {
+        $("#formAddProducts").submit();
+    } else {
+        return false;
+    }
+});
+
+$(".btnEditProduct").click(function(){
+    
+  let urlWeb = getURL()+"ajax/contact.ajax.php";
+  let id_contact_product = $(this).attr("ideditproduct");  
+  
+  var data = new FormData();
+  data.append("id_contactProductEdit", id_contact_product);
+  $.ajax({
+      url:urlWeb,
+      method:"POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType:"json",
+      success:function(respuesta){  
+        $("#id_contact_product").val(respuesta.id_contact_product);			                      
+        $("#nameEditproduct").val(respuesta.name_product);
+        $("#quantityEditunitary").val(respuesta.quantity_unitary);
+        $("#quantityEditTotal").val(respuesta.quantity_total);          
+      } 
+
+})});
+
+
+$("#updateProduct").click(function() {
+  let name_product = $("#nameEditproduct").val();
+  let quantity_unitary = $("#quantityEditunitary").val();
+  let quantity_total = $("#quantityEditTotal").val();
+
+  if (
+      name_product != "" &&
+      quantity_unitary != "" ||
+      quantity_total != ""
+  ) {
+      $("#formEditProducts").submit();
+  } else {
+      return false;
+  }
+});
+
+$('.btnDeleteProduct').click(function() {  
+  
+  swal({
+    title: "¿Estas seguro?",
+    text: "Se eliminara el producto y toda su informacion",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#DD6B55",
+    cancelButtonText: "Cancelar",
+    confirmButtonText: "Si, eliminar"
+  }).then(result => {
+    if (result.value) {
+      var urlWeb = getURL() + "ajax/contact.ajax.php";
+      
+      let data = new FormData();
+      let id_contact_product = $(this).attr("iddeleteproduct");
+      let id_user = $("#id_user").val();
+      data.append("id_contactProductDelete", id_contact_product);
+      console.log(data);
+
+      $.ajax({
+        url: urlWeb,
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+          if(response) {
+            location.href = getURL() + "contactos/" + id_user;
+          }
+        }
+      });
+    }
+  });
+});

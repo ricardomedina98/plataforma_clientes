@@ -1,7 +1,7 @@
 <?php
 
-require_once "../controllers/contract.controller.php";
-require_once "../models/contract.model.php";
+require_once "../controllers/employee.controller.php";
+require_once "../models/employee.model.php";
 require_once "../models/helper.php";
 require_once "../models/connection.php";
 
@@ -14,7 +14,7 @@ class ContractAjax{
 
     public function ajaxShowOneEmployee(){       
         
-        $request = ContractController::controllerShowOneEmployee($this->id_employee);
+        $request = EmployeeController::controllerShowOneEmployee($this->id_employee);
 
         echo json_encode($request, true);
 
@@ -22,7 +22,7 @@ class ContractAjax{
 
     public function ajaxDeleteEmployee(){       
         
-        $request = ContractController::controllerDeleteEmployee($this->id_employee);
+        $request = EmployeeController::controllerDeleteEmployee($this->id_employee);
 
         echo json_encode($request, true);
 

@@ -104,7 +104,9 @@
 
 
 function getURL(){
-    return "http://127.0.0.1/plataforma_clientes/";
+    var getUrl = window.location;
+    var baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1]; 
+    return baseurl + '/';
 }
 
 

@@ -83,15 +83,9 @@ create table referenced_business(
 );
 
 
-/* NEW CHANGES */
-create table business_contacts(
-	id_business_contact int auto_increment,
-	id_business int not null,
-	id_contact int not null,
-    constraint pk_id_business_contact primary key(id_business_contact),
-    constraint fk_id_business_contacts foreign key(id_business) references business(id_business),
-    constraint fk_id_contact_contacts foreign key(id_contact) references contacts(id_contact)
-);
+
+
+drop table business_contacts;
 
 
 drop table business;
@@ -152,3 +146,10 @@ select  business.id_business, commercial_name, fiscal_name,
             
             
             select count(id_business) total from business;
+            
+            
+select own.id_owner, name_owner, first_surname, second_surname, profile_photo, mobile_phone, email
+        from owners own 
+        inner join aboutowners ab on own.id_owner = ab.id_owner;
+
+        

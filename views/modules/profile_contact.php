@@ -6,6 +6,10 @@ $addIncident = ContactController::controllerAddIncident();
 
 $updateIncident = ContactController::controllerUpdateIncident();
 
+$addProduct = ContactController::controllerAddProduct();
+
+$updateProduct = ContactController::controllerUpdateProduct();
+
 ?>
 
 <div class="content-wrapper">
@@ -256,6 +260,7 @@ $updateIncident = ContactController::controllerUpdateIncident();
                         <li class="active"><a id="fotosUpload" href="#fotos" data-toggle="tab">Fotos</a></li>
                         <li><a href="#ticket" data-toggle="tab">Ticket</a></li>
                         <li><a href="#incidents" data-toggle="tab">Incidentes</a></li>
+                        <li><a href="#productos" data-toggle="tab">Productos</a></li>
                         <li><a href="#editar" data-toggle="tab">Editar</a></li>
                     </ul>
                 </div>
@@ -726,6 +731,84 @@ $updateIncident = ContactController::controllerUpdateIncident();
   
                         </div>
                     
+                    </div>
+
+                    <div class="tab-pane" id="productos">
+                        <div class="post">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="box box-primary">
+
+                                        <div class="box-body">
+
+                                            <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
+                                            
+                                                <thead>
+                                                
+                                                    <tr>
+
+                                                        <th style="width:10px">#</th>
+                                                        <th>Nombre del Producto</th>
+                                                        <th>Cantidad Unitaria</th>
+                                                        <th>Cantidad Total</th>
+                                                        <th>Acciones</th>
+                                            
+                                                    </tr> 
+
+                                                </thead>
+
+                                                <tbody>
+
+                                                <?php
+
+                                                    $showProducts = ContactController::controllerShowProducts($requestContact['id_contact']);
+
+                                                    foreach ($showProducts as $key => $valueProduct) {
+                                                        echo '
+                                                        <tr>
+                                                            <td>'.($key+1).'</td>
+                                                            <td>'.$valueProduct['name_product'].'</td>
+                                                            <td>'.$valueProduct['quantity_total'].'</td>
+                                                            <td>'.$valueProduct['quantity_unitary'].'</td>
+                                                                                                                                                                                                                    
+                                                            <td>
+                                                
+                                                                <div class="row">
+
+                                                                    <div class="col-12 text-center">                                                                        
+
+                                                                        <button class="btn btn-warning btnEditProduct" style="width: 40px" idEditProduct="'.$valueProduct['id_contact_product'].'" data-toggle="modal" data-target="#modalEditProducts"><i class="fa fa-pencil"></i></button>
+                                                        
+                                                                        <button class="btn btn-danger btnDeleteProduct" style="width: 40px" idDeleteProduct="'.$valueProduct['id_contact_product'].'"><i class="fa fa-times"></i></button>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                    
+                                                    
+                                                                </div>  
+                                                
+                                                            </td>
+                                            
+                                                        </tr>';
+                                                    }
+                                                
+                                                ?>
+
+                                                </tbody>
+
+                                            </table>
+
+                                            <div class="box-header with-border">
+                                                <button type="button" class="btn btn-primary btn-md pull-right" data-toggle="modal" data-target="#modalAddProducts">Agregar producto</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
                         
                 </div>
@@ -1218,6 +1301,135 @@ $updateIncident = ContactController::controllerUpdateIncident();
     </div>
 </div>
 
+<!-- MODAL AGREGAR PRODUCTOS -->
+<div class="modal fade" id="modalAddProducts" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modelTitleId">Agregar Producto</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+
+                    <div class="col-sm-12">
+                        <form id="formAddProducts" class="form-horizontal" method="post" enctype=multipart/form-data>
+                            <?php
+
+                                echo '<input type="hidden" id="id_contact" name="id_contact" value="'.$requestContact['id_contact'].'">';
+
+                            ?>
+                            
+                            
+                            <div class="form-group">
+                                <label for="frequencyContact" class="col-sm-4 control-label">Nombre Producto</label>
+
+                                <div class="col-sm-6">
+                                    <input class="form-control" id="name_product" name="name_product" placeholder="Nombre del producto" type="text" autocomplete="off">
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="frequencyContact" class="col-sm-4 control-label">Cantidad Unitaria</label>
+
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="quantity_unitary" name="quantity_unitary" placeholder="Cantidad unitaria" type="text" autocomplete="off">
+                                </div>  
+
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="frequencyContact" class="col-sm-4 control-label">Cantidad Total</label>
+
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="quantity_total" name="quantity_total" placeholder="Cantidad total" type="text" autocomplete="off">
+                                </div>  
+
+                            </div>
+                            
+                            
+                            
+
+                        </form>
+
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Cerrar</button>
+                <button type="submit" id="addProduct" class="btn btn-primary">Agregar producto</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL EDITAR PRODUCTOS -->
+<div class="modal fade" id="modalEditProducts" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modelTitleId">Modificar Producto</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+
+                    <div class="col-sm-12">
+                        <form id="formEditProducts" class="form-horizontal" method="post" enctype=multipart/form-data>
+                            <?php
+
+                                echo '<input type="hidden" id="id_contact" name="id_contact" value="'.$requestContact['id_contact'].'">';
+
+                            ?>
+                            <input type="hidden" id="id_contact_product" name="id_contact_product">
+                            
+                            <div class="form-group">
+                                <label for="frequencyContact" class="col-sm-4 control-label">Nombre Producto</label>
+
+                                <div class="col-sm-6">
+                                    <input class="form-control" id="nameEditproduct" name="nameEditproduct" placeholder="Nombre del producto" type="text" autocomplete="off">
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="frequencyContact" class="col-sm-4 control-label">Cantidad Unitaria</label>
+
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="quantityEditunitary" name="quantityEditunitary" placeholder="Cantidad unitaria" type="text" autocomplete="off">
+                                </div>  
+
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="frequencyContact" class="col-sm-4 control-label">Cantidad Total</label>
+
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="quantityEditTotal" name="quantityEditTotal" placeholder="Cantidad total" type="text" autocomplete="off">
+                                </div>  
+
+                            </div>
+
+
+                        </form>
+
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Cerrar</button>
+                <button type="submit" id="updateProduct" class="btn btn-primary">Guardar cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $('#modalTicket').on('show.bs.modal', event => {
         
@@ -1346,7 +1558,42 @@ $updateIncident = ContactController::controllerUpdateIncident();
            }else {
     
             echo '<script> 
-                showAlert("Error!", "Error al actualizar el incidente", false);
+                showAlert("Error!", "Error al agregar el incidente", false);
+            </script>';
+    
+        }
+    }
+
+    if(isset($addProduct)){
+        if($addProduct){
+
+            echo '<script> 
+                showAlert("Correcto!", "Producto agregado correctamente", true);
+                
+            </script>';
+    
+           }else {
+    
+            echo '<script> 
+                showAlert("Error!", "Error al agregar el producto", false);
+            </script>';
+    
+        }
+    }
+
+
+    if(isset($updateProduct)){
+        if($updateProduct){
+
+            echo '<script> 
+                showAlert("Correcto!", "Producto actualizado correctamente", true);
+                
+            </script>';
+    
+           }else {
+    
+            echo '<script> 
+                showAlert("Error!", "Error al actualizar el producto", false);
             </script>';
     
         }

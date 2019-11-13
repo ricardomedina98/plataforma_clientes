@@ -116,7 +116,7 @@ $("#EditEmployee").click(function(){
 $("#formEditEmployee").on( "submit", function( event ) {
     event.preventDefault();    
 
-    var urlWeb = getURL()+"ajax/contracts.ajax.php"; 
+    var urlWeb = getURL()+"ajax/employee.ajax.php"; 
     console.log($(this).serialize());
     $.post(urlWeb, $('#formEditEmployee').serialize())    
 
@@ -148,7 +148,7 @@ $(".btnEditEmployee").click(function (){
 
     $("#id_employee").val(id_employee);
     
-    var urlWeb = getURL() + "ajax/contracts.ajax.php";
+    var urlWeb = getURL() + "ajax/employee.ajax.php";
 
     var data = new FormData();
     data.append("id_employeeEdit", id_employee);
@@ -230,7 +230,7 @@ $(".btnDeleteEmployee").click(function (e){
 
           if(result.value) {
 
-            var urlWeb = getURL()+"ajax/contracts.ajax.php";            
+            var urlWeb = getURL()+"ajax/employee.ajax.php";            
 
             var data = new FormData();
             data.append("id_employeeDelete", $(this).attr("iddeleteemployee"));
