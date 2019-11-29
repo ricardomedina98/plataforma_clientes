@@ -255,7 +255,7 @@
                         include "modules/owners.php";              
                     } else if($value1=="duenos" && $value2=="buscar"){
                         
-                        include "modules/searchBusiness.php";
+                        include "modules/searchOwner.php";
 
                     } else if(!empty($value2)) {
 
@@ -365,6 +365,7 @@
 <script src="<?php echo $url;?>views/js/profileOwner.js"></script>
 <script src="<?php echo $url;?>views/js/users.js"></script>
 <script src="<?php echo $url;?>views/js/employees.js"></script>
+<script src="<?php echo $url;?>views/js/owners.js"></script>
 
 
 

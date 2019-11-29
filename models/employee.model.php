@@ -8,17 +8,17 @@ class EmployeeModel{
 
         $connection = Connection::connect();
 
-        $connection->beginTransaction();
-
-        $createEmployee = $connection -> prepare("INSERT INTO employees (name_employee, first_surname, second_surname, sex_employee, 
-                                                        position_employee, date_birthday_empl, civil_status, nss_employee, num_employee)
-        VALUES (:name_employee, :first_surname, :second_surname, :sex_employee, :position_employee, :date_birthday_empl, :civil_status, :nss_employee, :num_employee)");
+        $createEmployee = $connection -> prepare("insert into employees(name_employee, first_surname, second_surname, sex, 
+        category, position, date_birthday_empl, civil_status, nss_employee, num_employee) 
+        values (:name_employee, :first_surname, :second_surname, :sex, :category, :position, :date_birthday_empl, :civil_status,
+        :nss_employee, :num_employee)");
 
         $createEmployee -> bindParam(":name_employee", $data['nameEmployee'], PDO::PARAM_STR);
         $createEmployee -> bindParam(":first_surname", $data['surName1Employee'], PDO::PARAM_STR);
         $createEmployee -> bindParam(":second_surname", $data['surName2Employee'], PDO::PARAM_STR);
-        $createEmployee -> bindParam(":sex_employee", $data['sexEmployee'], PDO::PARAM_STR);
-        $createEmployee -> bindParam(":position_employee", $data['position_employee'], PDO::PARAM_STR);
+        $createEmployee -> bindParam(":sex", $data['sexEmployee'], PDO::PARAM_STR);
+        $createEmployee -> bindParam(":position", $data['position_employee'], PDO::PARAM_STR);
+        $createEmployee -> bindParam(":category", $data['category_employee'], PDO::PARAM_STR);
         $createEmployee -> bindParam(":date_birthday_empl", $data['birthdayEmployee'], PDO::PARAM_STR);
         $createEmployee -> bindParam(":civil_status", $data['civil_status'], PDO::PARAM_STR);
         $createEmployee -> bindParam(":nss_employee", $data['nss_employee'], PDO::PARAM_STR);
@@ -26,50 +26,9 @@ class EmployeeModel{
         $createEmployee -> bindParam(":num_employee", $num_employee, PDO::PARAM_STR);
 
         if($createEmployee->execute()){
-
-            $id = (int)$connection->lastInsertId();
-
-            $createEmpAddressBirth = $connection -> prepare("INSERT INTO addressBirthday_employee (id_employee, placeCityBirthday, placeStateBirthday)
-            VALUES (:id_employee, :placeCityBirthday, :placeStateBirthday)");
-
-            $createEmpAddress = $connection -> prepare("INSERT INTO employee_address (id_employee, state, city, street, colony, postal_code)
-            VALUES (:id_employee, :state, :city, :street, :colony, :postal_code)");
-
-            $createEmpInfoContract = $connection -> prepare("INSERT INTO employees_contract_info (id_employee, start_contract, end_contract, contract_created, weekly_balance, punctuality_award, attendance_prize)
-            VALUES (:id_employee, :start_contract, :end_contract, :contract_created, :weekly_balance, :punctuality_award, :attendance_prize)");
-            
-            $createEmpAddressBirth -> bindParam(":id_employee", $id, PDO::PARAM_INT);
-            $createEmpAddressBirth -> bindParam(":placeCityBirthday", $data['addressCityPlaceBirth'], PDO::PARAM_STR);
-            $createEmpAddressBirth -> bindParam(":placeStateBirthday", $data['addressStatePlaceBirth'], PDO::PARAM_STR);
-
-            $createEmpAddress -> bindParam(":id_employee", $id, PDO::PARAM_INT);
-            $createEmpAddress -> bindParam(":state", $data['addressStateA'], PDO::PARAM_STR);
-            $createEmpAddress -> bindParam(":city", $data['addressCityA'], PDO::PARAM_STR);
-            $createEmpAddress -> bindParam(":street", $data['addressStreet'], PDO::PARAM_STR);
-            $createEmpAddress -> bindParam(":colony", $data['addressColony'], PDO::PARAM_STR);
-            $createEmpAddress -> bindParam(":postal_code", $data['addressCodePostal'], PDO::PARAM_STR);
-
-            $createEmpInfoContract -> bindParam(":id_employee", $id, PDO::PARAM_INT);
-            $createEmpInfoContract -> bindParam(":start_contract", $data["dateTimeContract"]["Start"], PDO::PARAM_STR);
-            $createEmpInfoContract -> bindParam(":end_contract", $data["dateTimeContract"]["End"], PDO::PARAM_STR);
-            $createEmpInfoContract -> bindParam(":contract_created", $data['contract_created'], PDO::PARAM_STR);
-            $createEmpInfoContract -> bindParam(":weekly_balance", $data['monthly_balance'], PDO::PARAM_STR);
-            $createEmpInfoContract -> bindParam(":punctuality_award", $data['punctuality_award'], PDO::PARAM_STR);
-            $createEmpInfoContract -> bindParam(":attendance_prize", $data['attendance_prize'], PDO::PARAM_STR);            
-
-            $createEmpAddressBirthbool = $createEmpAddressBirth -> execute();
-            $createEmpAddressbool = $createEmpAddress -> execute();
-            $createEmpInfoContractbool = $createEmpInfoContract -> execute();
-            if($createEmpAddressBirth -> execute() && $createEmpAddress -> execute() && $createEmpInfoContract -> execute()){
-                $connection->commit();
-                return true;
-            } else {
-                $connection->rollback();
-                return false;
-            }
+            return true;
         } else {
-            $connection->rollback();
-                return false;
+            return false;
         }
 
         
@@ -77,7 +36,8 @@ class EmployeeModel{
 
     public static function modelShowEmployees(){
 
-        $showEmployees = Connection::connect() -> prepare("SELECT * FROM view_employees_a;");
+        $showEmployees = Connection::connect() -> prepare("select id_employee, name_employee, first_surname, second_surname, sex, 
+        category, position, date_birthday_empl, civil_status, nss_employee, num_employee from employees");
 
         $showEmployees -> execute();        
         

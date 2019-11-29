@@ -748,9 +748,10 @@ $updateProduct = ContactController::controllerUpdateProduct();
                                                     <tr>
 
                                                         <th style="width:10px">#</th>
-                                                        <th>Nombre del Producto</th>
-                                                        <th>Cantidad Unitaria</th>
-                                                        <th>Cantidad Total</th>
+                                                        <th>Producto</th>
+                                                        <th>Marca</th>
+                                                        <th>Cantidad</th>
+                                                        <th>Corte</th>
                                                         <th>Acciones</th>
                                             
                                                     </tr> 
@@ -768,8 +769,9 @@ $updateProduct = ContactController::controllerUpdateProduct();
                                                         <tr>
                                                             <td>'.($key+1).'</td>
                                                             <td>'.$valueProduct['name_product'].'</td>
-                                                            <td>'.$valueProduct['quantity_total'].'</td>
-                                                            <td>'.$valueProduct['quantity_unitary'].'</td>
+                                                            <td>'.$valueProduct['brand'].'</td>
+                                                            <td>'.$valueProduct['quantity'].'</td>
+                                                            <td>'.$valueProduct['cut'].'</td>
                                                                                                                                                                                                                     
                                                             <td>
                                                 
@@ -1324,7 +1326,7 @@ $updateProduct = ContactController::controllerUpdateProduct();
                             
                             
                             <div class="form-group">
-                                <label for="frequencyContact" class="col-sm-4 control-label">Nombre Producto</label>
+                                <label for="frequencyContact" class="col-sm-4 control-label">Producto</label>
 
                                 <div class="col-sm-6">
                                     <input class="form-control" id="name_product" name="name_product" placeholder="Nombre del producto" type="text" autocomplete="off">
@@ -1333,24 +1335,31 @@ $updateProduct = ContactController::controllerUpdateProduct();
                             </div>
 
                             <div class="form-group">
-                                <label for="frequencyContact" class="col-sm-4 control-label">Cantidad Unitaria</label>
+                                <label for="frequencyContact" class="col-sm-4 control-label">Marca</label>
 
                                 <div class="col-sm-4">
-                                    <input class="form-control" id="quantity_unitary" name="quantity_unitary" placeholder="Cantidad unitaria" type="text" autocomplete="off">
+                                    <input class="form-control" id="brand" name="brand" placeholder="Cantidad unitaria" type="text" autocomplete="off">
                                 </div>  
 
                             </div>
                             
                             <div class="form-group">
-                                <label for="frequencyContact" class="col-sm-4 control-label">Cantidad Total</label>
+                                <label for="frequencyContact" class="col-sm-4 control-label">Cantidad</label>
 
                                 <div class="col-sm-4">
-                                    <input class="form-control" id="quantity_total" name="quantity_total" placeholder="Cantidad total" type="text" autocomplete="off">
+                                    <input class="form-control" id="quantity" name="quantity" placeholder="Cantidad total" type="text" autocomplete="off">
                                 </div>  
 
                             </div>
-                            
-                            
+
+                            <div class="form-group">
+                                <label for="frequencyContact" class="col-sm-4 control-label">Corte</label>
+
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="cut" name="cut" placeholder="Corte" type="text" autocomplete="off">
+                                </div>  
+
+                            </div>
                             
 
                         </form>
@@ -1390,28 +1399,37 @@ $updateProduct = ContactController::controllerUpdateProduct();
                             <input type="hidden" id="id_contact_product" name="id_contact_product">
                             
                             <div class="form-group">
-                                <label for="frequencyContact" class="col-sm-4 control-label">Nombre Producto</label>
+                                <label for="frequencyContact" class="col-sm-4 control-label">Producto</label>
 
                                 <div class="col-sm-6">
-                                    <input class="form-control" id="nameEditproduct" name="nameEditproduct" placeholder="Nombre del producto" type="text" autocomplete="off">
+                                    <input class="form-control" id="name_productEdit" name="name_productEdit" placeholder="Nombre del producto" type="text" autocomplete="off">
                                 </div>
 
                             </div>
 
                             <div class="form-group">
-                                <label for="frequencyContact" class="col-sm-4 control-label">Cantidad Unitaria</label>
+                                <label for="frequencyContact" class="col-sm-4 control-label">Marca</label>
 
                                 <div class="col-sm-4">
-                                    <input class="form-control" id="quantityEditunitary" name="quantityEditunitary" placeholder="Cantidad unitaria" type="text" autocomplete="off">
+                                    <input class="form-control" id="brandEdit" name="brandEdit" placeholder="Cantidad unitaria" type="text" autocomplete="off">
                                 </div>  
 
                             </div>
                             
                             <div class="form-group">
-                                <label for="frequencyContact" class="col-sm-4 control-label">Cantidad Total</label>
+                                <label for="frequencyContact" class="col-sm-4 control-label">Cantidad</label>
 
                                 <div class="col-sm-4">
-                                    <input class="form-control" id="quantityEditTotal" name="quantityEditTotal" placeholder="Cantidad total" type="text" autocomplete="off">
+                                    <input class="form-control" id="quantityEdit" name="quantityEdit" placeholder="Cantidad total" type="text" autocomplete="off">
+                                </div>  
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="frequencyContact" class="col-sm-4 control-label">Corte</label>
+
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="cutEdit" name="cutEdit" placeholder="Corte" type="text" autocomplete="off">
                                 </div>  
 
                             </div>

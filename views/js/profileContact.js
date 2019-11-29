@@ -691,10 +691,12 @@ $(".btnEditProduct").click(function(){
       processData: false,
       dataType:"json",
       success:function(respuesta){  
+        console.log(respuesta);
         $("#id_contact_product").val(respuesta.id_contact_product);			                      
-        $("#nameEditproduct").val(respuesta.name_product);
-        $("#quantityEditunitary").val(respuesta.quantity_unitary);
-        $("#quantityEditTotal").val(respuesta.quantity_total);          
+        $("#name_productEdit").val(respuesta.name_product);
+        $("#brandEdit").val(respuesta.brand);
+        $("#quantityEdit").val(respuesta.quantity);          
+        $("#cutEdit").val(respuesta.cut);          
       } 
 
 })});

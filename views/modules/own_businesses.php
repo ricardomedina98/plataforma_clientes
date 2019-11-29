@@ -1,4 +1,6 @@
-
+<?php
+  $url = Routes::modelRoute();
+?>
 <div class="content-wrapper">
 
 <section class="content-header">
@@ -27,12 +29,22 @@
 
 <div class="box">
 
-  <div class="box-header with-border">
-
-
-  </div>
-
   <div class="box-body">
+
+  <div class="col-sm-6">
+    <div class="text-center">
+
+      <img style="width: 60%;" src="<?php echo $url;?>views/img/logos/alcon-supermarket.png">
+
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="text-center">
+    
+      <img style="width: 60%;" src="<?php echo $url;?>views/img/logos/mayoreo-carnes.png">
+      
+    </div>
+  </div>
     
 
 

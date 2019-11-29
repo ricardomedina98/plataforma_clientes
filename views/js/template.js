@@ -99,7 +99,21 @@
             laodCitys(selectedState);
             
         }
-    })    
+    }) 
+
+    let url = window.location;
+    let sub_url = window.origin + '/' + window.location.pathname.split('/')[1] + '/' + window.location.pathname.split('/')[2] + '/';
+    console.log(sub_url);
+    
+    // for sidebar menu entirely but not cover treeview
+    $('ul.sidebar-menu a').filter(function() {
+        return this.href == url || this.href == sub_url;
+    }).parent().addClass('active');
+
+    // for treeview
+    $('ul.treeview-menu a').filter(function() {
+        return this.href == url || this.href == sub_url;
+    }).parentsUntil(".sidebar-menu > .treeview-menu").addClass('active');
 });
 
 

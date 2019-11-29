@@ -62,7 +62,7 @@
                     <th>Nombre</th>
                     <th>Apellido Paterno</th>
                     <th>Apellido Materno</th>
-                    <th>Vencimiento del contrato</th>
+                    <!-- <th>Vencimiento del contrato</th> -->
                     <!-- <th>Descargas</th> -->
                     <th>Acciones</th>
 
@@ -89,18 +89,19 @@
                                 echo '<td>'.$valueEmpl["name_employee"].'</td>
                                 <td>'.$valueEmpl["first_surname"].'</td>
                                 <td>'.$valueEmpl["second_surname"].'</td>';
-                                $date = Helper::CalculateTime($valueEmpl["end_contract"]);
-                                $dateName = Helper::ConvertRangeDatesEndName($valueEmpl["end_contract"]);
 
-                                if($date["remaining"]<"0"){
-                                    echo '<td><span class="label label-danger">'.$dateName.' <span style="font-weight: bold;"> ('.$date['time'].') </span></span></td>';
-                                } else if($date["remaining"] === "+0"){
-                                    echo '<td><span class="label label-warning">'.$dateName.' <span style="font-weight: bold;"> (Hoy) </span></span></td>';
-                                } else if($date["remaining"]  === "-0"){
-                                    echo '<td><span class="label label-warning">'.$dateName.' <span style="font-weight: bold;"> ('.$date['time'].') </span></span></td>';
-                                } else {
-                                    echo '<td><span>'.$dateName.' <span style="font-weight: bold;">(Dias Restantes '.$date['daysRemaining'].') </span></span></td>';
-                                }
+                                // $date = Helper::CalculateTime($valueEmpl["end_contract"]);
+                                // $dateName = Helper::ConvertRangeDatesEndName($valueEmpl["end_contract"]);
+
+                                // if($date["remaining"]<"0"){
+                                //     echo '<td><span class="label label-danger">'.$dateName.' <span style="font-weight: bold;"> ('.$date['time'].') </span></span></td>';
+                                // } else if($date["remaining"] === "+0"){
+                                //     echo '<td><span class="label label-warning">'.$dateName.' <span style="font-weight: bold;"> (Hoy) </span></span></td>';
+                                // } else if($date["remaining"]  === "-0"){
+                                //     echo '<td><span class="label label-warning">'.$dateName.' <span style="font-weight: bold;"> ('.$date['time'].') </span></span></td>';
+                                // } else {
+                                //     echo '<td><span>'.$dateName.' <span style="font-weight: bold;">(Dias Restantes '.$date['daysRemaining'].') </span></span></td>';
+                                // }
                                 // echo '
                                 // <td>
                     
@@ -521,62 +522,148 @@
                 <div class="container-fluid">
                     <div class="col-sm-12">
                         <form id="formFormatEmployee" class="form-horizontal" method="post" enctype=multipart/form-data>
-                            <div class="box">
-                                <div class="box-header">
-                                <h3 class="box-title">Striped Full Width Table</h3>
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a href="#contract_undefined" data-toggle="tab" aria-expanded="true">Contrato Indefinido</a></li>
+                                    <li class=""><a href="#contract_temp" data-toggle="tab" aria-expanded="false">Contrato Temporal</a></li>                                    
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                                            Acciones <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                                            <li role="presentation" class="divider"></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="contract_undefined">                                    
+                                        <div class="row">
+                                            <div class="form-group">
+
+                                                <label for="num_employee" class="col-sm-3 control-label">Numero</label>
+
+                                                <div class="col-sm-4">
+                                                    <input class="form-control" id="num_employee" name="num_employee" placeholder="Numero de Empleado" type="text" autocomplete="off">
+                                                </div>
+
+                                            </div> 
+
+                                            <div class="form-group required">
+                                
+                                                <label for="nameContact" class="col-sm-3 control-label">Nombre</label>
+
+                                                <div class="col-sm-3">
+                                                    <input class="form-control" id="nameEmployeeModal" name="nameEmployee" placeholder="Nombre" type="text" autocomplete="off">
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <input class="form-control" id="surName1EmployeeModal" name="surName1Employee" placeholder="Apellido Paterno" type="text" autocomplete="off">
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <input class="form-control" id="surName2EmployeeModal" name="surName2Employee" placeholder="Apellido Materno" type="text" autocomplete="off">
+                                                </div>                                                
+
+                                            </div>
+
+                                            <div class="form-group required">
+                                                <label for="position_employee" class="col-sm-3 control-label">Puesto</label>
+
+                                                <div class="col-sm-4">
+                                                    <input class="form-control" id="category_employee" name="category_employee" placeholder="Categoria" type="text" autocomplete="off">
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <input class="form-control" id="position_employee" name="position_employee" placeholder="Puesto del Empleado" type="text" autocomplete="off">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group required">
+                                                <label for="position_employee" class="col-sm-3 control-label">NSS</label>
+
+                                                <div class="col-sm-4">
+                                                    <input class="form-control" id="nss_employee" name="nss_employee" placeholder="NSS de Empleado" type="text" autocomplete="off">                                    
+                                                </div>                                                                
+                                                
+                                            </div>
+
+                                            <br>
+
+                                            <div class="form-group required">
+                                                                
+                                                <label for="contract_created" class="col-sm-3 control-label">Fecha Creacion de Contrato</label>
+                                                
+                                                <div class="col-sm-3">
+                                                    <input class="form-control " id="contract_created" name="contract_created" placeholder="Creacion de Contrato" type="text" autocomplete="off">
+                                                </div>                                
+
+                                            </div>
+
+                                            <div class="form-group required">
+
+                                                <label for="addressStreet" class="col-sm-3 control-label">Direccion</label>
+
+                                                <div class="col-sm-3">
+                                                    <input class="form-control" id="addressStreet" name="addressStreet" placeholder="Calle" type="text" autocomplete="off">
+                                                </div>
+                                
+                                                <div class="col-sm-4">
+                                                    <input class="form-control" id="addressColony" name="addressColony" placeholder="Colonia" type="text" autocomplete="off">
+                                                </div>
+
+                                                <div class="col-sm-2">
+                                                    <input class="form-control" id="addressCodePostal" name="addressCodePostal" placeholder="Codigo Postal" type="text" autocomplete="off">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group">
+
+                                                <label for="addressStreet" class="col-sm-3 control-label"></label>
+                                                
+                                                <div class="col-sm-4">
+                                                    <input class="form-control" id="addressCityA" name="addressCityA" placeholder="Ciudad" type="text" autocomplete="off">
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <input class="form-control" id="addressStateA" name="addressStateA" placeholder="Estado" type="text" autocomplete="off">
+                                                </div> 
+
+                                            </div>
+
+                                            <div class="form-group required">
+                            
+                                                <label for="addressStreet" class="col-sm-3 control-label">Salario Semanal</label>
+                                                
+                                                <div class="col-sm-3">
+                                                    <input class="form-control" id="monthly_balance" name="monthly_balance" placeholder="Sueldo Semanal" type="text" autocomplete="off">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group required">
+                            
+                                                <label for="addressStreet" class="col-sm-3 control-label">Importe Semanal</label>
+                                                
+                                                <div class="col-sm-3">
+                                                    <input class="form-control" id="monthly_balance" name="monthly_balance" placeholder="Importe Semanal" type="text" autocomplete="off">
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="contract_temp">
+                                    
+                                    </div>
+                                    <!-- /.tab-pane -->
                                 </div>
-                                <!-- /.box-header -->
-                                <div class="box-body no-padding">
-                                <table class="table table-striped">
-                                    <tr>
-                                    <th style="width: 10px">#</th>
-                                    <th>Task</th>
-                                    <th>Progress</th>
-                                    <th style="width: 40px">Label</th>
-                                    </tr>
-                                    <tr>
-                                    <td>1.</td>
-                                    <td>Update software</td>
-                                    <td>
-                                        <div class="progress progress-xs">
-                                        <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-red">55%</span></td>
-                                    </tr>
-                                    <tr>
-                                    <td>2.</td>
-                                    <td>Clean database</td>
-                                    <td>
-                                        <div class="progress progress-xs">
-                                        <div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-yellow">70%</span></td>
-                                    </tr>
-                                    <tr>
-                                    <td>3.</td>
-                                    <td>Cron job running</td>
-                                    <td>
-                                        <div class="progress progress-xs progress-striped active">
-                                        <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-light-blue">30%</span></td>
-                                    </tr>
-                                    <tr>
-                                    <td>4.</td>
-                                    <td>Fix and squish bugs</td>
-                                    <td>
-                                        <div class="progress progress-xs progress-striped active">
-                                        <div class="progress-bar progress-bar-success" style="width: 90%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-green">90%</span></td>
-                                    </tr>
-                                </table>
-                                </div>
-                                <!-- /.box-body -->
+                            <!-- /.tab-content -->
                             </div>
                         </form>
                     </div>

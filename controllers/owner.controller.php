@@ -95,6 +95,80 @@ class OwnerController{
         return $request;
 
     }
+    public static function controllerSearchOwners($base, $tope) {
+        if(!empty($_POST)){
+
+            $data = $_POST;
+
+            switch ($_POST['filterSQL']) {
+                case 'searchNames':
+                    $data['filterSQL'] = "name_owner like '%".$data["searchText"]."%'";
+                    break;
+                case 'searchSurNames':
+                    $data['filterSQL'] = "first_surname like '%".$data["searchText"]."%' or second_surname like '%".$data["searchText"]."%'";
+                    break;
+                case 'searchAlias':
+                    $data['filterSQL'] = "alias like '%".$data["searchText"]."%'";
+                    break;
+                case 'searchEmail':
+                    $data['filterSQL'] = "email like '%".$data["searchText"]."%'";
+                    break;
+                case 'searchPhone':
+                    $data['filterSQL'] = "mobile_phone like '%".$data["searchText"]."%'";
+                    break;
+                case '':
+                    $data['filterSQL'] = "";
+                    break;
+                default:
+                $data['filterSQL'] = "name_owner like '%".$data["searchText"]."%' or first_surname like '%".$data["searchText"]."%' or second_surname like '%".$data["searchText"]."%' or email like '%".$data["searchText"]."%' or alias like '%".$data["searchText"]."%' or mobile_phone like '%".$data["searchText"]."%'";
+                    break;
+            }
+
+            if(!empty($data['filterState']) && !empty($data['filterCity']) && !empty($data['filterSQL'])) {
+
+                $where = "where ".$data['filterSQL']." and "."state = '".$data['filterState']."' and city = '".$data['filterCity']."'";
+
+            } elseif(!empty($data['filterState']) && !empty($data['filterCity'])){  
+
+                $where = "where "."state = '".$data['filterState']."' and city = '".$data['filterCity']."'";
+
+            } elseif(!empty($data['filterState']) && !empty($data['filterSQL'])) {
+
+                $where = "where ".$data['filterSQL']." and "."state = '".$data['filterState']."'";
+            }
+            
+            elseif(!empty($data['filterState'])) {
+
+                $where = "where "."state = '".$data['filterState']."' ".$data['filterSQL'];
+
+            } elseif(!empty($data['filterCity'])){
+
+                $where = "where "."city = ".$data['filterCity'].$data['filterSQL'];
+
+            } elseif(!empty($where) && !empty($data['filterSQL'])) {
+
+                $where = "where ".$where. " and ".$data['filterSQL'];
+
+            } elseif(!empty($data['filterSQL'])){
+
+                $where = "where ".$data['filterSQL'];
+
+            } elseif(!empty($data['searchText'])){
+                $where = "where name_owner like '%".$data["searchText"]."%' or first_surname like '%".$data["searchText"]."%' or second_surname like '%".$data["searchText"]."%' or email like '%".$data["searchText"]."%' or alias like '%".$data["searchText"]."%' or mobile_phone like '%".$data["searchText"]."%'";
+            }
+            if(!empty($where)){
+                $request = OwnerModel::modelSearchOwners($base, $tope, $where);
+                return $request;
+                
+            } else {
+                return null;
+            }
+
+
+        } else {
+            return null;
+        }
+    }
 
 }
 

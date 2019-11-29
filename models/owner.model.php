@@ -329,5 +329,28 @@ class OwnerModel{
 
     }
 
+    public static function modelSearchOwners($base, $tope, $where){
+
+        $searchOwners = Connection::connect() -> prepare("SELECT
+                o.id_owner, o.name_owner, o.first_surname, o.second_surname,
+                ao.profile_photo, ao.alias, ao.mobile_phone
+            from owners o
+        inner join aboutowners ao on o.id_owner = ao.id_owner
+        inner join address_owner aoo on  aoo.id_owner = o.id_owner ".$where.'limit :base, :tope');
+
+        $searchOwners->bindParam(":base", $base, PDO::PARAM_INT);
+        $searchOwners->bindParam(":tope", $tope, PDO::PARAM_INT);
+
+
+        $searchOwners -> execute();
+        
+        $request = $searchOwners -> fetchAll(PDO::FETCH_ASSOC);
+
+        $request['countResult'] = $searchOwners -> rowCount();
+    
+        return $request;
+        
+    }
+
 }
 ?>

@@ -11,7 +11,7 @@
 
     }
 
-    $businesses = BusinessController::controllerSearchBusiness($base, $tope);
+    $owners = OwnerController::controllerSearchOwners($base, $tope);
 ?>
 
 <div class="content-wrapper">
@@ -19,9 +19,9 @@
     <section class="content-header">
       <h1>
 
-        Negocios
+        Dueños
 
-        <small>Administrar negocios</small>
+        <small>Buscar dueños</small>
 
       </h1>
 
@@ -29,7 +29,7 @@
 
         <li><a href="inicio"><i class="fa fa-dashboard"></i>Inicio</a></li>
 
-        <li class="active">Contacto</li>
+        <li class="active">Dueños</li>
 
       </ol>
       
@@ -42,7 +42,7 @@
 
             <div class="box-header with-border">
 
-              <h3 class="box-title">Buscar negocios</h3>
+              <h3 class="box-title">Buscar dueños</h3>
 
             </div>
 
@@ -51,7 +51,7 @@
               <div class="row">
 
               
-                <form method="POST" action="buscar" id="formBusiness">
+                <form method="POST" action="buscar" id="formOwners">
                     <div class="container-fluid">
 
                         <div class="row" style="margin-top:10px; margin-bottom: 5px;">
@@ -59,7 +59,7 @@
 
                                 <div class="col-sm-3">
 
-                                    <input class="form-control" id="searchText" name="searchText" placeholder="Ingrese el contacto a buscar" type="text" value="<?php if(!empty($_POST['searchText'])) {echo $_POST['searchText'];} else { echo "";}?>">
+                                    <input class="form-control" id="searchText" name="searchText" placeholder="Ingrese el dueño a buscar" type="text" value="<?php if(!empty($_POST['searchText'])) {echo $_POST['searchText'];} else { echo "";}?>">
 
                                 </div>
 
@@ -67,17 +67,19 @@
 
                                 <div>
 
-                                    <div class="col-sm-2">
+                                <div class="col-sm-2">
 
-                                        <select class="form-control" name="filterSQL" id="filterSQLBusiness">
-                                            <option value="">Seleccione un filtro</option>
-                                            <option value="searchComercialName">Nombre Comercial</option>
-                                            <option value="searchNameFiscal">Nombre Fiscal</option>                                            
-                                            <option value="searchEmail">Correo</option>
-                                            <option value="searchPhone">Telefono</option>
-                                        </select>   
-                                        
-                                    </div>
+                                    <select class="form-control" name="filterSQL" id="filterSQLOwners">
+                                        <option value="">Seleccione un filtro</option>
+                                        <option value="searchNames">Nombres</option>
+                                        <option value="searchSurNames">Apellidos</option>                                            
+                                        <option value="searchAlias">Alias</option>                                            
+                                        <option value="searchPhone">Celular</option>
+                                        <option value="searchEmail">Correo</option>
+
+                                    </select>
+                                </div>
+
 
                                     <div class="col-sm-2">
 
@@ -137,120 +139,117 @@
 
             if(!empty($_POST)){
 
-                if($businesses['countResult']>0){
-                    
-                    foreach ($businesses as $key => $business) {
+                if($owners['countResult']>0){
+
+                    foreach ($owners as $key => $owner) {
 
                         if($key !== 'countResult'){
 
                             echo '
-                            <li class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
-                            <a href="'.$url.'negocios/'.$business['id_business'].'"> <img src="'.$url.$business['profile_photo'].'" alt="User Image" style="width: 150px; height: 150px;"></a>
-                            ';
-        
-                            if(!empty($business['commercial_name'])){
-                                echo '<a class="users-list-name" href="'.$url.'negocios/'.$business['id_business'].'">'.$business['commercial_name'].'</a>';
-                            } else {
-                                echo '<a class="users-list-name" href="'.$url.'negocios/'.$business['id_business'].'">Nombre Desconocido</a>';
-                            }
-        
-                            if(!empty($business['phone_business'])){
+                            <li class="col-lg-2 col-md-3 col-sm-6 col-xs-12" style="height: 240px;">
+                                <a href="'.$url.'duenos/'.$owner['id_owner'].'"> <img src="'.$url.$owner['profile_photo'].'" alt="User Image" style="width: 150px; height: 150px;"></a>
+                                ';
+            
+                                if(!empty($owner['name_owner'] || $owner['first_surname'] || $owner['second_surname'])){
+                                echo '<a class="users-list-name" href="'.$url.'duenos/'.$owner['id_owner'].'">'.$owner['name_owner'].' '.$owner['first_surname'].' '.$owner['second_surname'].'</a>';
+                                } else {
+                                echo '<a class="users-list-name" href="'.$url.'duenos/'.$owner['id_owner'].'">Nombre Desconocido</a>';
+                                }
+            
+                                if(!empty($owner['mobile_phone'])){
                                 echo '
                                 <span class="fa fa-phone fa-fw text-muted" data-toggle="tooltip"></span>
-                                <span class="users-list-nametext-muted small">'.$business['phone_business'].'</span>
+                                <span class="text-muted small">'.$owner['mobile_phone'].'</span>
                                 ';
-                            } else {
+                                } else {
                                 echo '
                                 <span class="fa fa-phone fa-fw text-muted" data-toggle="tooltip"></span>
                                 <span class="text-muted small">Desconocido</span>
                                 ';
-                            }
-        
-                            if(!empty($business['email'])){
+                                }
+            
+                                if(!empty($owner['email'])){
                                 echo '
                                 <br>
                                 <span class="fa fa-envelope fa-fw text-muted" data-toggle="tooltip"></span>
-                                <span class="text-muted small text-truncate">'.$business['email'].'</span>
+                                <span class="text-muted small text-truncate">'.$owner['email'].'</span>
             
                                 ';
-                            } else {
+                                } else {
                                 echo '
                                 <br>
                                 <span class="fa fa-envelope fa-fw text-muted" data-toggle="tooltip"></span>
                                 <span class="text-muted small">Desconocido</span>
                                 ';
+                                }
+                                echo '
+                            </li>
+                            ';
+                            
                             }
-
-
                         }
-                                                        
-                        echo '
-                        </li>
-                        ';
-                        
+                    
+                    
+        
+                    } else {
+                      echo '
+                        <section class="content">
+        
+                          <div class="error-page">
+                            
+                            <h2 class="headline text-primary">404</h2> 
+        
+                            <div class="error-content">
+        
+                              <h3>
+        
+                                <i class="fa fa-search text-primary"></i> 
+        
+                                Ops! Aun no tienes contactos registrados.
+        
+                              </h3>
+        
+                              <p>
+                              
+                                Ingresa al menú lateral y allí podrás registrar contactos. También puedes regresar haciendo <a href="'.$url.'agregarContacto">click aquí.</a>
+                              
+                              </p>
+        
+                            </div>
+        
+                          </div>  
+        
+                        </section>
+                      ';
                     }
-      
                 } else {
                     echo '
-                      <section class="content">
-      
-                        <div class="error-page">
-                          
-                          <h2 class="headline text-primary">404</h2> 
-      
-                          <div class="error-content">
-      
-                            <h3>
-      
-                              <i class="fa fa-search text-primary"></i> 
-      
-                              Ops! No se encontraron resultados
-      
-                            </h3>
-      
-                            <p>
-                            
-                              Ingresa al seccion de negocios y allí podrás buscar.
-                            
-                            </p>
-      
-                          </div>
-      
-                        </div>  
-      
-                      </section>
-                    ';
-                  }
-
-            } else {
-                echo '
-                      <section class="content">
-      
-                        <div class="error-page">
-                          
-                        <h2 class="headline text-primary"><i class="fa fa-search text-primary"></i> </h2> 
-      
-                          <div class="error-content">
-      
-                            <h3>                                    
-      
-                              Comienza a buscar
-      
-                            </h3>
-
-                            <p>
-                                Ingresa en el caudro de texto lo que desees buscar y selecciona algun filtro si deseas buscar algo mas especifico.
-                            </p>
-      
-                          </div>
-      
-                        </div>  
-      
-                      </section>
-                    ';
-            }
-
-            
+                          <section class="content">
+          
+                            <div class="error-page">
+                              
+                            <h2 class="headline text-primary"><i class="fa fa-search text-primary"></i> </h2> 
+          
+                              <div class="error-content">
+          
+                                <h3>                                    
+          
+                                  Comienza a buscar
+          
+                                </h3>
+    
+                                <p>
+                                    Ingresa en el caudro de texto lo que desees buscar y selecciona algun filtro si deseas buscar algo mas especifico.
+                                </p>
+          
+                              </div>
+          
+                            </div>  
+          
+                          </section>
+                        ';
+                }
+        
 
               
             ?>
@@ -264,114 +263,116 @@
             
             <?php
 
-                $totalContacts = $businesses['countResult']; 
-                
-                if($totalContacts>1){
+            if(!empty($owners)){
 
-                    $pagContactos = ceil($totalContacts/$tope);
-
+                if(count($owners)>1){
+    
+                    $pagContactos = ceil(count($owners)/$tope);
+    
                     if($pagContactos > 4){
-
+    
                         if($pagination == 1){
-
+    
                             echo '<ul class="pagination">';
-
+    
                             for ($i=1; $i <= 4; $i++) { 
                                 echo '<li '.($pagination==$i ? 'class="active"' : '').'>
                                     <a href="'.$url.'negocios/pagina-'.$i.'">'.$i.'</a>
                                 </li>';
                             } 
-
+    
                             echo '  <li><a>...</a></li>
                                     <li><a href="'.$url.'negocios/pagina-'.$pagContactos.'">'.$pagContactos.'</a></li>
                                     <li><a href="'.$url.'negocios/pagina-'.($pagination+1).'">&raquo;</a></li>';
                             
                             echo '</ul>';
-
+    
                         } else if(
                             $pagination != $pagContactos && 
                             $pagination != 1 &&
                             $pagination <  ($pagContactos/2) &&
                             $pagination < ($pagContactos-3)
                         ){ 
-
+    
                             $numPageActual = $pagination;
-
+    
                             echo '<ul class="pagination">';
                             echo '<li><a href="'.$url.'negocios/pagina-'.($pagination-1).'">&laquo;</a></li>';
-
+    
                             for ($i=$numPageActual; $i <= ($numPageActual+3); $i++) { 
                                 echo '<li '.($pagination==$i ? 'class="active"' : '').'>
                                     <a href="'.$url.'negocios/pagina-'.$i.'">'.$i.'</a>
                                 </li>';
                             } 
-
+    
                             echo '  <li><a>...</a></li>
                                     <li><a href="'.$url.'negocios/pagina-'.$pagContactos.'">'.$pagContactos.'</a></li>
                                     <li><a href="'.$url.'negocios/pagina-'.($numPageActual+1).'">&raquo;</a></li>';                                
                             
                             echo '</ul>';
-
+    
                         } elseif($pagination != $pagContactos && 
                                 $pagination != 1 &&
                                 $pagination >=  ($pagContactos/2) &&
                                 $pagination < ($pagContactos-3)
                         ){
                             $numPageActual = $pagination;
-
+    
                             echo '<ul class="pagination">';
                             echo '<li><a href="'.$url.'negocios/pagina-'.($numPageActual-1).'">&laquo;</a></li>
                                 <li><a href="'.$url.'negocios/pagina-1">1</a></li>
                                 <li><a>...</a></li>'; 
                             
                             
-
+    
                             for ($i=$numPageActual; $i <= ($numPageActual+3); $i++) { 
                                 echo '<li '.($pagination==$i ? 'class="active"' : '').'>
                                     <a href="'.$url.'negocios/pagina-'.$i.'">'.$i.'</a>
                                 </li>';
                             } 
-
+    
                             echo '<li><a href="'.$url.'negocios/pagina-'.($pagination+1).'">&raquo;</a></li>';
                             echo '</ul>';
-
-
+    
+    
                         } else {
-
+    
                             $numPageActual = $pagination;
-
+    
                             echo '<ul class="pagination">';
                             echo '<li><a href="'.$url.'negocios/pagina-'.($numPageActual-1).'">&laquo;</a></li>
                                 <li><a href="'.$url.'negocios/pagina-1">1</a></li>
                                 <li><a>...</a></li>'; 
                             
                             
-
+    
                             for ($i=($pagContactos-3); $i <= $pagContactos; $i++) { 
                                 echo '<li '.($pagination==$i ? 'class="active"' : '').'>
                                     <a href="'.$url.'negocios/pagina-'.$i.'">'.$i.'</a>
                                 </li>';
                             }                         
                             echo '</ul>';
-
+    
                         }
-
+    
                         
                     } else {
-
+    
                         echo '<ul class="pagination">';
-
+    
                         for ($i=1; $i <= $pagContactos ; $i++) { 
                             echo '<li '.($pagination==$i ? 'class="active"' : '').'>
                                     <a href="'.$url.'negocios/pagina-'.$i.'">'.$i.'</a>
                                 </li>';
                         } 
-
+    
                         echo '</ul>';
                     }
-
+    
                 }
-
+    
+                
+            }
                 
             ?>
           </div>

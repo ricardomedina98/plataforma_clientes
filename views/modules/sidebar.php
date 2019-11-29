@@ -9,7 +9,7 @@
 
     <ul class="sidebar-menu" data-widget="tree">
       
-        <li class="active">
+        <li>
             <a href="<?php echo $url; ?>inicio/"><i class="fa fa-home" aria-hidden="true"></i> <span>Inicio</span></a>
         </li>
         

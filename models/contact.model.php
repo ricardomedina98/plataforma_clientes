@@ -191,8 +191,7 @@ class ContactModel{
         $contact_business->bindParam(':id_contact', $data['id_user'], PDO::PARAM_INT);
         $contact_business->bindParam(':business_name', $data['business_name'], PDO::PARAM_STR);
 
-        $empalmes = $contact_business->execute();
-
+        $contact_business->execute();
         if($contact->execute() && $aboutContact->execute() && $contactAddress->execute()){
             if(!empty($imageDataBase["profile_photo"])){
                 $imageBackup = new Helper();
@@ -480,14 +479,14 @@ class ContactModel{
     public static function modelAddProduct($data) {
         $connection = Connection::connect();
 
-        $addProduct = $connection->prepare("insert into contact_products(id_contact, name_product, quantity_total, quantity_unitary) 
-        values (:id_contact, :name_product, :quantity_total, :quantity_unitary)");
+        $addProduct = $connection->prepare("insert into contact_products(id_contact, name_product, brand, quantity, cut) values (:id_contact, :name_product, :brand, :quantity, :cut);");
 
         $addProduct -> bindParam(":id_contact", $data['id_contact'], PDO::PARAM_INT);
 
         $addProduct -> bindParam(":name_product", $data['name_product'], PDO::PARAM_STR);
-        $addProduct -> bindParam(":quantity_total", $data['quantity_total'], PDO::PARAM_STR);
-        $addProduct -> bindParam(":quantity_unitary", $data['quantity_unitary'], PDO::PARAM_STR);
+        $addProduct -> bindParam(":brand", $data['brand'], PDO::PARAM_STR);
+        $addProduct -> bindParam(":quantity", $data['quantity'], PDO::PARAM_STR);
+        $addProduct -> bindParam(":cut", $data['cut'], PDO::PARAM_STR);
 
         if($addProduct -> execute()){            
             return true;
@@ -500,7 +499,7 @@ class ContactModel{
 
         $connection = Connection::connect();
 
-        $showProducts = $connection->prepare("select id_contact_product, id_contact, name_product, quantity_total, quantity_unitary from contact_products where id_contact = :id_contact");
+        $showProducts = $connection->prepare("select cp.id_contact_product, cp.name_product, cp.brand, cp.quantity, cp.cut from contact_products cp where cp.id_contact = :id_contact");
 
         $showProducts -> bindParam(":id_contact", $id_contact, PDO::PARAM_INT);
 
@@ -515,7 +514,7 @@ class ContactModel{
 
         $connection = Connection::connect();
 
-        $showProducts = $connection->prepare("select id_contact_product, id_contact, name_product, quantity_total, quantity_unitary from contact_products where id_contact_product = :id_contact_product");
+        $showProducts = $connection->prepare("select cp.id_contact_product, cp.name_product, cp.brand, cp.quantity, cp.cut from contact_products cp where cp.id_contact_product = :id_contact_product");
 
         $showProducts -> bindParam(":id_contact_product", $id_contact_product, PDO::PARAM_INT);
 
@@ -530,14 +529,14 @@ class ContactModel{
 
         $connection = Connection::connect();
 
-        $addProduct = $connection->prepare("update contact_products 
-            set name_product = :name_product, quantity_total = :quantity_total, quantity_unitary = :quantity_unitary where id_contact_product = :id_contact_product");
+        $addProduct = $connection->prepare("update contact_products set name_product = :name_product, brand = :brand, quantity = :quantity, cut = :cut where id_contact_product = :id_contact_product");
 
         $addProduct -> bindParam(":id_contact_product", $data['id_contact_product'], PDO::PARAM_INT);
 
         $addProduct -> bindParam(":name_product", $data['name_product'], PDO::PARAM_STR);
-        $addProduct -> bindParam(":quantity_total", $data['quantity_total'], PDO::PARAM_STR);
-        $addProduct -> bindParam(":quantity_unitary", $data['quantity_unitary'], PDO::PARAM_STR);
+        $addProduct -> bindParam(":brand", $data['brand'], PDO::PARAM_STR);
+        $addProduct -> bindParam(":quantity", $data['quantity'], PDO::PARAM_STR);
+        $addProduct -> bindParam(":cut", $data['cut'], PDO::PARAM_STR);
 
         if($addProduct -> execute()){            
             return true;

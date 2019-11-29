@@ -60,7 +60,7 @@
 
                                 <div class="col-sm-3">
 
-                                    <input class="form-control" id="searchText" name="searchText" placeholder="Ingrese el contacto a buscar" type="text">
+                                    <input class="form-control" id="searchText" name="searchText" placeholder="Ingrese el dueño a buscar" type="text">
 
                                 </div>
 
@@ -74,10 +74,12 @@
 
                                     <div class="col-sm-2">
 
-                                        <select class="form-control" name="filterSQL" id="filterSQLBusiness">
+                                        <select class="form-control" name="filterSQL" id="filterSQLOwners">
                                             <option value="">Seleccione un filtro</option>
-                                            <option value="searchComercialName">Nombre Comercial</option>
-                                            <option value="searchNameFiscal">Nombre Fiscal</option>                                            
+                                            <option value="searchNames">Nombres</option>
+                                            <option value="searchSurNames">Apellidos</option>                                            
+                                            <option value="searchAlias">Alias</option>                                            
+                                            <option value="searchPhone">Celular</option>
                                             <option value="searchEmail">Correo</option>
 
                                         </select>
@@ -217,12 +219,11 @@
           <div class="text-center">
 
             
-            <?php
-                $totalContacts = BusinessController::controlerCountBusiness();  
+            <?php                
                 
-                if($totalContacts>0){
+                if(count($owners)>0){
 
-                    $pagContactos = ceil($totalContacts/$tope);
+                    $pagContactos = ceil(count($owners)/$tope);
 
                     if($pagContactos > 4){
 

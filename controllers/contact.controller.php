@@ -227,13 +227,14 @@ class ContactController{
 
     public static function controllerAddProduct() {
 
-        if(isset($_POST['name_product']) && isset($_POST["quantity_unitary"]) && isset($_POST["quantity_total"]) && isset($_POST["id_contact"])){
+        if(isset($_POST['name_product']) && isset($_POST["brand"]) && isset($_POST["quantity"]) && isset($_POST["cut"]) && isset($_POST["id_contact"])){
 
             $data = array(
                 "id_contact" => $_POST["id_contact"],
                 "name_product" => $_POST['name_product'], 
-                "quantity_unitary" => $_POST['quantity_unitary'], 
-                "quantity_total" => $_POST['quantity_total']
+                "brand" => $_POST['brand'], 
+                "quantity" => $_POST['quantity'], 
+                "cut" => $_POST['cut']
             );
 
             $request = ContactModel::modelAddProduct($data);
@@ -251,13 +252,14 @@ class ContactController{
 
     public static function controllerUpdateProduct() {
 
-        if(isset($_POST['nameEditproduct']) && isset($_POST["quantityEditunitary"]) && isset($_POST["quantityEditTotal"]) && isset($_POST["id_contact_product"])){
+        if(isset($_POST['name_productEdit']) && isset($_POST["brandEdit"]) && isset($_POST["quantityEdit"]) && isset($_POST["cutEdit"]) && isset($_POST["id_contact_product"])){
 
             $data = array(
                 "id_contact_product" => $_POST["id_contact_product"],
-                "name_product" => $_POST['nameEditproduct'], 
-                "quantity_unitary" => $_POST['quantityEditunitary'], 
-                "quantity_total" => $_POST['quantityEditTotal']
+                "name_product" => $_POST['name_productEdit'], 
+                "brand" => $_POST['brandEdit'], 
+                "quantity" => $_POST['quantityEdit'], 
+                "cut" => $_POST['cutEdit']
             );
 
             $request = ContactModel::modelUpdateProduct($data);
