@@ -66,12 +66,34 @@ create table incidents(
     constraint id_contact_fk_inc foreign key(id_contact) references contacts(id_contact)
 );
 
+
 create table contact_products(
 	id_contact_product int auto_increment,
     id_contact int not null,
     name_product varchar(255) not null,
-    quantity_total varchar(255) null,
-    quantity_unitary varchar(255) null,
+    brand varchar(255) not null,
+    quantity varchar(255) null,
+    cut varchar(255) not null,
     constraint pk_id_contact_product primary key(id_contact_product),
     constraint fk_id_contact_products foreign key(id_contact) references contacts(id_contact)
 );
+
+create table own_business(
+	id_own_business int auto_increment,
+    name_business varchar(150) not null,
+    constraint pk_id_own_business primary key(id_own_business)
+);
+
+create table own_business_contact(
+	id_contact int not null,
+    id_own_business int not null,
+    constraint fk_id_contact_own_busi_cont foreign key(id_contact) references contacts(id_contact),
+    constraint fk_id_own_business_own_busi_cont foreign key(id_own_business) references own_business(id_own_business)
+);
+
+insert into own_business(name_business) values ('Alcon Supermarket');
+insert into own_business(name_business) values ('Mayoreo de Carnes Estrella');
+
+select * from 
+insert into own_business_contact values (19, 1);
+insert into own_business_contact values (19, 2);

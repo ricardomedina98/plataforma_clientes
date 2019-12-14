@@ -190,8 +190,24 @@ class ContactModel{
         $contact_business = $connection->prepare("update contact_business set id_business = (select id_business from business where commercial_name = :business_name) where id_contact = :id_contact");
         $contact_business->bindParam(':id_contact', $data['id_user'], PDO::PARAM_INT);
         $contact_business->bindParam(':business_name', $data['business_name'], PDO::PARAM_STR);
-
         $contact_business->execute();
+
+        if(count($data['own_business']) > 0) {
+            $contact_own_business = $connection->prepare("delete from own_business_contact where id_contact = :id_contact");
+            $contact_own_business->bindParam(':id_contact', $data['id_user'], PDO::PARAM_INT);
+    
+            if($contact_own_business->execute()) {
+                foreach ($data['own_business'] as $key => $own_business) {
+                    $contact_own_business_int = $connection->prepare("insert into own_business_contact(id_contact, id_own_business) values (:id_contact, :id_own_business)");
+                    $contact_own_business_int->bindParam(':id_contact', $data['id_user'], PDO::PARAM_INT);
+                    $contact_own_business_int->bindParam(':id_own_business', $own_business, PDO::PARAM_INT);
+                    $contact_own_business_int->execute();
+                }
+            }
+        }
+        
+
+        
         if($contact->execute() && $aboutContact->execute() && $contactAddress->execute()){
             if(!empty($imageDataBase["profile_photo"])){
                 $imageBackup = new Helper();
@@ -221,6 +237,7 @@ class ContactModel{
         $deleteTickets = $connection->prepare("delete from tickets where id_contact = :id_contact");
         $deleteBus = $connection->prepare("delete from contact_business where id_contact = :id_contact");
         $incidents = $connection->prepare("delete from incidents where id_contact = :id_contact");
+        $own_business_contact = $connection->prepare("delete from own_business_contact where id_contact = :id_contact");
         
 
         
@@ -230,6 +247,7 @@ class ContactModel{
         $deleteTickets->bindParam(":id_contact", $id_user);
         $deleteBus->bindParam(":id_contact", $id_user);
         $incidents->bindParam(":id_contact", $id_user);
+        $own_business_contact->bindParam(":id_contact", $id_user);
         
 
         $e = $deleteBus->execute();
@@ -237,9 +255,11 @@ class ContactModel{
         $c = $deleteContactAbout->execute();
         $d = $deleteTickets->execute();
         $u = $incidents->execute();
+        $k = $own_business_contact->execute();
+        //Must be deleted end
         $a = $deleteContact->execute();
         
-        if($a && $b && $c && $d && $e && $u){
+        if($a && $b && $c && $d && $e && $u && $k){
             $deleteFolderUser = new Helper();
             $deleteFolderUser->deleteDirectoryContact($id_user, "contactos");
             $connection->commit();
@@ -561,6 +581,34 @@ class ContactModel{
         } else {
             return false;
         }
+    }
+
+    public static function modelGetOwnBusiness() {
+        $connection = Connection::connect();
+
+        $ownbusiness = $connection->prepare("select id_own_business, name_business from own_business;");        
+
+        $ownbusiness->execute();
+
+        $ownbusiness = $ownbusiness->fetchAll(PDO::FETCH_ASSOC);
+
+        return $ownbusiness;
+    }
+
+    public static function modelGetContactOwnBusiness($id_contact) {
+        $connection = Connection::connect();
+
+        $ownbusiness = $connection->prepare("select distinct obw.id_own_business , ob.name_business from own_business_contact obw
+        inner join own_business ob on ob.id_own_business = obw.id_own_business
+        where obw.id_contact = :id_contact");       
+        
+        $ownbusiness -> bindParam(":id_contact", $id_contact, PDO::PARAM_STR);
+
+        $ownbusiness->execute();
+
+        $ownbusiness = $ownbusiness->fetchAll(PDO::FETCH_ASSOC);
+
+        return $ownbusiness;
     }
 
 }

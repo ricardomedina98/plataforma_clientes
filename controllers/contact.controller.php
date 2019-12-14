@@ -269,19 +269,30 @@ class ContactController{
         
     }
 
+    public static function controllerGetOwnBusiness() {
+
+        $request = ContactModel::modelGetOwnBusiness();
+
+        return $request;
+
+    }
+
+    public static function controllerGetContactOwnBusiness($id_contact) {
+
+        $request = ContactModel::modelGetContactOwnBusiness($id_contact);
+
+        return $request;
+
+    }
+
+    /*AJAX */
+
     public static function controllerDeleteProduct($id_contact_product) {
 
         $request = ContactModel::modelDeleteProduct($id_contact_product);
 
         return $request;
     }
-
-
-
-    
-    
-
-    /*AJAX */
 
     public static function controllerAddTicket($datos){
 

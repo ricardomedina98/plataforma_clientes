@@ -172,11 +172,17 @@
                 <div class="container-fluid">
 
                     <div class="col-sm-12">
-                        <form id="formAddEmployee" class="form-horizontal" method="post" enctype=multipart/form-data>
-                            
+                        <form id="formFormatEmployee" class="form-horizontal" method="post" enctype=multipart/form-data>
 
-                            <input type="hidden" name="AddEmployee">
-                            
+                        <div class="form-group required">
+                                                                
+                            <label for="contract_created" class="col-sm-3 control-label">Creacion de Contrato</label>
+                                
+                                <div class="col-sm-3">
+                                    <input class="form-control " id="contract_created" name="contract_created" placeholder="Creacion de Contrato" type="text" autocomplete="off">
+                                </div>                                
+
+                            </div>
                             <div class="form-group">
 
                                 <label for="num_employee" class="col-sm-3 control-label">Numero</label>
@@ -185,46 +191,36 @@
                                     <input class="form-control" id="num_employee" name="num_employee" placeholder="Numero de Empleado" type="text" autocomplete="off">
                                 </div>
 
-                            </div>  
-                                                        
+                            </div> 
+
                             <div class="form-group required">
-                                
+                
                                 <label for="nameContact" class="col-sm-3 control-label">Nombre</label>
 
                                 <div class="col-sm-3">
-                                    <input class="form-control" id="nameEmployee" name="nameEmployee" placeholder="Nombre" type="text" autocomplete="off">
+                                    <input class="form-control" id="nameEmployeeModal" name="nameEmployee" placeholder="Nombre" type="text" autocomplete="off">
                                 </div>
 
                                 <div class="col-sm-3">
-                                    <input class="form-control" id="surName1Employee" name="surName1Employee" placeholder="Apellido Paterno" type="text" autocomplete="off">
+                                    <input class="form-control" id="surName1EmployeeModal" name="surName1Employee" placeholder="Apellido Paterno" type="text" autocomplete="off">
                                 </div>
 
                                 <div class="col-sm-3">
-                                    <input class="form-control" id="surName2Employee" name="surName2Employee" placeholder="Apellido Materno" type="text" autocomplete="off">
-                                </div>
-
-                                
-
-                            </div>
-
-
-                            <div class="form-group required">
-                                <label for="sexEmployee" class="col-sm-3 control-label">Sexo</label>
-                                
-                                <select class="col-sm-3" id="sexEmployee" name="sexEmployee" title="Selecciona un sexo">                                    
-                                    <option value="H">HOMBRE</option>
-                                    <option value="M">MUJER</option>                                    
-                                </select>
+                                    <input class="form-control" id="surName2EmployeeModal" name="surName2Employee" placeholder="Apellido Materno" type="text" autocomplete="off">
+                                </div>                                                
 
                             </div>
 
                             <div class="form-group required">
-                                <label for="civil_status" class="col-sm-3 control-label">Estado Civil</label>
-                                
-                                <select class="col-sm-3" id="civil_status" name="civil_status" title="Estado Civil">                                    
-                                                                      
-                                </select>
+                                <label for="position_employee" class="col-sm-3 control-label">Puesto</label>
 
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="category_employee" name="category_employee" placeholder="Area" type="text" autocomplete="off">
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="position_employee" name="position_employee" placeholder="Puesto del Empleado" type="text" autocomplete="off">
+                                </div>
                             </div>
 
                             <div class="form-group required">
@@ -236,36 +232,72 @@
                                 
                             </div>
 
+                            <br>
+
                             <div class="form-group required">
-                                <label for="birthdayEmployee" class="col-sm-3 control-label">Fecha de Nacimiento</label>
+
+                                <label for="addressStreet" class="col-sm-3 control-label">Direccion</label>
 
                                 <div class="col-sm-3">
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input class="form-control" id="birthdayEmployee" name="birthdayEmployee" type="text" autocomplete="off">
-                                    </div>
+                                    <input class="form-control" id="addressStreet" name="addressStreet" placeholder="Calle" type="text" autocomplete="off">
+                                </div>
+                
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="addressColony" name="addressColony" placeholder="Colonia" type="text" autocomplete="off">
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <input class="form-control" id="addressCodePostal" name="addressCodePostal" placeholder="Codigo Postal" type="text" autocomplete="off">
                                 </div>
 
                             </div>
-                            
 
+                            <div class="form-group">
+
+                                <label for="addressStreet" class="col-sm-3 control-label"></label>
+                                
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="addressCityA" name="addressCityA" placeholder="Ciudad" type="text" autocomplete="off">
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="addressStateA" name="addressStateA" placeholder="Estado" type="text" autocomplete="off">
+                                </div> 
+
+                            </div>
 
                             <div class="form-group required">
-                                <label for="position_employee" class="col-sm-3 control-label">Puesto</label>
-
-                                <div class="col-sm-4">
-                                    <input class="form-control" id="category_employee" name="category_employee" placeholder="Categoria" type="text" autocomplete="off">
+            
+                                <label for="addressStreet" class="col-sm-3 control-label">Salario Semanal</label>
+                                
+                                <div class="col-sm-3">
+                                    <input class="form-control" id="monthly_balance" name="monthly_balance" placeholder="Sueldo Semanal" type="text" autocomplete="off">
                                 </div>
 
-                                <div class="col-sm-4">
-                                    <input class="form-control" id="position_employee" name="position_employee" placeholder="Puesto del Empleado" type="text" autocomplete="off">
-                                </div>
                             </div>
 
-                        </form>
+                            <div class="form-group required">
+            
+                                <label for="addressStreet" class="col-sm-3 control-label">Importe Semanal</label>
+                                
+                                <div class="col-sm-3">
+                                    <input class="form-control" id="monthly_balance" name="monthly_balance" placeholder="Importe Semanal" type="text" autocomplete="off">
+                                </div>
 
+                            </div>
+
+                            <div class="form-group required">
+            
+                                <label for="addressStreet" class="col-sm-3 control-label">Salario Diario</label>
+                                
+                                <div class="col-sm-3">
+                                    <input class="form-control" id="daily_salary" name="daily_salary" placeholder="Salario Diario" type="text" autocomplete="off">
+                                </div>
+
+                            </div>
+                
+                           
+                        </form>
                     </div>
 
                     
@@ -491,12 +523,6 @@
 
                     </div>
 
-                    <?php
-
-                    
-
-                    ?>
-
                     
                 </div>
             </div>
@@ -574,7 +600,7 @@
                                                 <label for="position_employee" class="col-sm-3 control-label">Puesto</label>
 
                                                 <div class="col-sm-4">
-                                                    <input class="form-control" id="category_employee" name="category_employee" placeholder="Categoria" type="text" autocomplete="off">
+                                                    <input class="form-control" id="category_employee" name="category_employee" placeholder="Area" type="text" autocomplete="off">
                                                 </div>
 
                                                 <div class="col-sm-4">

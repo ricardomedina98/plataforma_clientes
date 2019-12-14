@@ -1,73 +1,90 @@
-$(document).ready(function() {
-  showTickets();
-  loadImages();
+$(document).ready(function () {
+    showTickets();
+    loadImages();
 
-  $(".disabled a").on("click", function() {
-    e.preventDefault();
-  });
+    $(".disabled a").on("click", function () {
+        e.preventDefault();
+    });
+
+    //Load business
+
+    $('#own_business').select2({
+        width: '100%',
+        tags: true,
+        tokenSeparators: [',', ' '],
+        placeholder: "Seleccione un local",
+    });
 });
 
 $("#fileupload")
-  .bind("fileuploadsubmit", function(e, data) {
-    var array = $("#fileupload").serializeArray();
+    .bind("fileuploadsubmit", function (e, data) {
+        var array = $("#fileupload").serializeArray();
 
-    var id_user = $("#id_user").val();
-    var id_type = $("#id_type").val();
-    var jsonData = { id_type: id_type, id_user: id_user };
+        var id_user = $("#id_user").val();
+        var id_type = $("#id_type").val();
+        var jsonData = {
+            id_type: id_type,
+            id_user: id_user
+        };
 
-    jsonData["Data"] = array;
-    
+        jsonData["Data"] = array;
 
-    $("#fileupload").fileupload({
-      uploadTemplateId: "template-upload",
-      downloadTemplateId: "template-download",
-      formData: jsonData
+
+        $("#fileupload").fileupload({
+            uploadTemplateId: "template-upload",
+            downloadTemplateId: "template-download",
+            formData: jsonData
+        });
+    })
+
+    .bind("fileuploadadded", function (e, data) {
+
+    })
+
+    .bind("dragover", function (e) {
+        var dropZone = $("#dropzone"),
+            timeout = window.dropZoneTimeout;
+        if (timeout) {
+            clearTimeout(timeout);
+        } else {
+            dropZone.addClass("in");
+        }
+        var hoveredDropZone = $(e.target).closest(dropZone);
+        dropZone.toggleClass("hover", hoveredDropZone.length);
+        window.dropZoneTimeout = setTimeout(function () {
+            window.dropZoneTimeout = null;
+            dropZone.removeClass("in hover");
+        }, 100);
     });
-  })
-
-  .bind("fileuploadadded", function(e, data) {
-    
-  })
-
-  .bind("dragover", function(e) {
-    var dropZone = $("#dropzone"),
-      timeout = window.dropZoneTimeout;
-    if (timeout) {
-      clearTimeout(timeout);
-    } else {
-      dropZone.addClass("in");
-    }
-    var hoveredDropZone = $(e.target).closest(dropZone);
-    dropZone.toggleClass("hover", hoveredDropZone.length);
-    window.dropZoneTimeout = setTimeout(function() {
-      window.dropZoneTimeout = null;
-      dropZone.removeClass("in hover");
-    }, 100);
-  });
 
 function loadImages() {
-  // Load existing files:
-  var id_user = $("#id_user").val();
-  var id_type = $("#id_type").val();
-  var jsonData = { id_type: id_type, id_user: id_user };
+    // Load existing files:
+    var id_user = $("#id_user").val();
+    var id_type = $("#id_type").val();
+    var jsonData = {
+        id_type: id_type,
+        id_user: id_user
+    };
 
-  $("#fileupload").addClass("fileupload-processing");
-  $.ajax({
-    data: jsonData,
-    url: getURL() + "views/img/users/upload.images.php",
-    dataType: "json",
-    context: $("#fileupload")[0]
-  })
-    .always(function() {
-      $(this).removeClass("fileupload-processing");
-      $("#tableShowImages tr").remove();
-    })
-    .done(function(files) {
-      loadImagesHome(files);
-      $(this)
-        .fileupload("option", "done")
-        .call(this, $.Event("done"), { result: files });
-    });
+    $("#fileupload").addClass("fileupload-processing");
+    $.ajax({
+            data: jsonData,
+            url: getURL() + "views/img/users/upload.images.php",
+            dataType: "json",
+            context: $("#fileupload")[0]
+        })
+        .always(function () {
+            $(this).removeClass("fileupload-processing");
+            $("#tableShowImages tr").remove();
+        })
+        .done(function (files) {
+            loadImagesHome(files);
+            $(this)
+                .fileupload("option", "done")
+                .call(this, $.Event("done"), {
+                    result: files
+                });
+        });
 }
 
 function loadImagesHome(files) {
@@ -80,58 +97,58 @@ function loadImagesHome(files) {
     var photosContact = $("#photosContact");
     for (i in files["files"]) {
         var html =
-        '<a href="' +
-        files["files"][i].url +
-        '"><img class="imagesContact" src="' +
-        files["files"][i].thumbnailUrl +
-        '"></a>';
+            '<a href="' +
+            files["files"][i].url +
+            '"><img class="imagesContact" src="' +
+            files["files"][i].thumbnailUrl +
+            '"></a>';
         photosContact.append(html);
         photosContact.data("lightGallery").destroy(true);
         photosContact.lightGallery();
     }
 }
 
-$("#fotosUpload").click(function() {
-  loadImages();
+$("#fotosUpload").click(function () {
+    loadImages();
 });
 
-$(document).bind("drop dragover", function(e) {
-  e.preventDefault();
+$(document).bind("drop dragover", function (e) {
+    e.preventDefault();
 });
 
 /* Tickets*/
-$("#dataImageTicket").change(function() {
-  deleteAlters();
+$("#dataImageTicket").change(function () {
+    deleteAlters();
 
-  var imageTicket = this.files[0];
+    var imageTicket = this.files[0];
 
-  if (imageTicket["type"] != "image/jpeg") {
-    $("#dataImageTicket").val("");
-    showAlertModal(
-      "Formato Incorrecto",
-      "La imagen debe estar en formato JPEG",
-      false
-    );
-  } else if (imageTicket["size"] > 5000000) {
-    $("#dataImageTicket").val("");
-    showAlertModal(
-      "Tamaño demasiado grande",
-      "La imagen no debe de pesar mas de 2mb",
-      false
-    );
-  } else {
-    var dataImage = new FileReader();
-    dataImage.readAsDataURL(imageTicket);
+    if (imageTicket["type"] != "image/jpeg") {
+        $("#dataImageTicket").val("");
+        showAlertModal(
+            "Formato Incorrecto",
+            "La imagen debe estar en formato JPEG",
+            false
+        );
+    } else if (imageTicket["size"] > 5000000) {
+        $("#dataImageTicket").val("");
+        showAlertModal(
+            "Tamaño demasiado grande",
+            "La imagen no debe de pesar mas de 2mb",
+            false
+        );
+    } else {
+        var dataImage = new FileReader();
+        dataImage.readAsDataURL(imageTicket);
 
-    $(dataImage).on("load", function(event) {
-      var routeImage = event.target.result;
+        $(dataImage).on("load", function (event) {
+            var routeImage = event.target.result;
 
-      $("#previewTicket").attr("src", routeImage);
-    });
-  }
+            $("#previewTicket").attr("src", routeImage);
+        });
+    }
 });
 
-$("#addTicket").click(function() {
+$("#addTicket").click(function () {
     var folio = $("#folioTicket").val();
     var cajaTicket = $("#cajaTicket").val();
     var sellerTicket = $("#sellerTicket").val();
@@ -152,189 +169,189 @@ $("#addTicket").click(function() {
     }
 });
 
-$("#formTicket").submit(function(e) {
-  deleteAlters();
+$("#formTicket").submit(function (e) {
+    deleteAlters();
 
-  e.preventDefault();
-  var urlWeb = getURL() + "ajax/tickets.ajax.php";
+    e.preventDefault();
+    var urlWeb = getURL() + "ajax/tickets.ajax.php";
 
-  $.ajax({
-    url: urlWeb,
-    method: "POST",
-    data: new FormData(this),
-    cache: false,
-    contentType: false,
-    processData: false,
-    success: function(respuesta) {
-      if (respuesta) {
-        console.log();
-        $("#formTicket")[0].reset();
-        $("#dataImageTicket").val("");
-        $("#previewTicket").attr("src", "");
-        $("#modalTicket").modal("hide");
-        showAlert("Correcto!", "Tickets guardado correctamente", true);
-        showTickets();
-      } else {
-        showAlertModal("Error!", "Hubo un error al guardar el ticket", false);
-      }
-    }
-  });
+    $.ajax({
+        url: urlWeb,
+        method: "POST",
+        data: new FormData(this),
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (respuesta) {
+            if (respuesta) {
+                console.log();
+                $("#formTicket")[0].reset();
+                $("#dataImageTicket").val("");
+                $("#previewTicket").attr("src", "");
+                $("#modalTicket").modal("hide");
+                showAlert("Correcto!", "Tickets guardado correctamente", true);
+                showTickets();
+            } else {
+                showAlertModal("Error!", "Hubo un error al guardar el ticket", false);
+            }
+        }
+    });
 });
 
 function showTickets() {
-  var urlWeb = getURL() + "ajax/tickets.ajax.php";
-  var url = getURL();
+    var urlWeb = getURL() + "ajax/tickets.ajax.php";
+    var url = getURL();
 
-  var data = new FormData();
-  data.append("id_user_ticket", $("#id_user").val());
+    var data = new FormData();
+    data.append("id_user_ticket", $("#id_user").val());
 
-  $("#photoTicket").empty();
+    $("#photoTicket").empty();
 
-  $("#photoTicket").lightGallery({
-    selector: ".imageTicket"
-  });
-
-  $.ajax({
-    url: urlWeb,
-    method: "POST",
-    data: data,
-    cache: false,
-    contentType: false,
-    processData: false,
-    success: function(respuesta) {
-      var tickets = JSON.parse(respuesta);
-
-      var photosTickets = $("#photoTicket");
-
-      for (i in tickets) {
-        var html =
-          '<div class="col-xs-3 col-md-4" ><div class="thumbnail"><button class="close" id_ticket="' +
-          tickets[i].id_ticket +
-          '">x</button><div class="imageTicket text-center" data-src="' +
-          url +
-          tickets[i].photo_ticket +
-          '"><img src="' +
-          url +
-          tickets[i].photo_ticket +
-          '" alt=""></div><div class="caption text-center"><div class="title_folio">Folio: <span style="font-weight: bold;">' +
-          tickets[i].folio +
-          '</span></div><div class="title_total">Monto Total: <span style="font-weight: bold;">' +
-          tickets[i].totalAmount +
-          '</span></div><div class="title_seller">Vendedora: <span style="font-weight: bold;">' +
-          tickets[i].seller +
-          '</span></div><div class="title_caja">Caja: <span style="font-weight: bold;">' +
-          tickets[i].branch +
-          "</span></div></div></div></div>";
-        photosTickets.append(html);
-      }
-
-      photosTickets.data("lightGallery").destroy(true);
-      photosTickets.lightGallery({
+    $("#photoTicket").lightGallery({
         selector: ".imageTicket"
-      });
-    }
-  });
-}
+    });
 
-$("#photoTicket").on("click", ".close", function() {
-  var btnClose = $(this);
-
-  var urlWeb = getURL() + "/ajax/tickets.ajax.php";
-
-  var data = new FormData();
-  data.append("id_ticket", $(this).attr("id_ticket"));
-
-  $.ajax({
-    url: urlWeb,
-    method: "POST",
-    data: data,
-    cache: false,
-    contentType: false,
-    processData: false,
-    success: function(respuesta) {
-      if (respuesta) {
-        $(btnClose)
-          .parents(".col-md-4")
-          .remove();
-        $("#photoTicket")
-          .data("lightGallery")
-          .destroy(true);
-        $("#photoTicket").lightGallery({
-          selector: ".imageTicket"
-        });
-      }
-    }
-  });
-});
-
-$("#deleteContactEdit").click(function(e) {
-  e.preventDefault();
-
-  swal({
-    title: "Estas seguro?",
-    text: "Se eliminara el contacto y toda su informacion incluyendo imagenes",
-    type: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#DD6B55",
-    cancelButtonText: "Cancelar",
-    confirmButtonText: "Si, eliminar"
-  }).then(result => {
-    if (result.value) {
-      var urlWeb = getURL() + "ajax/tickets.ajax.php";
-
-      var data = new FormData();
-      data.append("id_user_delete", $("#id_user").val());
-      console.log(data);
-
-      $.ajax({
+    $.ajax({
         url: urlWeb,
         method: "POST",
         data: data,
         cache: false,
         contentType: false,
         processData: false,
-        success: function(respuesta) {
-          console.log(respuesta);
-          location.href = getURL() + "contactos/";
+        success: function (respuesta) {
+            var tickets = JSON.parse(respuesta);
+
+            var photosTickets = $("#photoTicket");
+
+            for (i in tickets) {
+                var html =
+                    '<div class="col-xs-3 col-md-4" ><div class="thumbnail"><button class="close" id_ticket="' +
+                    tickets[i].id_ticket +
+                    '">x</button><div class="imageTicket text-center" data-src="' +
+                    url +
+                    tickets[i].photo_ticket +
+                    '"><img src="' +
+                    url +
+                    tickets[i].photo_ticket +
+                    '" alt=""></div><div class="caption text-center"><div class="title_folio">Folio: <span style="font-weight: bold;">' +
+                    tickets[i].folio +
+                    '</span></div><div class="title_total">Monto Total: <span style="font-weight: bold;">' +
+                    tickets[i].totalAmount +
+                    '</span></div><div class="title_seller">Vendedora: <span style="font-weight: bold;">' +
+                    tickets[i].seller +
+                    '</span></div><div class="title_caja">Caja: <span style="font-weight: bold;">' +
+                    tickets[i].branch +
+                    "</span></div></div></div></div>";
+                photosTickets.append(html);
+            }
+
+            photosTickets.data("lightGallery").destroy(true);
+            photosTickets.lightGallery({
+                selector: ".imageTicket"
+            });
         }
-      });
-    }
-  });
+    });
+}
+
+$("#photoTicket").on("click", ".close", function () {
+    var btnClose = $(this);
+
+    var urlWeb = getURL() + "/ajax/tickets.ajax.php";
+
+    var data = new FormData();
+    data.append("id_ticket", $(this).attr("id_ticket"));
+
+    $.ajax({
+        url: urlWeb,
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (respuesta) {
+            if (respuesta) {
+                $(btnClose)
+                    .parents(".col-md-4")
+                    .remove();
+                $("#photoTicket")
+                    .data("lightGallery")
+                    .destroy(true);
+                $("#photoTicket").lightGallery({
+                    selector: ".imageTicket"
+                });
+            }
+        }
+    });
+});
+
+$("#deleteContactEdit").click(function (e) {
+    e.preventDefault();
+
+    swal({
+        title: "Estas seguro?",
+        text: "Se eliminara el contacto y toda su informacion incluyendo imagenes",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, eliminar"
+    }).then(result => {
+        if (result.value) {
+            var urlWeb = getURL() + "ajax/tickets.ajax.php";
+
+            var data = new FormData();
+            data.append("id_user_delete", $("#id_user").val());
+            console.log(data);
+
+            $.ajax({
+                url: urlWeb,
+                method: "POST",
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (respuesta) {
+                    console.log(respuesta);
+                    location.href = getURL() + "contactos/";
+                }
+            });
+        }
+    });
 });
 
 var urlType = getURL() + "ajax/showBussines.ajax.php";
 console.log(getURL());
 $.typeahead({
-  input: ".js-typeahead-business",
-  order: "asc",
-  offset: true,
-  hint: true,
-  source: {
-    ajax: {
-      url: urlType,
-      callback: {
-        done: function(data, textStatus, jqXHR) {
-          console.log(textStatus);
-          console.log(data);
-          return data;
-        },
-        fail: function(jqXHR, textStatus, errorThrown) {
-          console.log(textStatus);
-        },
-        always: function(data, textStatus, jqXHR) {
-          console.log(textStatus);
-        },
-        then: function(jqXHR, textStatus) {
-          console.log(textStatus);
+    input: ".js-typeahead-business",
+    order: "asc",
+    offset: true,
+    hint: true,
+    source: {
+        ajax: {
+            url: urlType,
+            callback: {
+                done: function (data, textStatus, jqXHR) {
+                    console.log(textStatus);
+                    console.log(data);
+                    return data;
+                },
+                fail: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus);
+                },
+                always: function (data, textStatus, jqXHR) {
+                    console.log(textStatus);
+                },
+                then: function (jqXHR, textStatus) {
+                    console.log(textStatus);
+                }
+            }
         }
-      }
+    },
+    callback: {
+        onClickBefore: function () {
+            console.log("Click");
+        }
     }
-  },
-  callback: {
-    onClickBefore: function() {
-      console.log("Click");
-    }
-  }
 });
 
 /* Validacion formulario */
@@ -348,25 +365,25 @@ $("#form_contact").on("submit", function(){
 
   */
 
-$(".btnEditIncident").click(function(){
-    
-    var urlWeb = getURL()+"ajax/incidents.ajax.php";
+$(".btnEditIncident").click(function () {
+
+    var urlWeb = getURL() + "ajax/incidents.ajax.php";
     var id_incident = $(this).attr("ideditincident");
     var id_user = $("#id_user").val();
     var id_type = $("#id_type").val();
-    
+
     var data = new FormData();
     data.append("id_incident", id_incident);
     $.ajax({
-        url:urlWeb,
-        method:"POST",
+        url: urlWeb,
+        method: "POST",
         data: data,
         cache: false,
         contentType: false,
         processData: false,
-        dataType:"json",
-        success:function(respuesta){  			
-            console.log("​respuesta", respuesta);              
+        dataType: "json",
+        success: function (respuesta) {
+            console.log("​respuesta", respuesta);
             $("#subjectEditIncident").val(respuesta.subject);
             $("#dateRegistrationModalEdit").datepicker("setDate", respuesta.dateIncident);
             $("#timePickerEdit").timepicker("setTime", respuesta.timeIncident);
@@ -374,36 +391,42 @@ $(".btnEditIncident").click(function(){
             $("#personalEditIncident").val(respuesta.personal_involved);
             $("#commentsEditIncident").val(respuesta.description);
             $("#id_incident_edit").val(respuesta.id_incident);
+        }
+
+    });
+
+    function ConvertDate(inputFormat) {
+        var temp = inputFormat.split('-');
+        var date = temp[2] + "/" + temp[1] + "/" + temp[0];
+        return date;
     }
 
-});
+    var jsonData = {
+        id_type: id_type,
+        id_user: id_user,
+        id_incident: id_incident
+    };
 
-function ConvertDate(inputFormat){
-    var temp = inputFormat.split('-');
-    var date = temp[2]+"/"+temp[1]+"/"+temp[0];
-    return date;
-}
-    
-    var jsonData = { id_type: id_type, id_user: id_user, id_incident: id_incident};
-  
     $("#formEditIncidents").addClass("fileupload-processing");
     $.ajax({
-      data: jsonData,
-      url: getURL() + "views/img/users/upload.incidents.php",
-      dataType: "json",
-      context: $("#formEditIncidents")[0]
-    })
-      .always(function() {
-        $(this).removeClass("fileupload-processing");
-        $("#tableShowIncidents tr").remove();
-      })
-      .done(function(files) {        
-        $(this)
-          .fileupload("option", "done")
-          .call(this, $.Event("done"), { result: files });
-      });
+            data: jsonData,
+            url: getURL() + "views/img/users/upload.incidents.php",
+            dataType: "json",
+            context: $("#formEditIncidents")[0]
+        })
+        .always(function () {
+            $(this).removeClass("fileupload-processing");
+            $("#tableShowIncidents tr").remove();
+        })
+        .done(function (files) {
+            $(this)
+                .fileupload("option", "done")
+                .call(this, $.Event("done"), {
+                    result: files
+                });
+        });
 
-    
+
 });
 
 
@@ -411,7 +434,7 @@ $("#formEditIncidents").fileupload({
     filesContainer: $('.filesIncidents'),
     uploadTemplateId: null,
     downloadTemplateId: null,
-    uploadTemplate: function (o) {        
+    uploadTemplate: function (o) {
         var rows = $();
         $.each(o.files, function (index, file) {
             var row = $('<tr class="template-upload fade">' +
@@ -439,7 +462,7 @@ $("#formEditIncidents").fileupload({
     },
     downloadTemplate: function (o) {
         var id_incident = $("#id_incident_edit").val();
-        var id_user = $("#id_user_edit").val(); 
+        var id_user = $("#id_user_edit").val();
         var rows = $();
         $(o.files).each(function (index, file) {
             var row = $('<tr class="template-download fade">' +
@@ -477,91 +500,92 @@ $("#formEditIncidents").fileupload({
     },
     dropZone: $("#dropzoneIncident"),
     url: getURL() + "views/img/users/upload.incidents.php",
-    drop: function(e, data) {
-        $.each(data.files, function(index, file) {
+    drop: function (e, data) {
+        $.each(data.files, function (index, file) {
             console.log("Dropped file: " + file.name);
         });
     },
-    change: function(e, data) {
-        $.each(data.files, function(index, file) {
+    change: function (e, data) {
+        $.each(data.files, function (index, file) {
             console.log("Selected file: " + file.name);
         });
     },
     fileInput: $("#inputUploadIncident")
-    
+
 });
 
 
 
 
 $("#formEditIncidents")
-    .bind("fileuploadsubmit", function(e, data) {
-           
+    .bind("fileuploadsubmit", function (e, data) {
+
     })
 
-    .bind("fileuploadadded", function(e, data) {
-        
+    .bind("fileuploadadded", function (e, data) {
+
     })
 
-    .bind("dragover", function(e) {
+    .bind("dragover", function (e) {
         var dropZone = $("#dropzoneIncident"),
-        timeout = window.dropZoneTimeout;
+            timeout = window.dropZoneTimeout;
         if (timeout) {
             clearTimeout(timeout);
         } else {
             dropZone.addClass("in");
         }
         var hoveredDropZone = $(e.target).closest(dropZone);
-            dropZone.toggleClass("hover", hoveredDropZone.length);
-            window.dropZoneTimeout = setTimeout(function() {
-            window.dropZoneTimeout = null;
-            dropZone.removeClass("in hover");
-        }, 
-    100)
-    .bind('fileuploadadd', function (e, data) {
-        $("#addIncident").click(function () {
-        var subject = $("#subjectIncident").val();
-        var comments = $("textarea#commentsContactIncident").val();
-    
-        if (subject != "" && comments != "") {
-            data.submit();
-        } else {
-            return false;
-        }
-        
-    });})
-    
-});
+        dropZone.toggleClass("hover", hoveredDropZone.length);
+        window.dropZoneTimeout = setTimeout(function () {
+                    window.dropZoneTimeout = null;
+                    dropZone.removeClass("in hover");
+                },
+                100)
+            .bind('fileuploadadd', function (e, data) {
+                $("#addIncident").click(function () {
+                    var subject = $("#subjectIncident").val();
+                    var comments = $("textarea#commentsContactIncident").val();
 
-$("#addIncident").click(function(){
+                    if (subject != "" && comments != "") {
+                        data.submit();
+                    } else {
+                        return false;
+                    }
+
+                });
+            })
+
+    });
+
+$("#addIncident").click(function () {
     $("#formAddIncidents").submit();
 });
 
-$("#editIncident").click(function(){
+$("#editIncident").click(function () {
     $("#formEditIncidents").submit();
 });
 
 
 
-$(".btnViewIncident").click(function(){
-    var urlWeb = getURL()+"ajax/incidents.ajax.php";
+$(".btnViewIncident").click(function () {
+    var urlWeb = getURL() + "ajax/incidents.ajax.php";
     var id_incident = $(this).attr("idviewincident");
     var id_user = $("#id_user").val();
     var id_type = $("#id_type").val();
-    
+
     var data = new FormData();
     data.append("id_incident", id_incident);
     $.ajax({
-        url:urlWeb,
-        method:"POST",
+        url: urlWeb,
+        method: "POST",
         data: data,
         cache: false,
         contentType: false,
         processData: false,
-        dataType:"json",
-        success:function(respuesta){  
-			console.log("​respuesta", respuesta)
-            
+        dataType: "json",
+        success: function (respuesta) {
+            console.log("​respuesta", respuesta)
+
             $("#subjectViewIncident").text(respuesta.subject);
             $("#commentsViewIncident").text(respuesta.description);
             $("#dateViewIncident").text(respuesta.dateIncident);
@@ -572,17 +596,21 @@ $(".btnViewIncident").click(function(){
 
     });
 
-    var jsonData = { id_type: id_type, id_user: id_user, id_incident: id_incident};
-    
+    var jsonData = {
+        id_type: id_type,
+        id_user: id_user,
+        id_incident: id_incident
+    };
+
     $.ajax({
-        data: jsonData,
-        url: getURL() + "views/img/users/upload.incidents.php",
-        dataType: "json",
-        context: $("#fileupload")[0]
-    })
-        .done(function(files) {            
-            
-			$("#showImagesIncidents").empty();
+            data: jsonData,
+            url: getURL() + "views/img/users/upload.incidents.php",
+            dataType: "json",
+            context: $("#fileupload")[0]
+        })
+        .done(function (files) {
+
+            $("#showImagesIncidents").empty();
 
             $("#showImagesIncidents").lightGallery({
                 showThumbByDefault: false
@@ -591,75 +619,74 @@ $(".btnViewIncident").click(function(){
             var showImagesIncidents = $("#showImagesIncidents");
             for (i in files["files"]) {
                 //var extension = (/[.]/.exec(files["files"][i].url)) ? /[^.]+$/.exec(files["files"][i].url) : undefined;
-                if((/\.(gif|jpg|jpeg|png)$/i).test(files["files"][i].url)){
+                if ((/\.(gif|jpg|jpeg|png)$/i).test(files["files"][i].url)) {
                     var html =
-                    '<a href="' +
-                    files["files"][i].url +
-                    '"><img class="imagesIncidents" src="' +
-                    files["files"][i].thumbnailUrl +
-                    '"></a>';
+                        '<a href="' +
+                        files["files"][i].url +
+                        '"><img class="imagesIncidents" src="' +
+                        files["files"][i].thumbnailUrl +
+                        '"></a>';
                     showImagesIncidents.append(html);
-                    
-                } 
-                
-                if((/\.(mp4|wmv|webm)$/i).test(files["files"][i].url)) {
+
+                }
+
+                if ((/\.(mp4|wmv|webm)$/i).test(files["files"][i].url)) {
                     var html =
-                    '<video width="300" class="imagesIncidents" controls>' + 
-                    '<source src="'+files["files"][i].url+'" type="video/mp4">' +                    
-                    'Your browser does not support HTML5 video. '+
-                    '</video>';
+                        '<video width="300" class="imagesIncidents" controls>' +
+                        '<source src="' + files["files"][i].url + '" type="video/mp4">' +
+                        'Your browser does not support HTML5 video. ' +
+                        '</video>';
                     showImagesIncidents.append(html);
                 }
- 
+
             }
 
             showImagesIncidents.data("lightGallery").destroy(true);
             showImagesIncidents.lightGallery();
-            
-        }
-    );
-      
-    
+
+        });
+
+
 });
 
-$(".btnDeleteIncident").click(function(e) {
+$(".btnDeleteIncident").click(function (e) {
     e.preventDefault();
-  
+
     swal({
-      title: "Estas seguro?",
-      text: "Se eliminara el incidente y toda su informacion incluyendo imagenes",
-      type: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#DD6B55",
-      cancelButtonText: "Cancelar",
-      confirmButtonText: "Si, eliminar"
+        title: "Estas seguro?",
+        text: "Se eliminara el incidente y toda su informacion incluyendo imagenes",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, eliminar"
     }).then(result => {
-      if (result.value) {
-        var urlWeb = getURL() + "ajax/incidents.ajax.php";
-        var id_incident = $(this).attr("idDeleteIncident");
-  
-        var data = new FormData();
-        var id_user = $("#id_user").val();
-        data.append("id_incident_delete", id_incident);
-  
-        $.ajax({
-          url: urlWeb,
-          method: "POST",
-          data: data,
-          cache: false,
-          contentType: false,
-          processData: false,
-          success: function(respuesta) {
-            console.log(respuesta);
-            location.href = getURL() + "contactos/" + id_user;
-          }
-        });
-      }
+        if (result.value) {
+            var urlWeb = getURL() + "ajax/incidents.ajax.php";
+            var id_incident = $(this).attr("idDeleteIncident");
+
+            var data = new FormData();
+            var id_user = $("#id_user").val();
+            data.append("id_incident_delete", id_incident);
+
+            $.ajax({
+                url: urlWeb,
+                method: "POST",
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (respuesta) {
+                    console.log(respuesta);
+                    location.href = getURL() + "contactos/" + id_user;
+                }
+            });
+        }
     });
-  });
+});
 
 
-  $("#addProduct").click(function() {
+$("#addProduct").click(function () {
     var name_product = $("#name_product").val();
     var quantity_unitary = $("#quantity_unitary").val();
     var quantity_total = $("#quantity_total").val();
@@ -675,82 +702,83 @@ $(".btnDeleteIncident").click(function(e) {
     }
 });
 
-$(".btnEditProduct").click(function(){
-    
-  let urlWeb = getURL()+"ajax/contact.ajax.php";
-  let id_contact_product = $(this).attr("ideditproduct");  
-  
-  var data = new FormData();
-  data.append("id_contactProductEdit", id_contact_product);
-  $.ajax({
-      url:urlWeb,
-      method:"POST",
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      dataType:"json",
-      success:function(respuesta){  
-        console.log(respuesta);
-        $("#id_contact_product").val(respuesta.id_contact_product);			                      
-        $("#name_productEdit").val(respuesta.name_product);
-        $("#brandEdit").val(respuesta.brand);
-        $("#quantityEdit").val(respuesta.quantity);          
-        $("#cutEdit").val(respuesta.cut);          
-      } 
+$(".btnEditProduct").click(function () {
 
-})});
+    let urlWeb = getURL() + "ajax/contact.ajax.php";
+    let id_contact_product = $(this).attr("ideditproduct");
 
-
-$("#updateProduct").click(function() {
-  let name_product = $("#nameEditproduct").val();
-  let quantity_unitary = $("#quantityEditunitary").val();
-  let quantity_total = $("#quantityEditTotal").val();
-
-  if (
-      name_product != "" &&
-      quantity_unitary != "" ||
-      quantity_total != ""
-  ) {
-      $("#formEditProducts").submit();
-  } else {
-      return false;
-  }
-});
-
-$('.btnDeleteProduct').click(function() {  
-  
-  swal({
-    title: "¿Estas seguro?",
-    text: "Se eliminara el producto y toda su informacion",
-    type: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#DD6B55",
-    cancelButtonText: "Cancelar",
-    confirmButtonText: "Si, eliminar"
-  }).then(result => {
-    if (result.value) {
-      var urlWeb = getURL() + "ajax/contact.ajax.php";
-      
-      let data = new FormData();
-      let id_contact_product = $(this).attr("iddeleteproduct");
-      let id_user = $("#id_user").val();
-      data.append("id_contactProductDelete", id_contact_product);
-      console.log(data);
-
-      $.ajax({
+    var data = new FormData();
+    data.append("id_contactProductEdit", id_contact_product);
+    $.ajax({
         url: urlWeb,
         method: "POST",
         data: data,
         cache: false,
         contentType: false,
         processData: false,
-        success: function(response) {
-          if(response) {
-            location.href = getURL() + "contactos/" + id_user;
-          }
+        dataType: "json",
+        success: function (respuesta) {
+            console.log(respuesta);
+            $("#id_contact_product").val(respuesta.id_contact_product);
+            $("#name_productEdit").val(respuesta.name_product);
+            $("#brandEdit").val(respuesta.brand);
+            $("#quantityEdit").val(respuesta.quantity);
+            $("#cutEdit").val(respuesta.cut);
         }
-      });
+
+    })
+});
+
+
+$("#updateProduct").click(function () {
+    let name_product = $("#nameEditproduct").val();
+    let quantity_unitary = $("#quantityEditunitary").val();
+    let quantity_total = $("#quantityEditTotal").val();
+
+    if (
+        name_product != "" &&
+        quantity_unitary != "" ||
+        quantity_total != ""
+    ) {
+        $("#formEditProducts").submit();
+    } else {
+        return false;
     }
-  });
+});
+
+$('.btnDeleteProduct').click(function () {
+
+    swal({
+        title: "¿Estas seguro?",
+        text: "Se eliminara el producto y toda su informacion",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, eliminar"
+    }).then(result => {
+        if (result.value) {
+            var urlWeb = getURL() + "ajax/contact.ajax.php";
+
+            let data = new FormData();
+            let id_contact_product = $(this).attr("iddeleteproduct");
+            let id_user = $("#id_user").val();
+            data.append("id_contactProductDelete", id_contact_product);
+            console.log(data);
+
+            $.ajax({
+                url: urlWeb,
+                method: "POST",
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response) {
+                        location.href = getURL() + "contactos/" + id_user;
+                    }
+                }
+            });
+        }
+    });
 });

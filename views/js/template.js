@@ -69,7 +69,6 @@
         noneSelectedText : 'Seleccione una ciudad'
     });
 
-
     var urlStates = getURL()+"ajax/json.ajax.php";    
 
     var data = new FormData();
@@ -83,7 +82,7 @@
         contentType:false,
         processData: false,
         dataType: 'json',
-        success: function(respuesta){
+        success: function(respuesta){            
             var estados = $('#addressState');
             var optionDefaul = '<option value="">Seleccione un estado</option>';
             estados.append(optionDefaul);
@@ -102,8 +101,7 @@
     }) 
 
     let url = window.location;
-    let sub_url = window.origin + '/' + window.location.pathname.split('/')[1] + '/' + window.location.pathname.split('/')[2] + '/';
-    console.log(sub_url);
+    let sub_url = window.origin + '/' + window.location.pathname.split('/')[1] + '/' + window.location.pathname.split('/')[2] + '/';    
     
     // for sidebar menu entirely but not cover treeview
     $('ul.sidebar-menu a').filter(function() {

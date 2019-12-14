@@ -10,6 +10,8 @@ $addProduct = ContactController::controllerAddProduct();
 
 $updateProduct = ContactController::controllerUpdateProduct();
 
+$own_business = ContactController::controllerGetOwnBusiness();
+
 ?>
 
 <div class="content-wrapper">
@@ -229,11 +231,6 @@ $updateProduct = ContactController::controllerUpdateProduct();
                     ?>      
                         
 
-                                               
-                                
-                                
-                            
-
                     <div class="box box-primary">
                         <div class="box-header">
                             <h3 class="box-title">Descargar Datos</h3>
@@ -334,6 +331,36 @@ $updateProduct = ContactController::controllerUpdateProduct();
                             </div>
 
                             <div class="form-group">
+                                <label for="own_business" class="col-sm-2 control-label">¿Donde compra?</label>
+
+                                <div class="col-sm-3">
+                                    <select class="form-control" id="own_business" name="own_business[]" multiple="multiple">
+                                    ';
+
+                                    $own_business_contact = ContactController::controllerGetContactOwnBusiness($requestContact['id_contact']);                                    
+                                    foreach ($own_business as $key_business => $business) {
+
+                                        foreach ($own_business_contact as $key_bus_contact => $business_contact) {
+                                            if($business_contact['id_own_business'] === $business['id_own_business']) {
+
+                                                $id_own_business = $business_contact['id_own_business'];
+                                                echo '<option value="'.$business_contact['id_own_business'].'" selected>'.$business_contact['name_business'].'</option>';
+
+                                            }
+                                        }
+
+                                        if($business['id_own_business'] !== $id_own_business) {
+                                            echo '<option value="'.$business['id_own_business'].'">'.$business['name_business'].'</option>';
+                                        }
+                                    }
+
+                                    echo '
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
                                 <label for="sellerContact" class="col-sm-2 control-label">Vendedora</label>
 
                                 <div class="col-sm-3">
@@ -408,9 +435,7 @@ $updateProduct = ContactController::controllerUpdateProduct();
                                     </div>
                                 </div>
 
-                            </div>
-
-                            
+                            </div>                            
 
                             <div class="form-group">
                                 <label for="profileFacebook" class="col-sm-2 control-label">Facebook</label>
@@ -433,8 +458,7 @@ $updateProduct = ContactController::controllerUpdateProduct();
                                     </div>
                                 </div>
 
-                            </div>
-
+                            </div>                            
 
                             <div class="form-group">
 
