@@ -10,6 +10,7 @@
 
         public $id_user_addressAlt;
         public $id_business_delete;
+        
 
         public function ajaxEditAddressAlt(){
 
@@ -30,6 +31,8 @@
             echo json_encode($request);
 
         }
+
+
 
     }
 

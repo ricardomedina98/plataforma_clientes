@@ -12,6 +12,10 @@ $updateProduct = ContactController::controllerUpdateProduct();
 
 $own_business = ContactController::controllerGetOwnBusiness();
 
+$addMemberFamily = ContactController::controllerAddMemberFamily();
+
+$updateMemberFamily = ContactController::controllerUpdateMemberFamily();
+
 ?>
 
 <div class="content-wrapper">
@@ -72,8 +76,12 @@ $own_business = ContactController::controllerGetOwnBusiness();
                                     
                                     echo '
                                         <li class="list-group-item">
-                                            <b>Fecha de Registro</b> <span class="pull-right"><span class="text-muted">('.Helper::ConvertDate($requestContact['date_registration']).') </span>' . Helper::timeAgo($requestContact['date_registration'], $dateCurrent) . '</span>
+                                            <b>Fecha de Registro</b>                                             
+                                            <span class="pull-right">
+                                                <span class="text-muted">('.Helper::ConvertDate($requestContact['date_registration']).')</span>' . Helper::timeAgo($requestContact['date_registration'], $dateCurrent) . '
+                                            </span>
                                         </li>
+                                            
                                     ';
                                 }
 
@@ -101,6 +109,8 @@ $own_business = ContactController::controllerGetOwnBusiness();
                                     ';
                                 }
 
+
+
                                 echo '</ul>';
                             }
                             ?>
@@ -109,8 +119,9 @@ $own_business = ContactController::controllerGetOwnBusiness();
                     </div>
 
                     <?php
+                    $own_business_contact = ContactController::controllerGetContactOwnBusiness($requestContact['id_contact']);
 
-                    if(!empty($requestContact["city"]) || !empty($requestContact["street"]) || !empty($requestContact["colony"]) || !empty($requestContact["local"]) || !empty($requestContact["state"]) || !empty($requestContact['email'])  || !empty($requestContact['perfil_facebook']) && !empty($requestContact['url_facebook']) || !empty($requestContact['comments'])){
+                    if(!empty($requestContact["city"]) || !empty($requestContact["street"]) || !empty($requestContact["colony"]) || !empty($requestContact["local"]) || !empty($requestContact["state"]) || !empty($requestContact['email'])  || !empty($requestContact['perfil_facebook']) && !empty($requestContact['url_facebook']) || !empty($requestContact['comments']) || count($own_business_contact) > 0){
 
                         echo '
                         <div class="box box-primary">
@@ -126,24 +137,24 @@ $own_business = ContactController::controllerGetOwnBusiness();
                         <div class="box-body">';
 
                         if(!empty($requestContact["city"]) || !empty($requestContact["street"]) || !empty($requestContact["colony"]) || !empty($requestContact["local"]) || !empty($requestContact["state"])){
-                            echo '
+                            echo '                            
+
                             <strong><i class="fa fa-map-marker margin-r-5"></i> Direccion</strong>
 
                             <p class="text-muted">
                                 '.$requestContact["street"].' '.$requestContact["colony"].' '.$requestContact["local"].' '.$requestContact["city"].' '.$requestContact["state"].' 
                             </p>
 
-                            <hr>';
+                            ';
                         }
 
                         if (!empty($requestContact['email'])) {
                             echo '
+                            
                                 <strong><i class="fa fa-envelope margin-r-5"></i> Correo</strong>
                                 <br>
 
                                 <span class="text-muted">' . $requestContact['email'] . '</span>
-
-
                                 <hr>
                             ';
                         }
@@ -153,17 +164,33 @@ $own_business = ContactController::controllerGetOwnBusiness();
                             <strong><i class="fa fa-facebook-official margin-r-5"></i>Facebook</strong>
                             <br>
                             <span class="text-muted">' . $requestContact['perfil_facebook'] . '</span> <a href="' . $requestContact['url_facebook'] . '" target="_blank" class="pull-right">Ver</a>
-
                             <hr>
                             ';
                         }
 
                         if (!empty($requestContact['comments'])) {
                             echo '
+                            
                             <strong><i class="fa fa-file-text-o margin-r-5"></i> Comentarios sobre el contacto</strong>
 
                             <p>' . $requestContact['comments'] . '</p>
+                            <hr>
                             ';
+                        }
+
+                        if (count($own_business_contact) > 0) {
+                            echo '                            
+                            <strong><i class="fa fa-file-text-o margin-r-5"></i> ¿Donde compra?</strong>                            
+                            
+                            <ul>';
+
+                            foreach ($own_business_contact as $key => $value) {
+                                echo '
+                                <li>'.$value['name_business'].'</li>
+                                ';
+                            }
+
+                            echo '</ul>';
                         }
 
                         echo '
@@ -258,6 +285,7 @@ $own_business = ContactController::controllerGetOwnBusiness();
                         <li><a href="#ticket" data-toggle="tab">Ticket</a></li>
                         <li><a href="#incidents" data-toggle="tab">Incidentes</a></li>
                         <li><a href="#productos" data-toggle="tab">Productos</a></li>
+                        <li><a href="#family_members" data-toggle="tab">Familiares</a></li>
                         <li><a href="#editar" data-toggle="tab">Editar</a></li>
                     </ul>
                 </div>
@@ -337,7 +365,7 @@ $own_business = ContactController::controllerGetOwnBusiness();
                                     <select class="form-control" id="own_business" name="own_business[]" multiple="multiple">
                                     ';
 
-                                    $own_business_contact = ContactController::controllerGetContactOwnBusiness($requestContact['id_contact']);                                    
+                                    
                                     foreach ($own_business as $key_business => $business) {
 
                                         foreach ($own_business_contact as $key_bus_contact => $business_contact) {
@@ -837,6 +865,82 @@ $own_business = ContactController::controllerGetOwnBusiness();
 
                     </div>
                         
+                    <div class="tab-pane" id="family_members">
+                    <div class="post">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="box box-primary">
+
+                                        <div class="box-body">
+
+                                            <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
+                                            
+                                                <thead>
+                                                
+                                                    <tr>
+
+                                                        <th style="width:10px">#</th>
+                                                        <th>Tipo</th>
+                                                        <th>Parentesco</th>
+                                                        <th>Nombre Completo</th>
+                                                        <th>Acciones</th>
+                                            
+                                                    </tr> 
+
+                                                </thead>
+
+                                                <tbody>
+
+                                                <?php
+
+                                                    $showMembersFamily = ContactController::controllerShowMemberFamily($requestContact['id_contact']);
+
+                                                    foreach ($showMembersFamily as $key => $value_member) {
+                                                        echo '
+                                                        <tr>
+                                                            <td>'.($key+1).'</td>
+                                                            <td>'.($value_member['destination'] == 'owner' ? 'Dueño' : null).($value_member['destination'] == 'contact' ? 'Contacto' : null).'</td>
+                                                            <td>'.$value_member['type_relationship'].'</td>
+                                                            <td>'.$value_member['name_destination'].' '.$value_member['first_surname_destination'].' '.$value_member['second_surname_destination'].'</td>
+                                                                                                                                                                                                                    
+                                                            <td>
+                                                
+                                                                <div class="row">
+
+                                                                    <div class="col-12 text-center">                                                                        
+
+                                                                        <button class="btn btn-warning btnEditMemberFamily" style="width: 40px" idEditMemberFamily="'.$value_member['id_relationship'].'" data-toggle="modal" data-target="#modalEditMemberFamily"><i class="fa fa-pencil"></i></button>
+                                                        
+                                                                        <button class="btn btn-danger btnDeleteMemberFamily" style="width: 40px" idDeleteMemberFamily="'.$value_member['id_relationship'].'"><i class="fa fa-times"></i></button>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                    
+                                                    
+                                                                </div>  
+                                                
+                                                            </td>
+                                            
+                                                        </tr>';
+                                                    }
+                                                
+                                                ?>
+
+                                                </tbody>
+
+                                            </table>
+
+                                            <div class="box-header with-border">
+                                                <button type="button" class="btn btn-primary btn-md pull-right" data-toggle="modal" data-target="#modalAddMemberFamily">Agregar familiar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
     
             </div>
@@ -1027,13 +1131,6 @@ $own_business = ContactController::controllerGetOwnBusiness();
                         </form>
 
                     </div>
-
-                    <?php
-
-                        
-
-                    ?>
-
                     
                 </div>
             </div>
@@ -1429,10 +1526,7 @@ $own_business = ContactController::controllerGetOwnBusiness();
                                     <input class="form-control" id="name_productEdit" name="name_productEdit" placeholder="Nombre del producto" type="text" autocomplete="off">
                                 </div>
 
-                            </div>
-
-                            <div class="form-group">
-                                <label for="frequencyContact" class="col-sm-4 control-label">Marca</label>
+                            <label for="frequencyContact" class="col-sm-4 control-label">Marca</label>
 
                                 <div class="col-sm-4">
                                     <input class="form-control" id="brandEdit" name="brandEdit" placeholder="Cantidad unitaria" type="text" autocomplete="off">
@@ -1641,6 +1735,40 @@ $own_business = ContactController::controllerGetOwnBusiness();
         }
     }
 
+    if(isset($addMemberFamily)){
+        if($addMemberFamily){
+
+            echo '<script> 
+                showAlert("Correcto!", "Familiar agregado correctamente", true);
+                
+            </script>';
+    
+        }else {
+    
+            echo '<script> 
+                showAlert("Error!", "Error al agregar el familiar", false);
+            </script>';
+    
+        }
+    }
+
+    if(isset($updateMemberFamily)){
+        if($updateMemberFamily){
+
+            echo '<script> 
+                showAlert("Correcto!", "Familiar actualizado correctamente", true);
+                
+            </script>';
+    
+        }else {
+    
+            echo '<script> 
+                showAlert("Error!", "Error al actualizar el familiar", false);
+            </script>';
+    
+        }
+    }
+
     
     
 ?>
@@ -1702,14 +1830,8 @@ $own_business = ContactController::controllerGetOwnBusiness();
         </td>
         <td>
             <span class="size">{%=o.formatFileSize(file.size)%}</span>
-        </td>
-        <td>
-            {% if (file.deleteUrl) { %}
-                <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}<?php echo '&id_type=contactos&id_user='.$requestContact['id_contact']; ?>"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-                    <i class="glyphicon glyphicon-trash"></i>
-                    <span>Eliminar</span>
-                </button>
-                <input type="checkbox" name="delete" value="1" class="toggle">
+        </td>NEGOCIO{ %}
+                <button class="btn btn-danger delete" datid_relationshipue="1" class="toggle">
             {% } else { %}
                 <button class="btn btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>
@@ -1721,29 +1843,138 @@ $own_business = ContactController::controllerGetOwnBusiness();
 {% } %}
 </script>
 
-<!-- MODAL AGREGAR AMIGOS NEGOCIO-->
-<div id="modalShowBusiness" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-md">
+<!-- MODAL EDITAR AMIGOS NEGOCIO-->
+<div id="modalEditMemberFamily" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
 
     
     <div class="modal-content">
 
-      <div class="modal-header text-center" style="background-color: #3c8dbc; color: white;">
+      <div class="modal-header">
 
         <button type="button" class="close" data-dismiss="modal" style="color: black; margin-right: 0px; font-size: xx-large;">&times;</button>
 
-        <h4 class="modal-title">Amigos o familiares que compren</h4>
+        <h4 class="modal-title">Editar familiar</h4>
 
       </div>
 
       <div class="modal-body">
-        
+        <div class="container-fluid">
+            <form id="formEditMembersFamily" method="post" enctype=multipart/form-data>
+
+                <input type="hidden" id="id_relation_destination_selected">
+                
+                <input type="hidden" name="id_relationship" id="id_relationship">
+                
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label for="id_type_relationship">Parentesco</label>                            
+                            <select class="selectpicker" id="id_type_relationship_update" name="id_type_relationship_update" title="Seleccionar">
+                                <?php
+                                    $types_relationship = ContactController::controllerTypesMemberFamily();
+
+                                    foreach ($types_relationship as $key => $value) {
+                                        echo '<option value="'.$value['id_type_relationship'].'">'.$value['type_relationship'].'</option>';
+                                    }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="destination">Seleccione una opcion</label>                            
+                            <select class="selectpicker" id="destination_update" name="destination_update" title="Seleccionar">
+                                <option value="contact">Contacto</option>
+                                <option value="owner">Dueño</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="id_relation_destination">Seleccione una opcion</label>                            
+                            <select class="selectpicker" id="id_relation_destination_update" name="id_relation_destination_update" title="Seleccionar" data-live-search="true">
+                                
+                            </select>
+                        </div>
+                    </div>           
+                </div>
+            </form>    
+        </div>
       </div>
 
       <div class="modal-footer">
 
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary pull-right">Agregar</button>
+        <button type="button" id="btneditMemberFamily" class="btn btn-primary pull-right">Actualizar</button>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL AGREGAR AMIGOS NEGOCIO-->
+<div id="modalAddMemberFamily" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" style="color: black; margin-right: 0px; font-size: xx-large;">&times;</button>
+
+        <h4 class="modal-title">Agregar familiar</h4>
+
+      </div>
+
+      <div class="modal-body">
+        <div class="container-fluid">
+            <form id="formAddMembersFamily" method="post" enctype=multipart/form-data>
+                <?php
+
+                    echo '<input type="hidden" id="id_contact" name="id_contact" value="'.$requestContact['id_contact'].'">';
+
+                ?>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label for="id_type_relationship">Parentesco</label>                            
+                            <select class="selectpicker" id="id_type_relationship" name="id_type_relationship" title="Seleccionar">
+                                <?php
+                                    $types_relationship = ContactController::controllerTypesMemberFamily();
+
+                                    foreach ($types_relationship as $key => $value) {
+                                        echo '<option value="'.$value['id_type_relationship'].'">'.$value['type_relationship'].'</option>';
+                                    }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="destination">Seleccione una opcion</label>                            
+                            <select class="selectpicker" id="destination" name="destination" title="Seleccionar">
+                                <option value="contact">Contacto</option>
+                                <option value="owner">Dueño</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="id_relation_destination">Seleccione una opcion</label>                            
+                            <select class="selectpicker" id="id_relation_destination" name="id_relation_destination" title="Seleccionar" data-live-search="true">
+                                
+                            </select>
+                        </div>
+                    </div>           
+                </div>
+            </form>    
+        </div>
+      </div>
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="addMemberFamily" name="addMemberFamily" class="btn btn-primary pull-right">Agregar familiar</button>
 
       </div>
 

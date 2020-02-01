@@ -57,7 +57,7 @@ class BusinessController{
 
     }
 
-    public static function controllershowBusiness($base, $tope){
+    public static function controllerShowBusiness($base, $tope){
 
         $request = BusinessModel::modelShowBusiness($base, $tope);
 

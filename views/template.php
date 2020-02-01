@@ -45,9 +45,9 @@
     <script src="<?php echo $url;?>views/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="<?php echo $url;?>views/dist/js/adminlte.min.js"></script>
     <script src="<?php echo $url;?>views/bower_components/inputmask/dist/jquery.inputmask.bundle.js"></script>
+    <script src="<?php echo $url;?>views/bower_components/inputmask/dist/inputmask/bindings/inputmask.binding.js"></script>
     
     <!-- Light Gallery -->
-    <script src="<?php echo $url;?>views/bower_components/inputmask/dist/inputmask/bindings/inputmask.binding.js"></script>
     <script src="<?php echo $url;?>views/bower_components/lightGallery/dist/js/lightgallery.min.js"></script>
     <script src="<?php echo $url;?>views/bower_components/lightGallery/modules/lg-thumbnail.min.js"></script>
     <script src="<?php echo $url;?>views/bower_components/lightGallery/modules/lg-fullscreen.min.js"></script>

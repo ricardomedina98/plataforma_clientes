@@ -21,6 +21,26 @@ class ContactModel{
 
     }
 
+    public static function modelshowContactsExcept($id_contact){
+
+        $showContacts = Connection::connect() -> prepare("
+            SELECT contact.id_contact, profile_photo, name_contact, first_surname, 
+                second_surname, email, mobile_phone, alias
+            FROM contacts contact 
+            INNER JOIN about_contact ab_cont 
+            ON contact.id_contact = ab_cont.id_contact and contact.id_contact != :id_contact
+        ");
+        
+        $showContacts->bindParam(":id_contact", $id_contact, PDO::PARAM_INT);
+
+        $showContacts -> execute();        
+        
+        $request = $showContacts -> fetchAll(PDO::FETCH_ASSOC);
+    
+        return $request;
+
+    }
+
     public static function modelCountContacts(){
 
         $countContacts = Connection::connect() -> prepare("SELECT count(contact.id_contact=ab_cont.id_contact) total FROM contacts contact INNER JOIN about_contact ab_cont ON contact.id_contact=ab_cont.id_contact");
@@ -191,8 +211,8 @@ class ContactModel{
         $contact_business->bindParam(':id_contact', $data['id_user'], PDO::PARAM_INT);
         $contact_business->bindParam(':business_name', $data['business_name'], PDO::PARAM_STR);
         $contact_business->execute();
-
-        if(count($data['own_business']) > 0) {
+        
+        if(isset($data['own_business'])) {
             $contact_own_business = $connection->prepare("delete from own_business_contact where id_contact = :id_contact");
             $contact_own_business->bindParam(':id_contact', $data['id_user'], PDO::PARAM_INT);
     
@@ -204,6 +224,10 @@ class ContactModel{
                     $contact_own_business_int->execute();
                 }
             }
+        } else {
+            $contact_own_business = $connection->prepare("delete from own_business_contact where id_contact = :id_contact");
+            $contact_own_business->bindParam(':id_contact', $data['id_user'], PDO::PARAM_INT);
+            $contact_own_business->execute();
         }
         
 
@@ -609,6 +633,153 @@ class ContactModel{
         $ownbusiness = $ownbusiness->fetchAll(PDO::FETCH_ASSOC);
 
         return $ownbusiness;
+    }
+
+    public static function modelShowMemberFamily($id_contact) {
+
+        $connection = Connection::connect();
+
+        $members_family = $connection->prepare("
+        select 
+            r.origin, 
+            r.id_relationship, 
+            id_relation_origin, 
+            IFNULL(c.name_contact, o.name_owner) as name_origin, 
+            IFNULL(c.first_surname, o.first_surname) as first_surname_origin,
+            IFNULL(c.second_surname, o.second_surname) as second_surname_origin,
+            tr.id_type_relationship,
+            tr.type_relationship, 
+            id_relation_destination,
+            IFNULL(cd.name_contact, ow.name_owner) as name_destination,
+            IFNULL(cd.first_surname, ow.first_surname) as first_surname_destination,
+            IFNULL(cd.second_surname, ow.second_surname) as second_surname_destination,
+            r.destination
+            from relationships r
+            left join contacts c on c.id_contact = r.id_relation_origin and r.origin = 'contact'
+            left join owners o on o.id_owner = r.id_relation_origin and r.origin = 'owner'
+            left join contacts cd on cd.id_contact = r.id_relation_destination and r.destination = 'contact'
+            left join owners ow on ow.id_owner = r.id_relation_destination and r.destination = 'owner'
+            inner join types_relationships tr on tr.id_type_relationship = r.id_type_relationship 
+        where c.id_contact = :id_contact order by r.id_relationship");       
+        
+        $members_family -> bindParam(":id_contact", $id_contact, PDO::PARAM_STR);
+
+        $members_family->execute();
+
+        $members_family = $members_family->fetchAll(PDO::FETCH_ASSOC);
+
+        return $members_family;
+
+    }
+
+    public static function modelTypesMemberFamily(){
+
+        $showTypesRelationships = Connection::connect() -> prepare("select tr.id_type_relationship, tr.type_relationship from types_relationships tr;");
+        
+
+        $showTypesRelationships -> execute();        
+        
+        $request = $showTypesRelationships -> fetchAll(PDO::FETCH_ASSOC);
+    
+        return $request;
+
+    }
+
+    public static function modelAddMemberFamily($data) {
+        $connection = Connection::connect();
+
+        $addMemberFamily = $connection->prepare("
+            insert into relationships(id_relation_origin, origin, id_relation_destination, destination, id_type_relationship)
+            values (:id_relation_origin, :origin, :id_relation_destination, :destination, :id_type_relationship);    
+        ");
+
+        $addMemberFamily -> bindParam(":id_relation_origin", $data['id_relation_origin'], PDO::PARAM_INT);
+        $addMemberFamily -> bindParam(":origin", $data['origin'], PDO::PARAM_STR);
+        
+        $addMemberFamily -> bindParam(":id_relation_destination", $data['id_relation_destination'], PDO::PARAM_INT);
+        $addMemberFamily -> bindParam(":destination", $data['destination'], PDO::PARAM_STR);
+
+        $addMemberFamily -> bindParam(":id_type_relationship", $data['id_type_relationship'], PDO::PARAM_INT);
+
+        if($addMemberFamily -> execute()){            
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function modelUpdateMemberFamily($data) {
+        $connection = Connection::connect();
+
+        $updateMemberFamily = $connection->prepare("update relationships set id_relation_destination = :id_relation_destination, destination = :destination, id_type_relationship = :id_type_relationship where id_relationship = :id_relationship");
+
+        $updateMemberFamily -> bindParam(":id_relation_destination", $data['id_relation_destination'], PDO::PARAM_INT);
+        $updateMemberFamily -> bindParam(":destination", $data['destination'], PDO::PARAM_STR);
+
+        $updateMemberFamily -> bindParam(":id_type_relationship", $data['id_type_relationship'], PDO::PARAM_INT);
+        $updateMemberFamily -> bindParam(":id_relationship", $data['id_relationship'], PDO::PARAM_INT);
+
+        if($updateMemberFamily -> execute()){            
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function modelShowOneRelationship($id_relationship) {
+
+        $connection = Connection::connect();
+
+        $showRelationship = $connection->prepare("
+        select 
+            r.origin, 
+            r.id_relationship, 
+            id_relation_origin, 
+            IFNULL(c.name_contact, o.name_owner) as name_origin, 
+            IFNULL(c.first_surname, o.first_surname) as first_surname_origin,
+            IFNULL(c.second_surname, o.second_surname) as second_surname_origin,
+            tr.id_type_relationship,
+            tr.type_relationship, 
+            id_relation_destination,
+            IFNULL(cd.name_contact, ow.name_owner) as name_destination,
+            IFNULL(cd.first_surname, ow.first_surname) as first_surname_destination,
+            IFNULL(cd.second_surname, ow.second_surname) as second_surname_destination,
+            r.destination
+            from relationships r
+            left join contacts c on c.id_contact = r.id_relation_origin and r.origin = 'contact'
+            left join owners o on o.id_owner = r.id_relation_origin and r.origin = 'owner'
+            left join contacts cd on cd.id_contact = r.id_relation_destination and r.destination = 'contact'
+            left join owners ow on ow.id_owner = r.id_relation_destination and r.destination = 'owner'
+            inner join types_relationships tr on tr.id_type_relationship = r.id_type_relationship
+		where r.id_relationship = :id_relationship;
+        ");
+
+        $showRelationship -> bindParam(":id_relationship", $id_relationship, PDO::PARAM_INT);
+
+        $showRelationship->execute();
+
+        $showRelationship = $showRelationship->fetch(PDO::FETCH_ASSOC);
+
+        return $showRelationship;
+    }
+
+    public static function modelDeleteMemberFamily($id_relationship){
+
+        $connection = Connection::connect();
+
+        $deleteProduct = $connection->prepare("delete from relationships where id_relationship = :id_relationship");
+
+        $deleteProduct -> bindParam(":id_relationship", $id_relationship, PDO::PARAM_INT);
+
+        $deleteProduct->execute();
+
+        $rowsAffected = $deleteProduct->rowCount();
+
+        if($rowsAffected > 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

@@ -352,5 +352,19 @@ class OwnerModel{
         
     }
 
+    public static function modelShowOwnerAll(){
+
+        $showBusiness = Connection::connect() -> prepare("select own.id_owner, name_owner, first_surname, second_surname, profile_photo, mobile_phone, email
+        from owners own 
+        inner join aboutowners ab on own.id_owner = ab.id_owner");
+
+        $showBusiness -> execute();        
+        
+        $request = $showBusiness -> fetchAll(PDO::FETCH_ASSOC);
+    
+        return $request;
+
+    }
+
 }
 ?>

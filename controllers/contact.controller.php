@@ -10,6 +10,14 @@ class ContactController{
 
     }
 
+    public static function controllershowContactsExcept($id_contact){
+
+        $request = ContactModel::modelshowContactsExcept($id_contact);
+
+        return $request;
+
+    }
+
     public static function controllerCountContacts(){
 
         $request = ContactModel::modelCountContacts();
@@ -285,6 +293,57 @@ class ContactController{
 
     }
 
+    public static function controllerShowMemberFamily($id_contact) {
+
+        $request = ContactModel::modelShowMemberFamily($id_contact);
+
+        return $request;
+
+    }
+
+    public static function controllerTypesMemberFamily() {
+
+        $request = ContactModel::modelTypesMemberFamily();
+
+        return $request;
+
+    }
+
+    public static function controllerAddMemberFamily() {
+
+        if(isset($_POST['id_type_relationship']) && isset($_POST['destination']) && isset($_POST['id_relation_destination'])){
+
+            $data = array(
+                "id_relation_origin" => $_POST["id_contact"],
+                "origin" => "contact",
+                "id_relation_destination" => $_POST["id_relation_destination"],
+                "destination" => $_POST["destination"],
+                "id_type_relationship" => $_POST["id_type_relationship"],
+            );
+
+            $request = ContactModel::modelAddMemberFamily($data);
+            return $request;
+
+        }
+    }
+
+    public static function controllerUpdateMemberFamily() {
+
+        if(isset($_POST['id_type_relationship_update']) && isset($_POST['destination_update']) && isset($_POST['id_relation_destination_update'])){
+
+            $data = array(
+                "id_relationship" => $_POST["id_relationship"],
+                "id_relation_destination" => $_POST["id_relation_destination_update"],
+                "destination" => $_POST["destination_update"],
+                "id_type_relationship" => $_POST["id_type_relationship_update"],
+            );
+
+            $request = ContactModel::modelUpdateMemberFamily($data);
+            return $request;
+
+        }
+    }
+
     /*AJAX */
 
     public static function controllerDeleteProduct($id_contact_product) {
@@ -335,6 +394,22 @@ class ContactController{
     public static function controllerShowOneProduct($id_contact_product) {
 
         $request = ContactModel::modelShowOneProduct($id_contact_product);
+
+        return $request;
+
+    }
+
+    public static function controllerShowOneRelationship($id_relationship) {
+
+        $request = ContactModel::modelShowOneRelationship($id_relationship);
+
+        return $request;
+
+    }
+
+    public static function controllerDeleteMemberFamily($id_relationship) {
+
+        $request = ContactModel::modelDeleteMemberFamily($id_relationship);
 
         return $request;
 

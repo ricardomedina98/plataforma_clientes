@@ -170,6 +170,14 @@ class OwnerController{
         }
     }
 
+    public static function controllershowOwnerAll(){
+
+        $request = OwnerModel::modelShowOwnerAll();
+
+        return $request;
+
+    }
+
 }
 
 ?>

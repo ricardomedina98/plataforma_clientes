@@ -246,6 +246,7 @@ $updateOwner = OwnerController::controllerUpdateOwner();
                     <ul class="nav nav-tabs">
                         <li class="active"><a id="fotosUpload" href="#fotos" data-toggle="tab">Fotos</a></li>
                         <!--<li><a href="#ticket" data-toggle="tab">Ticket</a></li>-->
+                        <!--<li><a href="#ticket" data-toggle="tab">Ticket</a></li>-->
                         <!--<li><a href="#incidents" data-toggle="tab">Incidentes</a></li>-->
                         <li><a href="#editar" data-toggle="tab">Editar</a></li>
                     </ul>
@@ -845,4 +846,145 @@ $updateOwner = OwnerController::controllerUpdateOwner();
 
   </div>
 </div>
+
+<!-- MODAL EDITAR AMIGOS NEGOCIO-->
+<div id="modalEditMemberFamily" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" style="color: black; margin-right: 0px; font-size: xx-large;">&times;</button>
+
+        <h4 class="modal-title">Editar familiar</h4>
+
+      </div>
+
+      <div class="modal-body">
+        <div class="container-fluid">
+            <form id="formEditMembersFamily" method="post" enctype=multipart/form-data>
+
+                <input type="hidden" id="id_relation_destination_selected">
+                
+                <input type="hidden" name="id_relationship" id="id_relationship">
+                
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label for="id_type_relationship">Parentesco</label>                            
+                            <select class="selectpicker" id="id_type_relationship_update" name="id_type_relationship_update" title="Seleccionar">
+                                <?php
+                                    $types_relationship = ContactController::controllerTypesMemberFamily();
+
+                                    foreach ($types_relationship as $key => $value) {
+                                        echo '<option value="'.$value['id_type_relationship'].'">'.$value['type_relationship'].'</option>';
+                                    }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="destination">Seleccione una opcion</label>                            
+                            <select class="selectpicker" id="destination_update" name="destination_update" title="Seleccionar">
+                                <option value="contact">Contacto</option>
+                                <option value="owner">Dueño</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="id_relation_destination">Seleccione una opcion</label>                            
+                            <select class="selectpicker" id="id_relation_destination_update" name="id_relation_destination_update" title="Seleccionar" data-live-search="true">
+                                
+                            </select>
+                        </div>
+                    </div>           
+                </div>
+            </form>    
+        </div>
+      </div>
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="btneditMemberFamily" class="btn btn-primary pull-right">Actualizar</button>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL AGREGAR AMIGOS NEGOCIO-->
+<div id="modalAddMemberFamily" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" style="color: black; margin-right: 0px; font-size: xx-large;">&times;</button>
+
+        <h4 class="modal-title">Agregar familiar</h4>
+
+      </div>
+
+      <div class="modal-body">
+        <div class="container-fluid">
+            <form id="formAddMembersFamily" method="post" enctype=multipart/form-data>
+                <?php
+
+                    echo '<input type="hidden" id="id_contact" name="id_contact" value="'.$requestContact['id_contact'].'">';
+
+                ?>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label for="id_type_relationship">Parentesco</label>                            
+                            <select class="selectpicker" id="id_type_relationship" name="id_type_relationship" title="Seleccionar">
+                                <?php
+                                    $types_relationship = ContactController::controllerTypesMemberFamily();
+
+                                    foreach ($types_relationship as $key => $value) {
+                                        echo '<option value="'.$value['id_type_relationship'].'">'.$value['type_relationship'].'</option>';
+                                    }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="destination">Seleccione una opcion</label>                            
+                            <select class="selectpicker" id="destination" name="destination" title="Seleccionar">
+                                <option value="contact">Contacto</option>
+                                <option value="owner">Dueño</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="id_relation_destination">Seleccione una opcion</label>                            
+                            <select class="selectpicker" id="id_relation_destination" name="id_relation_destination" title="Seleccionar" data-live-search="true">
+                                
+                            </select>
+                        </div>
+                    </div>           
+                </div>
+            </form>    
+        </div>
+      </div>
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="addMemberFamily" name="addMemberFamily" class="btn btn-primary pull-right">Agregar familiar</button>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
 

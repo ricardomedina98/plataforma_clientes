@@ -8,6 +8,7 @@ require_once "../models/connection.php";
 class AjaxOwner{
 
     public $id_owner_delete;
+    public $owner;
 
     public function ajaxDeleteOwner(){
 
@@ -19,12 +20,26 @@ class AjaxOwner{
 
     }
 
+    public function ajaxShowOwner(){
+            
+
+        $request = OwnerController::controllershowOwnerAll();
+
+        echo json_encode($request);
+
+    }
+
 }
 
 if(isset($_POST['id_owner_delete'])){
     $deleteOwner = new AjaxOwner();
     $deleteOwner -> id_owner_delete = $_POST['id_owner_delete'];
     $deleteOwner -> ajaxDeleteOwner();
+}
+
+if(isset($_POST['owner'])){
+    $showOwner = new AjaxOwner();        
+    $showOwner -> ajaxShowOwner();
 }
 
 ?>

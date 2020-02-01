@@ -4,17 +4,21 @@
 
         public static function controllerCreateEmployee(){
 
-            if(isset($_POST['AddEmployee'])){
+            if(isset($_POST['addEmployee'])){
                 
                 $data = array('nameEmployee' => $_POST['nameEmployee'], 'surName1Employee' => $_POST['surName1Employee'],
                              'surName2Employee' => $_POST['surName2Employee'], 
                              'sexEmployee' => $_POST['sexEmployee'], 
                              'civil_status' => $_POST['civil_status'], 
                              'nss_employee' => $_POST['nss_employee'], 
-                             'num_employee' => $_POST['num_employee'],
-                             'birthdayEmployee' => Helper::fixDate($_POST['birthdayEmployee']), 
+                             'num_employee' => $_POST['num_employee'],                             
                              'category_employee' => $_POST['category_employee'],
-                             'position_employee' => $_POST['position_employee']
+                             'position_employee' => $_POST['position_employee'],
+                             'street' => $_POST['addressStreet'],
+                             'colony' => $_POST['addressColony'],
+                             'city' => $_POST['addressCity'],
+                             'state' =>$_POST['addressState'],
+                             'postal_code' => $_POST['addressCodePostal'] 
                 );
                 
                 $request = EmployeeModel::modelCreateEmployee($data);      

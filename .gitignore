@@ -1,3 +1,8 @@
 /views/img/users/negocios
 /views/img/users/duenos
 /views/img/users/contactos
+vendor
+composer.json
+.idea
+.vscode
+node_modules

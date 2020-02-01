@@ -7,27 +7,45 @@ class EmployeeModel{
     public static function modelCreateEmployee($data){
 
         $connection = Connection::connect();
+        $connection->beginTransaction();
 
-        $createEmployee = $connection -> prepare("insert into employees(name_employee, first_surname, second_surname, sex, 
-        category, position, date_birthday_empl, civil_status, nss_employee, num_employee) 
-        values (:name_employee, :first_surname, :second_surname, :sex, :category, :position, :date_birthday_empl, :civil_status,
-        :nss_employee, :num_employee)");
+        $employee = $connection -> prepare("insert into employees(name_employee, first_surname, second_surname, sex, category, position, civil_status, nss_employee, num_employee)
+        values (:name_employee, :first_surname, :second_surname, :sex, :category, :position, :civil_status, :nss_employee, :num_employee);");
 
-        $createEmployee -> bindParam(":name_employee", $data['nameEmployee'], PDO::PARAM_STR);
-        $createEmployee -> bindParam(":first_surname", $data['surName1Employee'], PDO::PARAM_STR);
-        $createEmployee -> bindParam(":second_surname", $data['surName2Employee'], PDO::PARAM_STR);
-        $createEmployee -> bindParam(":sex", $data['sexEmployee'], PDO::PARAM_STR);
-        $createEmployee -> bindParam(":position", $data['position_employee'], PDO::PARAM_STR);
-        $createEmployee -> bindParam(":category", $data['category_employee'], PDO::PARAM_STR);
-        $createEmployee -> bindParam(":date_birthday_empl", $data['birthdayEmployee'], PDO::PARAM_STR);
-        $createEmployee -> bindParam(":civil_status", $data['civil_status'], PDO::PARAM_STR);
-        $createEmployee -> bindParam(":nss_employee", $data['nss_employee'], PDO::PARAM_STR);
         $num_employee = (empty($data['num_employee']) ? null : $data['num_employee']);
-        $createEmployee -> bindParam(":num_employee", $num_employee, PDO::PARAM_STR);
+        $employee -> bindParam(":num_employee", $num_employee, PDO::PARAM_STR);
 
-        if($createEmployee->execute()){
-            return true;
+        $employee -> bindParam(":name_employee", $data['nameEmployee'], PDO::PARAM_STR);
+        $employee -> bindParam(":first_surname", $data['surName1Employee'], PDO::PARAM_STR);
+        $employee -> bindParam(":second_surname", $data['surName2Employee'], PDO::PARAM_STR);
+        $employee -> bindParam(":sex", $data['sexEmployee'], PDO::PARAM_STR);
+        $employee -> bindParam(":position", $data['position_employee'], PDO::PARAM_STR);
+        $employee -> bindParam(":category", $data['category_employee'], PDO::PARAM_STR);        
+        $employee -> bindParam(":civil_status", $data['civil_status'], PDO::PARAM_STR);
+        $employee -> bindParam(":nss_employee", $data['nss_employee'], PDO::PARAM_STR);
+
+        if($employee->execute()) {
+            $id_employee = (int)$connection->lastInsertId();
+    
+            $employeeAddress = $connection -> prepare("insert into employee_address(id_employee, state, city, street, colony, postal_code) 
+                values (:id_employee, :state, :city, :street, :colony, :postal_code)");
+    
+            $employeeAddress -> bindParam(":id_employee", $id_employee, PDO::PARAM_STR);
+            $employeeAddress -> bindParam(":street", $data['street'], PDO::PARAM_STR);
+            $employeeAddress -> bindParam(":colony", $data['colony'], PDO::PARAM_STR);
+            $employeeAddress -> bindParam(":city", $data['city'], PDO::PARAM_STR);
+            $employeeAddress -> bindParam(":state", $data['state'], PDO::PARAM_STR);
+            $employeeAddress -> bindParam(":postal_code", $data['postal_code'], PDO::PARAM_STR);
+    
+            if($employeeAddress->execute()){
+                $connection->commit();
+                return true;
+            } else {
+                $connection->rollback();
+                return false;
+            }
         } else {
+            $connection->rollback();
             return false;
         }
 
@@ -36,8 +54,8 @@ class EmployeeModel{
 
     public static function modelShowEmployees(){
 
-        $showEmployees = Connection::connect() -> prepare("select id_employee, name_employee, first_surname, second_surname, sex, 
-        category, position, date_birthday_empl, civil_status, nss_employee, num_employee from employees");
+        $showEmployees = Connection::connect() -> prepare("select id_employee, name_employee, first_surname, second_surname, sex, category, position, civil_status, 
+            nss_employee, num_employee, status from employees;");
 
         $showEmployees -> execute();        
         

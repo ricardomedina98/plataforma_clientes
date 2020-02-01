@@ -20,9 +20,9 @@ try {
     include dirname(__FILE__).'/res/example12.php';
     $content = ob_get_clean();
 
-    $html2pdf = new Html2Pdf('P', 'EN_CARTRIDGE', 'es', true, 'UTF-8', array(8, 8, 8, 8));
+    $html2pdf = new Html2Pdf('P', 'A4', 'fr');
     $html2pdf->writeHTML($content);
-    $html2pdf->output('empleado.pdf');
+    $html2pdf->output('example12.pdf');
 } catch (Html2PdfException $e) {
     $html2pdf->clean();
 

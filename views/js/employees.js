@@ -26,7 +26,7 @@ $(document).ready(function(){
         maxViewMode: 'years',
         language: 'es',
         format: 'dd/mm/yyyy',
-        startDate: '-50y'
+        startDate: '-50y'        
     });
 
     $('#contract_created').datetimepicker({
@@ -46,7 +46,7 @@ $(document).ready(function(){
     $('#dateTimeContract, #dateTimeContractEdit').daterangepicker({    
         "startDate": moment().startOf('hour'),
         "endDate": moment().startOf('hour').add(28, 'day'),
-        "timePicker": true,
+        "timePicker": true,        
         "locale": {
             "format": "DD/MM/YYYY hh:mm A",
             "separator": " - ",
@@ -81,16 +81,15 @@ $(document).ready(function(){
             ],
             "firstDay": 1
         },    
-        "opens": "center",
-        "drops": "up"
+        "opens": "right",
+        "drops": "down"
     });
 
 });
 
 function loadSexEmployee(sexEmployee, civilStatus){  
 
-        var value = $(sexEmployee).val();    
-		console.log('TCL: loadSexEmployee -> value', value)
+        var value = $(sexEmployee).val();		
         var civil_status = $(civilStatus);
         $(civil_status).empty();
         if(value == "H"){

@@ -172,17 +172,10 @@
                 <div class="container-fluid">
 
                     <div class="col-sm-12">
-                        <form id="formFormatEmployee" class="form-horizontal" method="post" enctype=multipart/form-data>
+                        <form id="formAddEmployee" class="form-horizontal" method="post" enctype=multipart/form-data>
 
-                        <div class="form-group required">
-                                                                
-                            <label for="contract_created" class="col-sm-3 control-label">Creacion de Contrato</label>
-                                
-                                <div class="col-sm-3">
-                                    <input class="form-control " id="contract_created" name="contract_created" placeholder="Creacion de Contrato" type="text" autocomplete="off">
-                                </div>                                
+                            <input type="hidden" name="addEmployee">
 
-                            </div>
                             <div class="form-group">
 
                                 <label for="num_employee" class="col-sm-3 control-label">Numero</label>
@@ -212,6 +205,26 @@
                             </div>
 
                             <div class="form-group required">
+                                <label for="sexEmployee" class="col-sm-3 control-label">Sexo</label>
+                                
+                                <select class="col-sm-3" id="sexEmployee" name="sexEmployee" title="Seleccione un sexo">                                    
+                                    <option value="H">HOMBRE</option>
+                                    <option value="M">MUJER</option>                                    
+                                </select>
+
+                            </div>
+
+                            <div class="form-group required">
+
+                                <label for="civil_status" class="col-sm-3 control-label">Estado Civil</label>
+                                
+                                <select class="col-sm-3" id="civil_status" name="civil_status" title="Estado Civil">                                    
+                                                                      
+                                </select>
+
+                            </div>
+
+                            <div class="form-group required">
                                 <label for="position_employee" class="col-sm-3 control-label">Puesto</label>
 
                                 <div class="col-sm-4">
@@ -236,7 +249,7 @@
 
                             <div class="form-group required">
 
-                                <label for="addressStreet" class="col-sm-3 control-label">Direccion</label>
+                                <label for="addressStreet" class="col-sm-3 control-label">Domicilio</label>
 
                                 <div class="col-sm-3">
                                     <input class="form-control" id="addressStreet" name="addressStreet" placeholder="Calle" type="text" autocomplete="off">
@@ -257,46 +270,15 @@
                                 <label for="addressStreet" class="col-sm-3 control-label"></label>
                                 
                                 <div class="col-sm-4">
-                                    <input class="form-control" id="addressCityA" name="addressCityA" placeholder="Ciudad" type="text" autocomplete="off">
+                                    <input class="form-control" id="addressCity" name="addressCity" placeholder="Ciudad" type="text" autocomplete="off">
                                 </div>
 
                                 <div class="col-sm-4">
-                                    <input class="form-control" id="addressStateA" name="addressStateA" placeholder="Estado" type="text" autocomplete="off">
+                                    <input class="form-control" id="addressState" name="addressState" placeholder="Estado" type="text" autocomplete="off">
                                 </div> 
 
                             </div>
-
-                            <div class="form-group required">
             
-                                <label for="addressStreet" class="col-sm-3 control-label">Salario Semanal</label>
-                                
-                                <div class="col-sm-3">
-                                    <input class="form-control" id="monthly_balance" name="monthly_balance" placeholder="Sueldo Semanal" type="text" autocomplete="off">
-                                </div>
-
-                            </div>
-
-                            <div class="form-group required">
-            
-                                <label for="addressStreet" class="col-sm-3 control-label">Importe Semanal</label>
-                                
-                                <div class="col-sm-3">
-                                    <input class="form-control" id="monthly_balance" name="monthly_balance" placeholder="Importe Semanal" type="text" autocomplete="off">
-                                </div>
-
-                            </div>
-
-                            <div class="form-group required">
-            
-                                <label for="addressStreet" class="col-sm-3 control-label">Salario Diario</label>
-                                
-                                <div class="col-sm-3">
-                                    <input class="form-control" id="daily_salary" name="daily_salary" placeholder="Salario Diario" type="text" autocomplete="off">
-                                </div>
-
-                            </div>
-                
-                           
                         </form>
                     </div>
 
@@ -330,15 +312,6 @@
                             <input type="hidden" id="id_employee" name="id_employee">
                             <input type="hidden" name="updateEmployee">
                             
-                            <div class="form-group required">
-                                
-                                <label for="contract_createdEdit" class="col-sm-3 control-label">Fecha Creacion de Contrato</label>
-                                
-                                <div class="col-sm-3">
-                                    <input class="form-control" id="contract_createdEdit" name="contract_created" placeholder="Creacion de Contrato" type="text" autocomplete="off" readonly >
-                                </div>
-
-                            </div>
                             
                             <div class="form-group">
 
@@ -368,25 +341,7 @@
                             </div>
 
 
-                            <div class="form-group required">
-                                <label for="sexEmployeeEdit" class="col-sm-3 control-label">Sexo</label>
-                                
-                                <select class="col-sm-3" id="sexEmployeeEdit" name="sexEmployee" title="Seleccione un sexo">                                    
-                                    <option value="H">HOMBRE</option>
-                                    <option value="M">MUJER</option>                                    
-                                </select>
-
-                            </div>
-
-                            <div class="form-group required">
-
-                                <label for="civil_statusEdit" class="col-sm-3 control-label">Estado Civil</label>
-                                
-                                <select class="col-sm-3" id="civil_statusEdit" name="civil_status" title="Estado Civil">                                    
-                                                                      
-                                </select>
-
-                            </div>
+                            
 
                             <div class="form-group required">
 
@@ -473,18 +428,6 @@
 
                             </div>
 
-                            <br>
-
-                            <div class="form-group required">
-                            
-                                <label for="dateTimeContractEdit" class="col-sm-3 control-label">Fecha y Hora de Contrato</label>
-                                
-                                <div class="col-sm-5">
-                                    <input class="form-control" type="text" id="dateTimeContractEdit" name="dateTimeContract" value="01/01/2018 - 01/15/2018" />
-                                </div>
-
-                                
-                            </div>
 
                             <br>
 
@@ -549,143 +492,191 @@
                     <div class="col-sm-12">
                         <form id="formFormatEmployee" class="form-horizontal" method="post" enctype=multipart/form-data>
                             <div class="nav-tabs-custom">
-                                <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#contract_undefined" data-toggle="tab" aria-expanded="true">Contrato Indefinido</a></li>
-                                    <li class=""><a href="#contract_temp" data-toggle="tab" aria-expanded="false">Contrato Temporal</a></li>                                    
+                                <ul class="nav nav-tabs">                                    
+                                    <li class="active"><a href="#contract_tab" data-toggle="tab" aria-expanded="false">Contrato</a></li>                                                                    
                                     <li class="dropdown">
                                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                                            Acciones <span class="caret"></span>
+                                            Descargar <span class="caret"></span>
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Contrato Indefinido</a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Contrato Temporal</a></li>
                                             <li role="presentation" class="divider"></li>
-                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Constancia</a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Finiquito</a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Contrato de Compromiso</a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Constancia de Lectura</a></li>
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Examen de Antidoping</a></li>
                                         </ul>
                                     </li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div class="tab-pane active" id="contract_undefined">                                    
-                                        <div class="row">
-                                            <div class="form-group">
+                                    <div class="tab-pane active" id="contract_tab">    
+                                        <div class="container-fluid">
+                                            <div class="row">
 
-                                                <label for="num_employee" class="col-sm-3 control-label">Numero</label>
-
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" id="num_employee" name="num_employee" placeholder="Numero de Empleado" type="text" autocomplete="off">
+                                                <div style="margin-top: 5px;" class="col-sm-4">
+                                                    <label>Fecha y Hora de Contrato</label>
                                                 </div>
 
-                                            </div> 
-
-                                            <div class="form-group required">
-                                
-                                                <label for="nameContact" class="col-sm-3 control-label">Nombre</label>
-
-                                                <div class="col-sm-3">
-                                                    <input class="form-control" id="nameEmployeeModal" name="nameEmployee" placeholder="Nombre" type="text" autocomplete="off">
+                                                <div class="col-sm-6">
+                                                    <input class="form-control" type="text" id="dateTimeContractEdit" name="dateTimeContract" value="01/01/2018 - 01/15/2018" />
                                                 </div>
-
-                                                <div class="col-sm-3">
-                                                    <input class="form-control" id="surName1EmployeeModal" name="surName1Employee" placeholder="Apellido Paterno" type="text" autocomplete="off">
-                                                </div>
-
-                                                <div class="col-sm-3">
-                                                    <input class="form-control" id="surName2EmployeeModal" name="surName2Employee" placeholder="Apellido Materno" type="text" autocomplete="off">
-                                                </div>                                                
-
-                                            </div>
-
-                                            <div class="form-group required">
-                                                <label for="position_employee" class="col-sm-3 control-label">Puesto</label>
-
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" id="category_employee" name="category_employee" placeholder="Area" type="text" autocomplete="off">
-                                                </div>
-
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" id="position_employee" name="position_employee" placeholder="Puesto del Empleado" type="text" autocomplete="off">
+                                                    
                                                 </div>
                                             </div>
-
-                                            <div class="form-group required">
-                                                <label for="position_employee" class="col-sm-3 control-label">NSS</label>
-
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" id="nss_employee" name="nss_employee" placeholder="NSS de Empleado" type="text" autocomplete="off">                                    
-                                                </div>                                                                
-                                                
-                                            </div>
-
                                             <br>
-
-                                            <div class="form-group required">
-                                                                
-                                                <label for="contract_created" class="col-sm-3 control-label">Fecha Creacion de Contrato</label>
+                                            <div class="row">
                                                 
-                                                <div class="col-sm-3">
-                                                    <input class="form-control " id="contract_created" name="contract_created" placeholder="Creacion de Contrato" type="text" autocomplete="off">
-                                                </div>                                
-
-                                            </div>
-
-                                            <div class="form-group required">
-
-                                                <label for="addressStreet" class="col-sm-3 control-label">Direccion</label>
-
-                                                <div class="col-sm-3">
-                                                    <input class="form-control" id="addressStreet" name="addressStreet" placeholder="Calle" type="text" autocomplete="off">
-                                                </div>
-                                
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" id="addressColony" name="addressColony" placeholder="Colonia" type="text" autocomplete="off">
-                                                </div>
-
                                                 <div class="col-sm-2">
-                                                    <input class="form-control" id="addressCodePostal" name="addressCodePostal" placeholder="Codigo Postal" type="text" autocomplete="off">
-                                                </div>
+                                                    <div class="row">
+                                                        <b>Numero</b>
+                                                    </div>
 
-                                            </div>
-
-                                            <div class="form-group">
-
-                                                <label for="addressStreet" class="col-sm-3 control-label"></label>
-                                                
-                                                <div class="col-sm-4">
-                                                    <input class="form-control" id="addressCityA" name="addressCityA" placeholder="Ciudad" type="text" autocomplete="off">
+                                                    <div class="row">
+                                                        <p>1330</p>
+                                                    </div>
                                                 </div>
 
                                                 <div class="col-sm-4">
-                                                    <input class="form-control" id="addressStateA" name="addressStateA" placeholder="Estado" type="text" autocomplete="off">
-                                                </div> 
 
-                                            </div>
+                                                    <div class="row">
+                                                        <b>Nombre completo:</b>
+                                                    </div>
 
-                                            <div class="form-group required">
-                            
-                                                <label for="addressStreet" class="col-sm-3 control-label">Salario Semanal</label>
-                                                
+                                                    <div class="row">
+                                                        <p>Jose Ricardo Medina Lopez</p>
+                                                    </div>
+
+                                                </div>
+
+
                                                 <div class="col-sm-3">
-                                                    <input class="form-control" id="monthly_balance" name="monthly_balance" placeholder="Sueldo Semanal" type="text" autocomplete="off">
+
+                                                    <div class="row">
+                                                        <b>Sexo:</b>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <p>Hombre</p>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-sm-3">
+
+                                                    <div class="row">
+                                                        <b>Estado Civil:</b>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <p>Soltero</p>
+                                                    </div>
+
                                                 </div>
 
                                             </div>
+                                            <br>
+                                            <div class="row">
 
-                                            <div class="form-group required">
-                            
-                                                <label for="addressStreet" class="col-sm-3 control-label">Importe Semanal</label>
-                                                
                                                 <div class="col-sm-3">
-                                                    <input class="form-control" id="monthly_balance" name="monthly_balance" placeholder="Importe Semanal" type="text" autocomplete="off">
+
+                                                <div class="row">
+                                                    <b>Puesto:</b>
+                                                </div>
+
+                                                <div class="row">
+                                                    <p>Limpieza - Ayudante General</p>
+                                                </div>
+
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="row">
+                                                        <b>NSS</b>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <p>4398329382832</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <div class="row">
+                                                        <b>Calle</b>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <p>15 de Mayo</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <div class="row">
+                                                        <b>Colonia</b>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <p>Valles de Solidaridad</p>
+                                                    </div>
                                                 </div>
 
                                             </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="row">
+                                                        <b>C.P</b>
+                                                    </div>
 
-                                        </div>
-                                    </div>
-                                    <!-- /.tab-pane -->
-                                    <div class="tab-pane" id="contract_temp">
-                                    
+                                                    <div class="row">
+                                                        <p>66700</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <div class="row">
+                                                        <b>Ciudad</b>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <p>San Nicolas de los Garza</p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <div class="row">
+                                                        <b>Estado</b>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <p>Nuevo Leon</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div style="margin-top: 5px;" class="col-sm-2">
+                                                   <b>Sueldo Diario</b>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input class="form-control" type="text" autocomplete="off">
+                                                </div>
+
+                                                <div style="margin-top: 5px;" class="col-sm-2">
+                                                   <b>Salario Sem.</b>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input class="form-control" type="text" autocomplete="off">
+                                                </div>
+
+                                                <div style="margin-top: 5px;" class="col-sm-2">
+                                                   <b>Importe Sem.</b>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input class="form-control"  type="text" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>                                
                                     </div>
                                     <!-- /.tab-pane -->
                                 </div>

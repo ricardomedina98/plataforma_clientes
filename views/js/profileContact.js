@@ -14,6 +14,7 @@ $(document).ready(function () {
         tokenSeparators: [',', ' '],
         placeholder: "Seleccione un local",
     });
+
 });
 
 $("#fileupload")
@@ -776,6 +777,239 @@ $('.btnDeleteProduct').click(function () {
                 success: function (response) {
                     if (response) {
                         location.href = getURL() + "contactos/" + id_user;
+                    }
+                }
+            });
+        }
+    });
+});
+
+
+$('#destination').change(function() {
+
+    let urlMemberFamily;
+    let data = new FormData();
+    let id_contact = $('#id_user').val();
+    
+    let selects = $('#id_relation_destination');  
+    $(selects).empty();     
+    
+    if($(this).val() === 'contact') {        
+        urlMemberFamily = getURL()+"ajax/contact.ajax.php"; 
+        data.append("id_contactFamily", id_contact); 
+        $.ajax({
+            url:urlMemberFamily,
+            data: data,
+            type:'POST',
+            cache: false,        
+            contentType:false,
+            processData: false,
+            dataType: 'json',
+            success: function(respuesta){                    
+                                                            
+                respuesta.forEach(contacto => {
+                    
+                    if(contacto.name_contact || contacto.first_surname || contacto.second_surname) {
+                        let selectionRelationship = '<option value="'+contacto.id_contact+'">'+contacto.name_contact+ ' ' + contacto.first_surname + ' ' + contacto.second_surname + ' </option>';
+                        if(contacto.alias) {
+                            selectionRelationship += '('+contacto.alias+')';
+                        }
+                        selects.append(selectionRelationship);
+                    }
+
+                });          
+                
+                $(selects).selectpicker("refresh");
+                $('.dropdown-menu').css("margin-bottom","");
+            }
+        });
+    } else if($(this).val() === 'owner') {
+        urlMemberFamily = getURL()+"ajax/owner.ajax.php"; 
+        data.append("owner", true); 
+        $.ajax({
+            url:urlMemberFamily,
+            data: data,
+            type:'POST',
+            cache: false,        
+            contentType:false,
+            processData: false,
+            dataType: 'json',
+            success: function(respuesta){                    
+                
+                respuesta.forEach(owner => {
+                    console.log(owner);
+                    if(owner.name_owner || owner.first_surname || owner.second_surname) {
+                        let selectionRelationship = '<option value="'+owner.id_owner+'">'+owner.name_owner+ ' ' + owner.first_surname + ' ' + owner.second_surname +'</option>';
+                        selects.append(selectionRelationship);
+                    }
+                });          
+                
+                $(selects).selectpicker("refresh");
+                $('.dropdown-menu').css("margin-bottom","");
+                
+            }
+        });
+    }
+});
+
+$('#destination_update').change(function() {
+
+    let urlMemberFamily;
+    let data = new FormData();
+    let id_contact = $('#id_user').val();
+    
+    let selects = $('#id_relation_destination_update');  
+    $(selects).empty();     
+    
+    if($(this).val() === 'contact') {        
+        urlMemberFamily = getURL()+"ajax/contact.ajax.php"; 
+        data.append("id_contactFamily", id_contact); 
+        $.ajax({
+            url:urlMemberFamily,
+            data: data,
+            type:'POST',
+            cache: false,        
+            contentType:false,
+            processData: false,
+            dataType: 'json',
+            success: function(respuesta){                    
+                                                            
+                respuesta.forEach(contacto => {
+                    
+                    if(contacto.name_contact || contacto.first_surname || contacto.second_surname) {
+                        let selectionRelationship = '<option value="'+contacto.id_contact+'">'+contacto.name_contact+ ' ' + contacto.first_surname + ' ' + contacto.second_surname + ' </option>';
+                        if(contacto.alias) {
+                            selectionRelationship += '('+contacto.alias+')';
+                        }
+                        selects.append(selectionRelationship);
+                    }
+
+                });          
+                
+                $(selects).selectpicker("refresh");
+                if($("#id_relation_destination_selected").val() !== null) {
+                    $(selects).selectpicker('val', $("#id_relation_destination_selected").val());
+                }
+                $('.dropdown-menu').css("margin-bottom","");
+            }
+        });
+    } else if($(this).val() === 'owner') {
+        urlMemberFamily = getURL()+"ajax/owner.ajax.php"; 
+        data.append("owner", true); 
+        $.ajax({
+            url:urlMemberFamily,
+            data: data,
+            type:'POST',
+            cache: false,        
+            contentType:false,
+            processData: false,
+            dataType: 'json',
+            success: function(respuesta){                    
+                
+                respuesta.forEach(owner => {
+                    
+                    if(owner.name_owner || owner.first_surname || owner.second_surname) {
+                        let selectionRelationship = '<option value="'+owner.id_owner+'">'+owner.name_owner+ ' ' + owner.first_surname + ' ' + owner.second_surname +'</option>';
+                        selects.append(selectionRelationship);
+                    }
+                });          
+                
+                $(selects).selectpicker("refresh");
+                if($("#id_relation_destination_selected").val() !== null) {
+                    $(selects).selectpicker('val', $("#id_relation_destination_selected").val());
+                }
+                $('.dropdown-menu').css("margin-bottom","");
+                
+            }
+        });
+    }
+    
+    
+});
+
+$("#addMemberFamily").click(function () {
+    $("#formAddMembersFamily").submit();
+});
+
+
+$(".btnEditMemberFamily").click(function () {
+
+    let urlWeb = getURL() + "ajax/contact.ajax.php";
+    let id_relationship = $(this).attr("idEditMemberFamily");
+
+    let data = new FormData();
+    data.append("id_relationship", id_relationship);
+    $.ajax({
+        url: urlWeb,
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (respuesta) {
+            
+            $("#id_relation_destination_selected").val(respuesta.id_relation_destination);
+
+            $("#id_relationship").val(respuesta.id_relationship);
+            
+            $("#id_type_relationship_update").selectpicker('val', respuesta.id_type_relationship);
+            
+            $("#destination_update").selectpicker('val', respuesta.destination);
+            
+        }
+
+    })
+});
+
+$("#modalEditMemberFamily").on("hide.bs.modal", function () {
+    $("#id_relation_destination_selected").val(null);
+
+    $("#id_relationship").val(null);
+});
+
+$("#btneditMemberFamily").click(function () {
+    console.log($('#id_relation_destination_update').val());
+    if($('#id_type_relationship_update').val() === null && $('#destination_update').val() === null && $('id_relation_destination_update').val() === null) {
+        console.log('Faltan campos por llenar');
+    } else {
+        $("#formEditMembersFamily").submit();
+    }
+});
+
+
+$(".btnDeleteMemberFamily").click(function (e) {
+    e.preventDefault();
+
+    swal({
+        title: "¿Estas seguro?",
+        text: "Se eliminara el familiar y toda su informacion",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, eliminar"
+    }).then(result => {
+        if (result.value) {
+
+            let data = new FormData();
+            data.append("id_familymember_delete", $(this).attr("idDeleteMemberFamily"));
+            let id_user = $("#id_user").val();
+                
+
+            $.ajax({
+                url: getURL() + "ajax/contact.ajax.php",
+                method: "POST",
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (respuesta) {
+
+                    if(respuesta) {
+                        location.href = getURL() + "contactos/" + id_user;
+                    } else {
+                        showAlertModal("Error!", "Hubo un error al eliminar el ticket", false);
                     }
                 }
             });
