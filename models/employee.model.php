@@ -54,8 +54,11 @@ class EmployeeModel{
 
     public static function modelShowEmployees(){
 
-        $showEmployees = Connection::connect() -> prepare("select id_employee, name_employee, first_surname, second_surname, sex, category, position, civil_status, 
-            nss_employee, num_employee, status from employees;");
+        $showEmployees = Connection::connect() -> prepare("select e.id_employee, e.name_employee, e.first_surname, second_surname, 
+		e.sex, e.category, e.position, e.civil_status, e.nss_employee, 
+        e.num_employee, e.status, c.id_contract from employees e
+            left join contract c on e.id_employee = c.id_employee
+            where status = 'A';");
 
         $showEmployees -> execute();        
         
@@ -67,7 +70,16 @@ class EmployeeModel{
 
     public static function modelShowOneEmployees($id_employee){
 
-        $showEmployees = Connection::connect() -> prepare("select * from view_employees_a where id_employee = :id_employee");
+        $showEmployees = Connection::connect() -> prepare("SELECT e.id_employee, e.name_employee, e.first_surname, 
+        e.second_surname, e.sex, e.category,
+        e.position, e.civil_status, e.nss_employee, e.num_employee, e.status, e.created_at, e.updated_at,
+		ea.id_employee_address, ea.id_employee, ea.state, ea.city, ea.street, ea.colony, ea.postal_code,
+        c.begin_contract, c.end_contract, c.contract_created, c.daily_balance, c.weekly_balance,
+        c.weekly_balance, c.weekly_balance, c.weekly_import, c.id_contract, c.created_at, c.updated_at
+        FROM employees e 
+        INNER JOIN employee_address ea on e.id_employee = ea.id_employee
+        LEFT JOIN contract c on c.id_employee = e.id_employee
+        WHERE e.id_employee = :id_employee AND e.status = 'A';");
 
 
         $showEmployees -> bindParam(":id_employee", $id_employee, PDO::PARAM_INT);        
@@ -84,51 +96,35 @@ class EmployeeModel{
         $connection = Connection::connect();
         $connection->beginTransaction();
 
-        $updateEmployee = $connection-> prepare("UPDATE employees e SET name_employee = :name_employee, first_surname = :first_surname, second_surname = :second_surname, sex_employee = :sex_employee,
-        position_employee = :position_employee, date_birthday_empl = :date_birthday_empl, civil_status = :civil_status, nss_employee = :nss_employee, 
-        num_employee = :num_employee WHERE id_employee = :id_employee");
+        $updateEmployee = $connection-> prepare("UPDATE employees SET name_employee = :name_employee, first_surname = :first_surname, second_surname = :second_surname, sex = :sex, category =  :category,
+		position = :position, civil_status = :civil_status, nss_employee = :nss_employee, num_employee = :num_employee, updated_at = NOW() WHERE id_employee = :id_employee;");
         
-        $updateEmpAddressBirth = $connection -> prepare("UPDATE addressbirthday_employee SET placeCityBirthday = :placeCityBirthday, placeStateBirthday = :placeStateBirthday WHERE id_employee = :id_employee");
+        
 
         $updateEmpAddress = $connection -> prepare("UPDATE employee_address SET state = :state, city = :city, street = :street, colony = :colony, postal_code = :postal_code WHERE id_employee = :id_employee;");
 
-        $updateEmpInfoContract = $connection -> prepare("UPDATE employees_contract_info SET start_contract = :start_contract, end_contract = :end_contract, contract_created = :contract_created, weekly_balance = :weekly_balance,
-        punctuality_award = :punctuality_award, attendance_prize = :attendance_prize WHERE id_employee = :id_employee;");
+        $num_employee = (empty($data['num_employee']) ? null : $data['num_employee']);
         
         $updateEmployee -> bindParam(":id_employee", $data['id_employee'], PDO::PARAM_INT);
         $updateEmployee -> bindParam(":name_employee", $data['nameEmployee'], PDO::PARAM_STR);
         $updateEmployee -> bindParam(":first_surname", $data['surName1Employee'], PDO::PARAM_STR);
         $updateEmployee -> bindParam(":second_surname", $data['surName2Employee'], PDO::PARAM_STR);
-        $updateEmployee -> bindParam(":sex_employee", $data['sexEmployee'], PDO::PARAM_STR);
-        $updateEmployee -> bindParam(":position_employee", $data['position_employee'], PDO::PARAM_STR);
-        $updateEmployee -> bindParam(":date_birthday_empl", $data['birthdayEmployee'], PDO::PARAM_STR);
+        $updateEmployee -> bindParam(":sex", $data['sexEmployee'], PDO::PARAM_STR);
+        $updateEmployee -> bindParam(":category", $data['category_employee'], PDO::PARAM_STR);
+        $updateEmployee -> bindParam(":position", $data['position_employee'], PDO::PARAM_STR);
         $updateEmployee -> bindParam(":civil_status", $data['civil_status'], PDO::PARAM_STR);
-        $updateEmployee -> bindParam(":nss_employee", $data['nss_employee'], PDO::PARAM_STR);
-        $num_employee = (empty($data['num_employee']) ? null : $data['num_employee']);
-        $updateEmployee -> bindParam(":num_employee", $num_employee, PDO::PARAM_INT);
-        
-        $updateEmpAddressBirth -> bindParam(":id_employee", $data['id_employee'], PDO::PARAM_INT);
-        $updateEmpAddressBirth -> bindParam(":placeCityBirthday", $data['addressCityPlaceBirth'], PDO::PARAM_STR);
-        $updateEmpAddressBirth -> bindParam(":placeStateBirthday", $data['addressStatePlaceBirth'], PDO::PARAM_STR);
+        $updateEmployee -> bindParam(":nss_employee", $data['nss_employee'], PDO::PARAM_STR); 
+        $updateEmployee -> bindParam(":num_employee", $num_employee, PDO::PARAM_INT);       
 
         $updateEmpAddress -> bindParam(":id_employee", $data['id_employee'], PDO::PARAM_INT);
-        $updateEmpAddress -> bindParam(":state", $data['addressStateA'], PDO::PARAM_STR);
-        $updateEmpAddress -> bindParam(":city", $data['addressCityA'], PDO::PARAM_STR);
-        $updateEmpAddress -> bindParam(":street", $data['addressStreet'], PDO::PARAM_STR);
-        $updateEmpAddress -> bindParam(":colony", $data['addressColony'], PDO::PARAM_STR);
-        $updateEmpAddress -> bindParam(":postal_code", $data['addressCodePostal'], PDO::PARAM_STR);
+        $updateEmpAddress -> bindParam(":state", $data['state'], PDO::PARAM_STR);
+        $updateEmpAddress -> bindParam(":city", $data['city'], PDO::PARAM_STR);
+        $updateEmpAddress -> bindParam(":street", $data['street'], PDO::PARAM_STR);
+        $updateEmpAddress -> bindParam(":colony", $data['colony'], PDO::PARAM_STR);
+        $updateEmpAddress -> bindParam(":postal_code", $data['postal_code'], PDO::PARAM_STR);
 
-        $updateEmpInfoContract -> bindParam(":id_employee", $data['id_employee'], PDO::PARAM_INT);
-        $updateEmpInfoContract -> bindParam(":start_contract", $data["dateTimeContract"]["Start"], PDO::PARAM_STR);
-        $updateEmpInfoContract -> bindParam(":end_contract", $data["dateTimeContract"]["End"], PDO::PARAM_STR);
-        $updateEmpInfoContract -> bindParam(":contract_created", $data['contract_created'], PDO::PARAM_STR);
-        $updateEmpInfoContract -> bindParam(":weekly_balance", $data['monthly_balance'], PDO::PARAM_STR);
-        $updateEmpInfoContract -> bindParam(":punctuality_award", $data['punctuality_award'], PDO::PARAM_STR);
-        $updateEmpInfoContract -> bindParam(":attendance_prize", $data['attendance_prize'], PDO::PARAM_STR);
-                
-
-        if ($updateEmployee -> execute() && $updateEmpAddressBirth -> execute() 
-            && $updateEmpAddress -> execute() && $updateEmpInfoContract->execute()){            
+        if ($updateEmployee -> execute() 
+        && $updateEmpAddress -> execute()){            
             $connection->commit();
             return true;
         } else {
@@ -140,13 +136,57 @@ class EmployeeModel{
 
     public static function modelDeleteEmployee($id_employee){
 
-        $deleteEmployee = Connection::connect() -> prepare("UPDATE employees e set e.status_employee = 'I' WHERE e.id_employee = :id_employee");
+        $deleteEmployee = Connection::connect() -> prepare("UPDATE employees set status = 'I' WHERE id_employee = :id_employee");
 
         $deleteEmployee -> bindParam(":id_employee", $id_employee, PDO::PARAM_INT);
 
         $rowsAffected = $deleteEmployee->rowCount();
 
         if ($deleteEmployee -> execute() && $rowsAffected>0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function modelUpdateContract($data){
+
+        $updateContract = Connection::connect() -> prepare("update contract set begin_contract = :begin_contract, end_contract = :end_contract, weekly_balance = :weekly_balance, weekly_import = :weekly_import, daily_balance = :daily_balance, updated_at = now() where id_employee = :id_employee");
+
+        $updateContract -> bindParam(":id_employee", $data['id_employee'], PDO::PARAM_INT);
+        $updateContract -> bindParam(":begin_contract", $data['begin_contract'], PDO::PARAM_STR);
+        $updateContract -> bindParam(":end_contract", $data['end_contract'], PDO::PARAM_STR);
+        $updateContract -> bindParam(":weekly_balance", $data['weekly_balance'], PDO::PARAM_STR);
+        $updateContract -> bindParam(":weekly_import", $data['weekly_import'], PDO::PARAM_STR);
+        $updateContract -> bindParam(":daily_balance", $data['daily_balance'], PDO::PARAM_STR);        
+
+        if ($updateContract -> execute()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function modelCreateContract($data){
+
+        $createContract = Connection::connect() -> prepare("
+        insert into contract(id_employee, begin_contract, 
+                            end_contract, weekly_balance, 
+                            weekly_import, daily_balance, contract_created)
+                    values (:id_employee, :begin_contract, 
+                            :end_contract, :weekly_balance,
+                            :weekly_import, :daily_balance, :contract_created);
+        ");
+
+        $createContract -> bindParam(":id_employee", $data['id_employee'], PDO::PARAM_INT);  
+        $createContract -> bindParam(":begin_contract", $data['begin_contract'], PDO::PARAM_STR);
+        $createContract -> bindParam(":end_contract", $data['end_contract'], PDO::PARAM_STR);
+        $createContract -> bindParam(":weekly_balance", $data['weekly_balance'], PDO::PARAM_STR);
+        $createContract -> bindParam(":weekly_import", $data['weekly_import'], PDO::PARAM_STR);
+        $createContract -> bindParam(":daily_balance", $data['daily_balance'], PDO::PARAM_STR);
+        $createContract -> bindParam(":contract_created", $data['begin_contract'], PDO::PARAM_STR);
+
+        if ($createContract -> execute()){
             return true;
         } else {
             return false;

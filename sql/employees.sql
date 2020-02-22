@@ -11,7 +11,9 @@ CREATE TABLE plataforma_clientes.employees (
     civil_status VARCHAR(30) NOT NULL,
     nss_employee VARCHAR(30) NOT NULL,
     num_employee INT NULL,
-    status VARCHAR(1) DEFAULT 'A' NOT NULL
+    status VARCHAR(1) DEFAULT 'A' NOT NULL,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp
 );
 
 CREATE TABLE plataforma_clientes.employee_address (
@@ -26,29 +28,18 @@ CREATE TABLE plataforma_clientes.employee_address (
         REFERENCES plataforma_clientes.employees (id_employee)
 );
 
-
-CREATE TABLE plataforma_clientes.contract_temp (
-    id_contract_temp INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE plataforma_clientes.contract(
+    id_contract INT AUTO_INCREMENT PRIMARY KEY,
     id_employee INT NOT NULL,
-    begin_contract DATE NOT NULL,
+    begin_contract DATETIME NOT NULL,
     end_contract DATETIME NOT NULL,
-    daily_balance FLOAT NOT NULL,
-    contract_created DATETIME NULL,
-    CONSTRAINT fk_id_employee_contract_temp FOREIGN KEY (id_employee)
-        REFERENCES plataforma_clientes.employees (id_employee)
-);
-
-CREATE TABLE plataforma_clientes.contract_undefined (
-    id_contract_undefined INT AUTO_INCREMENT PRIMARY KEY,
-    id_employee INT NOT NULL,
-    id_employee_address INT NOT NULL,
     weekly_balance FLOAT NOT NULL,
     weekly_import FLOAT NOT NULL,
-    begin_contract DATE NOT NULL,
-    contract_created DATETIME NULL,
-    CONSTRAINT fk_id_employee_address_cont_undefined FOREIGN KEY (id_employee_address)
-        REFERENCES plataforma_clientes.employee_address (id_employee_address),
-    CONSTRAINT fk_id_employee_cont_undefined FOREIGN KEY (id_employee)
+    daily_balance FLOAT NOT NULL,
+    contract_created DATE NOT NULL,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp null,
+    CONSTRAINT fk_id_employee_contract FOREIGN KEY (id_employee)
         REFERENCES plataforma_clientes.employees (id_employee)
 );
 

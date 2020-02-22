@@ -119,6 +119,12 @@
     <!--Alert-->
     <script src="<?php echo $url;?>views/js/alerts.js"></script>
 
+    <!--Toastr-->
+    <script src="<?php echo $url;?>node_modules/toastr/toastr.js"></script>
+
+    <!--jQuery Validation-->
+    <script src="<?php echo $url;?>node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
+
     <!-- Template style-->
     <link rel="stylesheet" href="<?php echo $url;?>views/css/template.css">
     <link rel="stylesheet" href="<?php echo $url;?>views/css/profile_contact.css">
@@ -295,6 +301,13 @@
                 elseif($value1=="propios" && $_SESSION['type_user'] == 'Administrador') {
 
                     include "modules/own_businesses.php";
+                    
+                }
+
+
+                elseif($value1=="productos" && $_SESSION['type_user'] == 'Administrador') {
+
+                    include "modules/products.php";
                     
                 }
 
