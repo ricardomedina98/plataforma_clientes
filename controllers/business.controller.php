@@ -29,7 +29,7 @@ class BusinessController{
                         </script>';
                     } else {
                         echo '<script>
-                            location.href="'.Routes::modelRoute().$request['nameFolder'].'/'.$request['id'].'";
+                            location.href="'.Routes::getRoute().$request['nameFolder'].'/'.$request['id'].'";
                             </script>';
                     }
                 } else if($request['result'] == 'ERROR') {

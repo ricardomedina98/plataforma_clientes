@@ -1,5 +1,5 @@
 <?php
-    $url = Routes::modelRoute();
+    $url = Routes::getRoute();
     $tope = 18;
 
     if(isset($pagination)){

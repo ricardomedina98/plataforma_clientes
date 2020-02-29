@@ -20,10 +20,8 @@
                              'state' =>$_POST['addressState'],
                              'postal_code' => $_POST['addressCodePostal'] 
                 );
-                
-                $request = EmployeeModel::modelCreateEmployee($data);      
-                
-                return $request;
+
+                return EmployeeModel::modelCreateEmployee($data);
             }
 
         }
@@ -48,26 +46,20 @@
                     'state' =>$_POST['addressState'],
                     'postal_code' => $_POST['addressCodePostal'] 
                 );
-                
-                $request = EmployeeModel::modelUpdateEmployee($data);  
-                
-                return $request;
+
+                return EmployeeModel::modelUpdateEmployee($data);
             }
         }
 
         public static function controllerShowEmployees(){
 
-            $request = EmployeeModel::modelShowEmployees();
-
-            return $request;
+            return EmployeeModel::modelShowEmployees();
 
         }
 
         public static function controllerShowOneEmployee($id_employee){
 
-            $request = EmployeeModel::modelShowOneEmployees($id_employee);
-
-            return $request;
+            return EmployeeModel::modelShowOneEmployees($id_employee);
         }
 
         public static function controllerShowOneEmployeePDF($id_employee){
@@ -77,8 +69,7 @@
             $request = array('id_employee' => $request['id_employee'], 
                              'nameEmployee' => $request['name_employee'], 'surName1Employee' => $request["first_surname"],
                              'surName2Employee' => $request["second_surname"], 'sexEmployee' => $request["sex_employee"], 
-                             'civil_status' => $request["civil_status"], 'nss_employee' => $request["nss_employee"], 
-                             'num_employee' => $request['num_employee'],
+                             'civil_status' => $request["civil_status"], 'nss_employee' => $request["nss_employee"],
 
                              'birthdayEmployee' => $request["date_birthday_empl"], 
                              
@@ -109,15 +100,13 @@
 
         public static function controllerDeleteEmployee($id_employee){
 
-            $request = EmployeeModel::modelDeleteEmployee($id_employee);
-            return $request;
+            return EmployeeModel::modelDeleteEmployee($id_employee);
 
         }
 
         public static function controllerUpdateContract($data){
 
-            $request = EmployeeModel::modelUpdateContract($data);
-            return $request;
+            return EmployeeModel::modelUpdateContract($data);
 
         }
 
@@ -133,10 +122,8 @@
                     'weekly_import' => $_POST['weekly_import'],
                     'daily_balance' => $_POST['daily_balance']
                 );
-                
-                $request = EmployeeModel::modelCreateContract($data);
-                
-                return $request;
+
+                return EmployeeModel::modelCreateContract($data);
             }
         }
         

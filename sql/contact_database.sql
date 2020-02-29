@@ -127,9 +127,15 @@ create table relationships(
 insert into relationships(id_relation_origin, origin, id_relation_destination, destination, id_type_relationship)
 	values (22, 'contact', 2, 'contact', 1);
 
-update relationships set id_relation_destination = 1, destination = 'contact', id_type_relationship = 2 where id_relationship = 1;
+update relationships set id_relation_destination = 3, destination = 'owner', id_type_relationship = 3 where id_relationship = 29;
+
+delete from relationships where id_relationship = 18;
 
 select * from relationships;
+
+update relationships set id_relation_destination = 4, destination = 'contact', id_type_relationship = 22 where id_relationship = 31;
+
+select * from owners where id_owner = 3;
 
 select 
 	r.origin, 

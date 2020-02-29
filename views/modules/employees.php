@@ -701,7 +701,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="modelTitleId">Crear Contrato</h4>
+                <h4 class="modal-title">Crear Contrato: <span id="modalNameCreateC" style="font-weight: bold;"></span></h4>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -757,7 +757,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Cerrar</button>
-                <button type="submit" id="btnCreateContract" class="btn btn-primary">Crear</button>
+                <button type="submit" id="btnCreateContractModal" class="btn btn-primary">Crear contrato</button>
             </div>
         </div>
     </div>

@@ -1,5 +1,5 @@
 <?php
-  $url = Routes::modelRoute();
+  $url = Routes::getRoute();
 ?>
 <div class="content-wrapper">
 

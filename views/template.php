@@ -11,7 +11,7 @@
     <title>Clientes</title>
 
     <?php
-        $url = Routes::modelRoute();
+        $url = Routes::getRoute();
     ?>
 
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -130,6 +130,7 @@
     <link rel="stylesheet" href="<?php echo $url;?>views/css/profile_contact.css">
     <link rel="stylesheet" href="<?php echo $url;?>views/css/addContact.css">
     <link rel="stylesheet" href="<?php echo $url;?>views/css/addBusiness.css">
+    <link rel="stylesheet" href="<?php echo $url;?>views/css/employees.css">
 
 
 </head>
@@ -258,9 +259,9 @@
 
                     if($value3[0] == "pagina") {                    
                         $pagination = $value3[1];
-                        include "modules/owners.php";              
+                        include "modules/owners.php";
                     } else if($value1=="duenos" && $value2=="buscar"){
-                        
+
                         include "modules/searchOwner.php";
 
                     } else if(!empty($value2)) {

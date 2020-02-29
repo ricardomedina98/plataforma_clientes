@@ -92,17 +92,179 @@ $(document).ready(function(){
         "drops": "down"
     });
 
+    $('form[id="formAddEmployee"]').validate({
+        rules: {
+            num_employee: 'required',
+            nameEmployee: 'required',
+            surName1Employee: 'required',
+            surName2Employee: 'required',
+            sexEmployee: 'required',
+            civil_status: 'required',
+            category_employee: 'required',
+            position_employee: 'required',
+            nss_employee: 'required',
+            addressStreet: 'required',
+            addressColony: 'required',
+            addressCodePostal: 'required',
+            addressCity: 'required',
+            addressState: 'required'
+        },
+        messages: {
+            num_employee: 'El campo es requerido',
+            nameEmployee: 'El campo es requerido',
+            surName1Employee: 'El campo es requerido',
+            surName2Employee: 'El campo es requerido',
+            sexEmployee: 'El campo es requerido',
+            civil_status: 'El campo es requerido',
+            category_employee: 'El campo es requerido',
+            position_employee: 'El campo es requerido',
+            nss_employee: 'El campo es requerido',
+            addressStreet: 'El campo es requerido',
+            addressColony: 'El campo es requerido',
+            addressCodePostal: 'El campo es requerido',
+            addressCity: 'El campo es requerido',
+            addressState: 'El campo es requerido'
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+
+    $('form[id="formEditEmployee"]').validate({
+        rules: {
+            num_employee: 'required',
+            nameEmployee: 'required',
+            surName1Employee: 'required',
+            surName2Employee: 'required',
+            sexEmployee: 'required',
+            civil_status: 'required',
+            category_employee: 'required',
+            position_employee: 'required',
+            nss_employee: 'required',
+            addressStreet: 'required',
+            addressColony: 'required',
+            addressCodePostal: 'required',
+            addressCity: 'required',
+            addressState: 'required'
+        },
+        messages: {
+            num_employee: 'El campo es requerido',
+            nameEmployee: 'El campo es requerido',
+            surName1Employee: 'El campo es requerido',
+            surName2Employee: 'El campo es requerido',
+            sexEmployee: 'El campo es requerido',
+            civil_status: 'El campo es requerido',
+            category_employee: 'El campo es requerido',
+            position_employee: 'El campo es requerido',
+            nss_employee: 'El campo es requerido',
+            addressStreet: 'El campo es requerido',
+            addressColony: 'El campo es requerido',
+            addressCodePostal: 'El campo es requerido',
+            addressCity: 'El campo es requerido',
+            addressState: 'El campo es requerido'
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+
+    $('form[id="formFormatEmployee"]').validate({
+        rules: {
+            begin_contract: 'required',
+            dateTimeContractEditC: 'required',
+            daily_balance: 'required',
+            weekly_balance: 'required',
+            weekly_import: 'required',
+
+        },
+        messages: {
+            begin_contract: 'El campo es requerido',
+            dateTimeContractEditC: 'El campo es requerido',
+            daily_balance: 'El campo es requerido',
+            weekly_balance: 'El campo es requerido',
+            weekly_import: 'El campo es requerido',
+
+        },
+        submitHandler: function(form) {
+            
+            let dates_current = $('#dateTimeContractEditC').data('daterangepicker');
+
+            let data = {
+                'id_employee' : $("#id_employee_edit_contract").val(),
+                'begin_contract': moment(dates_current.startDate).format('YYYY/MM/DD HH:mm:ss'),
+                'end_contract': moment(dates_current.endDate).format('YYYY/MM/DD HH:mm:ss'),
+                'daily_balance': $('#daily_balance_contract').val(),
+                'weekly_balance': $('#weekly_balance_contract').val(),
+                'weekly_import': $('#weekly_import_contract').val()
+            };
+
+
+            let formData = new FormData;
+            for (let key in data ) {
+                formData.append(key, data[key]);
+            }
+
+            console.log(formData);
+
+
+            $.ajax({
+                url: getURL() + "ajax/employee.ajax.php",
+                method:"POST",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType:"json",
+                success:function(response){
+
+                    console.log(response);
+
+                    if(response) {
+                        showAlertModal("Correcto!", "Infromación actualizada correctamente", true);
+                    } else {
+                        showAlertModal("Error!", "Hubo un error al guardar la información", false);
+                    }
+
+
+                }
+
+            });
+        }
+    });
+
+    $('form[id="formCreateContract"]').validate({
+        rules: {            
+            dates: 'required',
+            daily_balance: 'required',
+            weekly_balance: 'required',
+            weekly_import: 'required'
+        },
+        messages: {
+            dates: 'El campo es requerido',            
+            daily_balance: 'El campo es requerido',
+            weekly_balance: 'El campo es requerido',
+            weekly_import: 'El campo es requerido'
+        },
+        submitHandler: async function(form){
+            let date = $("#dateTimeContractCreate").val().split('-');    
+            let begin_contract = await moment(moment(date[0]).toDate()).format('YYYY/MM/DD HH:mm:ss');
+            let end_contract = await moment(moment(date[1]).toDate()).format('YYYY/MM/DD HH:mm:ss');
+            $('#begin_contract_create').val(begin_contract);
+            $('#end_contract_create').val(end_contract);    
+            form.submit();
+        }
+    });
 });
 
 function loadSexEmployee(sexEmployee, civilStatus){  
 
-        var value = $(sexEmployee).val();		
-        var civil_status = $(civilStatus);
+        let value = $(sexEmployee).val();
+        let civil_status = $(civilStatus);
         $(civil_status).empty();
-        if(value == "H"){
+        if(value === "H"){
             $(civil_status).append('<option value="CASADO">CASADO</option>');
             $(civil_status).append('<option value="SOLTERO">SOLTERO</option>  ');
-        }else if(value == "M"){
+        }else if(value === "M"){
             $(civil_status).append('<option value="CASADA">CASADA</option>');
             $(civil_status).append('<option value="SOLTERA">SOLTERA</option>  ');
         }
@@ -140,31 +302,31 @@ $(".btnEditEmployee").click(function (){
         contentType: false,
         processData: false,
         dataType:"json",
-        success:function(respuesta){              
+        success:function(response){
         
-            $("#id_employee_edit").val(respuesta.id_employee);                                              
+            $("#id_employee_edit").val(response.id_employee);
 
-            $("#num_employee_edit").val(respuesta.num_employee);
+            $("#num_employee_edit").val(response.num_employee);
             
-            $("#nameEmployeeModal_edit").val(respuesta.name_employee);
-            $("#surName1EmployeeModal_edit").val(respuesta.first_surname);
-            $("#surName2EmployeeModal_edit").val(respuesta.second_surname);
+            $("#nameEmployeeModal_edit").val(response.name_employee);
+            $("#surName1EmployeeModal_edit").val(response.first_surname);
+            $("#surName2EmployeeModal_edit").val(response.second_surname);
             
-            $("#sexEmployee_edit [value='" + respuesta.sex + "']").attr("selected", true); 
+            $("#sexEmployee_edit [value='" + response.sex + "']").attr("selected", true);
             loadSexEmployee($("#sexEmployee_edit"), $("#civil_status_edit"));           
-            $("#civil_status_edit [value='" + respuesta.civil_status + "']").attr("selected", true);
+            $("#civil_status_edit [value='" + response.civil_status + "']").attr("selected", true);
             $("#civil_status_edit").selectpicker('refresh');    
 
-            $("#category_employee_edit").val(respuesta.category);
-            $("#position_employee_edit").val(respuesta.position);
+            $("#category_employee_edit").val(response.category);
+            $("#position_employee_edit").val(response.position);
             
-            $("#nss_employee_edit").val(respuesta.nss_employee);                                    
+            $("#nss_employee_edit").val(response.nss_employee);
 
-            $("#addressStreet_edit").val(respuesta.street);
-            $("#addressColony_edit").val(respuesta.colony);
-            $("#addressCodePostal_edit").val(respuesta.postal_code);
-            $("#addressCity_edit").val(respuesta.city);
-            $("#addressState_edit").val(respuesta.state);
+            $("#addressStreet_edit").val(response.street);
+            $("#addressColony_edit").val(response.colony);
+            $("#addressCodePostal_edit").val(response.postal_code);
+            $("#addressCity_edit").val(response.city);
+            $("#addressState_edit").val(response.state);
 
             
         }
@@ -190,13 +352,12 @@ $(".btnDeleteEmployee").click(function (e){
 
           if(result.value) {
 
-            var urlWeb = getURL()+"ajax/employee.ajax.php";            
 
             var data = new FormData();
             data.append("id_employeeDelete", $(this).attr("iddeleteemployee"));
                         
             $.ajax({
-                url:urlWeb,
+                url:getURL()+"ajax/employee.ajax.php",
                 method:"POST",
                 data: data,
                 cache: false,
@@ -222,9 +383,27 @@ $(".btnCreateContract").click(function (e){
     e.preventDefault();
 
     let id_employee = $(this).attr("idCreateContract");	 
+    let data = new FormData();
+    data.append("id_employeeEdit", id_employee);
 
 
     $("#id_employee_createC").val(id_employee);
+
+    $.ajax({
+        url: getURL() + "ajax/employee.ajax.php",
+        method:"POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType:"json",
+        success:function(response){                          
+            
+            $("#modalNameCreateC").text(response.name_employee + ' ' + response.first_surname + ' ' + response.second_surname);
+                        
+        }
+
+    });
     
     let date_start =  moment();
     let date_end = null;
@@ -245,12 +424,7 @@ $(".btnCreateContract").click(function (e){
     $('#dateTimeContractCreate').data('daterangepicker').setEndDate(date_end.startOf('hour'));
 });
 
-$("#btnCreateContract").click(async function(){    
-    let date = $("#dateTimeContractCreate").val().split('-');    
-    let begin_contract = await moment(moment(date[0]).toDate()).format('YYYY/MM/DD HH:mm:ss');
-    let end_contract = await moment(moment(date[1]).toDate()).format('YYYY/MM/DD HH:mm:ss');
-    $('#begin_contract_create').val(begin_contract);
-    $('#end_contract_create').val(end_contract);    
+$("#btnCreateContractModal").click(async function(){    
     $("#formCreateContract").submit();
 });
 
@@ -258,12 +432,9 @@ $('.btnShowFormats').click( function(e) {
     e.preventDefault();
 
     let id_employee = $(this).attr("idShowFormats");
-    console.log(this);
-    console.log(id_employee);
 
     $("#id_employee_edit_contract").val(id_employee);
         
-
     let data = new FormData();
     data.append("id_employeeEdit", id_employee);
     
@@ -275,9 +446,7 @@ $('.btnShowFormats').click( function(e) {
         contentType: false,
         processData: false,
         dataType:"json",
-        success:function(response){              
-        
-            console.log(response);
+        success:function(response){                          
 
             $("#id_employee_edit_contract").val(response.id_employee);
             $("#begin_contract_edit_contract").datepicker("setDate", moment(response.contract_created).format('DD/MM/yyyy'));            
@@ -355,50 +524,21 @@ $("#btn_renovate_contract").click(function (){
 
 });
 
-
-$('#editFormat').click(function () {
-
-    let dates_current = $('#dateTimeContractEditC').data('daterangepicker');
-
-    let data = {
-        'id_employee' : $("#id_employee_edit_contract").val(),
-        'begin_contract': moment(dates_current.startDate).format('YYYY/MM/DD HH:mm:ss'),
-        'end_contract': moment(dates_current.endDate).format('YYYY/MM/DD HH:mm:ss'),
-        'daily_balance': $('#daily_balance_contract').val(),
-        'weekly_balance': $('#weekly_balance_contract').val(),
-        'weekly_import': $('#weekly_import_contract').val()
-    };
-    
-
-    let formData = new FormData;
-    for (let key in data ) {
-        formData.append(key, data[key]);
-    }
-
-    console.log(formData);
+$('#editFormat').click( function(e) {
+    $('#formFormatEmployee').submit();
+});
 
 
-    $.ajax({
-        url: getURL() + "ajax/employee.ajax.php",
-        method:"POST",
-        data: formData,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType:"json",
-        success:function(response){  
+$('#modalAddEmployee').on('hidden.bs.modal', function () {
+    $('#formAddEmployee').validate().resetForm();
+});
 
-            console.log(response);
-            
-            if(response) {
-                showAlertModal("Correcto!", "Infromación actualizada correctamente", true);
-            } else {
-                showAlertModal("Error!", "Hubo un error al guardar la información", false);
-            }
-                                
-            
-        }
+$('#modalEditEmployee').on('hidden.bs.modal', function () {
+    $('#formEditEmployee').validate().resetForm();
+    $('#formEditEmployee input').removeClass('error');
+});
 
-    });
-
+$('#modalCreateContract').on('hidden.bs.modal', function () {
+    $('#formCreateContract').validate().resetForm();
+    $('#formCreateContract input').removeClass('error');
 });
