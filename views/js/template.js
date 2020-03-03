@@ -129,10 +129,10 @@ $('#addressState').change(function(){
 });
 
 function laodCitys(val){
-    var data = new FormData();
+    let data = new FormData();
     data.append("cities", true);
 
-    var urlCities = getURL()+"ajax/json.ajax.php";
+    let urlCities = getURL()+"ajax/json.ajax.php";
     
     $.ajax({
         url:urlCities,
@@ -143,16 +143,16 @@ function laodCitys(val){
         processData: false,
         dataType: 'json',
         success: function(respuesta){            
-            var ciudades = $('#addressCity');
-            var optionDefaul = '<option value="">Seleccione una ciudad</option>';
-            ciudades.append(optionDefaul);
+            let ciudades = $('#addressCity');
+            let optionDefault = '<option value="">Seleccione una ciudad</option>';
+            ciudades.append(optionDefault);
             for (i in respuesta) {
                 if(respuesta[i].NOM_ENT == val){
-                    var estadosCiudades = '<option value="'+respuesta[i].NOM_MUN+'">'+respuesta[i].NOM_MUN+'</option>';
+                    let estadosCiudades = '<option value="'+respuesta[i].NOM_MUN+'">'+respuesta[i].NOM_MUN+'</option>';
                     ciudades.append(estadosCiudades);
                 } 
             }
-            var selectedCity = $('#valCity').val();                 
+            let selectedCity = $('#valCity').val();                 
 
             $(ciudades).val(selectedCity);             
             $(ciudades).selectpicker('refresh');
@@ -211,6 +211,17 @@ $("#dataImageProfile").change(function() {
 $("#btnChangePhotoContact").click(function() {
   $(".imgProfile").toggle();
   $("#uploadImage").toggle();
+});
+
+$("#btnChangePhotoBusiness").click(function() {
+    $(".imgProfile").toggle();
+    $("#uploadImage").toggle();
+});
+
+
+$("#btnChangePhotoOwner").click(function() {
+    $(".imgProfile").toggle();
+    $("#uploadImage").toggle();
 });
 
 

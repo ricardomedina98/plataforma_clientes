@@ -356,7 +356,7 @@ $addressAlt -> controllerAddAddressAlt();
                                 <div class="col-sm-3 col-lg-8" style="text-align: center;">                                    
                                     <img class="img-responsive imgProfile" src="' . $url . $requestBusiness['profile_photo'] . '">
 
-                                    <button class="btn btn-default" type="button" id="btnChangePhotoContact" name="btnChangePhotoContact">Cambiar foto de perfil</button>
+                                    <button class="btn btn-default" type="button" id="btnChangePhotoBusiness" name="btnChangePhotoBusiness">Cambiar foto de perfil</button>
                                     
                                     <div id="uploadImage">
                                         <img class="previewImage">

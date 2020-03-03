@@ -54,9 +54,9 @@ class EmployeeModel{
 
     public static function modelShowEmployees(){
 
-        $showEmployees = Connection::connect() -> prepare("select e.id_employee, e.name_employee, e.first_surname, second_surname, 
+        $showEmployees = Connection::connect() -> prepare("select e.id_employee, e.name_employee, e.first_surname, second_surname,
 		e.sex, e.category, e.position, e.civil_status, e.nss_employee, 
-        e.num_employee, e.status, c.id_contract from employees e
+            e.num_employee, e.status, c.id_contract, c.begin_contract, c.end_contract from employees e
             left join contract c on e.id_employee = c.id_employee
             where status = 'A';");
 
@@ -75,7 +75,7 @@ class EmployeeModel{
         e.position, e.civil_status, e.nss_employee, e.num_employee, e.status, e.created_at, e.updated_at,
 		ea.id_employee_address, ea.id_employee, ea.state, ea.city, ea.street, ea.colony, ea.postal_code,
         c.begin_contract, c.end_contract, c.contract_created, c.daily_balance, c.weekly_balance,
-        c.weekly_balance, c.weekly_balance, c.weekly_import, c.id_contract, c.created_at, c.updated_at
+        c.punctuality_award, c.assistance_award, c.id_contract, c.created_at, c.updated_at
         FROM employees e 
         INNER JOIN employee_address ea on e.id_employee = ea.id_employee
         LEFT JOIN contract c on c.id_employee = e.id_employee
@@ -151,14 +151,15 @@ class EmployeeModel{
 
     public static function modelUpdateContract($data){
 
-        $updateContract = Connection::connect() -> prepare("update contract set begin_contract = :begin_contract, end_contract = :end_contract, weekly_balance = :weekly_balance, weekly_import = :weekly_import, daily_balance = :daily_balance, updated_at = now() where id_employee = :id_employee");
+        $updateContract = Connection::connect() -> prepare("update contract set begin_contract = :begin_contract, end_contract = :end_contract, weekly_balance = :weekly_balance, punctuality_award = :punctuality_award, assistance_award = :assistance_award, daily_balance = :daily_balance, updated_at = now() where id_employee = :id_employee");
 
         $updateContract -> bindParam(":id_employee", $data['id_employee'], PDO::PARAM_INT);
         $updateContract -> bindParam(":begin_contract", $data['begin_contract'], PDO::PARAM_STR);
         $updateContract -> bindParam(":end_contract", $data['end_contract'], PDO::PARAM_STR);
         $updateContract -> bindParam(":weekly_balance", $data['weekly_balance'], PDO::PARAM_STR);
-        $updateContract -> bindParam(":weekly_import", $data['weekly_import'], PDO::PARAM_STR);
         $updateContract -> bindParam(":daily_balance", $data['daily_balance'], PDO::PARAM_STR);        
+        $updateContract -> bindParam(":punctuality_award", $data['punctuality_award'], PDO::PARAM_STR);
+        $updateContract -> bindParam(":assistance_award", $data['assistance_award'], PDO::PARAM_STR);
 
         if ($updateContract -> execute()){
             return true;
@@ -172,17 +173,18 @@ class EmployeeModel{
         $createContract = Connection::connect() -> prepare("
         insert into contract(id_employee, begin_contract, 
                             end_contract, weekly_balance, 
-                            weekly_import, daily_balance, contract_created)
+                            punctuality_award, assistance_award, daily_balance, contract_created)
                     values (:id_employee, :begin_contract, 
                             :end_contract, :weekly_balance,
-                            :weekly_import, :daily_balance, :contract_created);
+                            :punctuality_award, :assistance_award, :daily_balance, :contract_created);
         ");
 
         $createContract -> bindParam(":id_employee", $data['id_employee'], PDO::PARAM_INT);  
         $createContract -> bindParam(":begin_contract", $data['begin_contract'], PDO::PARAM_STR);
         $createContract -> bindParam(":end_contract", $data['end_contract'], PDO::PARAM_STR);
         $createContract -> bindParam(":weekly_balance", $data['weekly_balance'], PDO::PARAM_STR);
-        $createContract -> bindParam(":weekly_import", $data['weekly_import'], PDO::PARAM_STR);
+        $createContract -> bindParam(":punctuality_award", $data['punctuality_award'], PDO::PARAM_STR);
+        $createContract -> bindParam(":assistance_award", $data['assistance_award'], PDO::PARAM_STR);
         $createContract -> bindParam(":daily_balance", $data['daily_balance'], PDO::PARAM_STR);
         $createContract -> bindParam(":contract_created", $data['begin_contract'], PDO::PARAM_STR);
 

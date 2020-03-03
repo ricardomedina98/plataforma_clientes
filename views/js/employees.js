@@ -93,8 +93,7 @@ $(document).ready(function(){
     });
 
     $('form[id="formAddEmployee"]').validate({
-        rules: {
-            num_employee: 'required',
+        rules: {            
             nameEmployee: 'required',
             surName1Employee: 'required',
             surName2Employee: 'required',
@@ -109,8 +108,7 @@ $(document).ready(function(){
             addressCity: 'required',
             addressState: 'required'
         },
-        messages: {
-            num_employee: 'El campo es requerido',
+        messages: {            
             nameEmployee: 'El campo es requerido',
             surName1Employee: 'El campo es requerido',
             surName2Employee: 'El campo es requerido',
@@ -131,8 +129,7 @@ $(document).ready(function(){
     });
 
     $('form[id="formEditEmployee"]').validate({
-        rules: {
-            num_employee: 'required',
+        rules: {            
             nameEmployee: 'required',
             surName1Employee: 'required',
             surName2Employee: 'required',
@@ -147,8 +144,7 @@ $(document).ready(function(){
             addressCity: 'required',
             addressState: 'required'
         },
-        messages: {
-            num_employee: 'El campo es requerido',
+        messages: {            
             nameEmployee: 'El campo es requerido',
             surName1Employee: 'El campo es requerido',
             surName2Employee: 'El campo es requerido',
@@ -174,7 +170,8 @@ $(document).ready(function(){
             dateTimeContractEditC: 'required',
             daily_balance: 'required',
             weekly_balance: 'required',
-            weekly_import: 'required',
+            punctuality_award: 'required',
+            assistance_award: 'required',
 
         },
         messages: {
@@ -182,7 +179,8 @@ $(document).ready(function(){
             dateTimeContractEditC: 'El campo es requerido',
             daily_balance: 'El campo es requerido',
             weekly_balance: 'El campo es requerido',
-            weekly_import: 'El campo es requerido',
+            punctuality_award: 'El campo es requerido',
+            assistance_award: 'El campo es requerido',
 
         },
         submitHandler: function(form) {
@@ -195,7 +193,8 @@ $(document).ready(function(){
                 'end_contract': moment(dates_current.endDate).format('YYYY/MM/DD HH:mm:ss'),
                 'daily_balance': $('#daily_balance_contract').val(),
                 'weekly_balance': $('#weekly_balance_contract').val(),
-                'weekly_import': $('#weekly_import_contract').val()
+                'punctuality_award': $('#punctuality_award_contract').val(),
+                'assistance_award': $('#assistance_award_contract').val()
             };
 
 
@@ -237,13 +236,15 @@ $(document).ready(function(){
             dates: 'required',
             daily_balance: 'required',
             weekly_balance: 'required',
-            weekly_import: 'required'
+            punctuality_award: 'required',
+            assistance_award: 'required'
         },
         messages: {
             dates: 'El campo es requerido',            
             daily_balance: 'El campo es requerido',
             weekly_balance: 'El campo es requerido',
-            weekly_import: 'El campo es requerido'
+            punctuality_award: 'El campo es requerido',
+            assistance_award: 'El campo es requerido'
         },
         submitHandler: async function(form){
             let date = $("#dateTimeContractCreate").val().split('-');    
@@ -408,8 +409,7 @@ $(".btnCreateContract").click(function (e){
     let date_start =  moment();
     let date_end = null;
     
-    while(date_start.day() === 4 || date_start.day() === 6 || date_start.day() === 0 || 
-        date_start.format('DD/MM') === '25/12' || date_start.format('DD/MM') === '01/01') {        
+    while(date_start.day() === 0 || date_start.format('DD/MM') === '25/12' || date_start.format('DD/MM') === '01/01') {        
         date_start = date_start.add(1, 'day');
     }
 
@@ -456,7 +456,8 @@ $('.btnShowFormats').click( function(e) {
 
             $("#daily_balance_contract").val(response.daily_balance);
             $("#weekly_balance_contract").val(response.weekly_balance);
-            $("#weekly_import_contract").val(response.weekly_import);
+            $("#punctuality_award_contract").val(response.punctuality_award);
+            $("#assistance_award_contract").val(response.assistance_award);
 
             $("#num_employee_contract").text(response.num_employee);
             
@@ -502,13 +503,10 @@ $("#btn_renovate_contract").click(function (){
 
     let dates_current = $('#dateTimeContractEditC').data('daterangepicker');
 
-    let date_start =  dates_current.endDate;
-    let date_end = null;
-
-    console.log(dates_current.endDate);
+    let date_start =  moment(dates_current.endDate).add(1, 'day');
+    let date_end = null;    
     
-    while(date_start.day() === 4 || date_start.day() === 6 || date_start.day() === 0 || 
-        date_start.format('DD/MM') === '25/12' || date_start.format('DD/MM') === '01/01') {        
+    while(date_start.day() === 0 || date_start.format('DD/MM') === '25/12' || date_start.format('DD/MM') === '01/01') {        
         date_start = date_start.add(1, 'day');
     }
 

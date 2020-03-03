@@ -64,7 +64,7 @@
                     <th>Nombre</th>
                     <th>Apellido Paterno</th>
                     <th>Apellido Materno</th>
-                    <!-- <th>Vencimiento del contrato</th> -->
+                    <th>Vencimiento del contrato</th>
                     <!-- <th>Descargas</th> -->
                     <th>Acciones</th>
 
@@ -91,28 +91,16 @@
                                 echo '<td>'.$valueEmpl["name_employee"].'</td>
                                 <td>'.$valueEmpl["first_surname"].'</td>
                                 <td>'.$valueEmpl["second_surname"].'</td>';
-                    
-                                //     <div class="row">
-        
-                                //         <div class="col-12 text-center">
-                                                
-                                //             <button class="btn btn-success btnDownloadContract" style="width: 60px" idDownloadContract="'.$valueEmpl['id_employee'].'" data-toggle="modal" data-target="#modalViewEmployee"><i class="fa fa-download"></i></button>
 
-                                //             <button class="btn btn-danger btnDownloadContractRed" style="width: 60px" idDownloadContract="'.$valueEmpl['id_employee'].'" data-toggle="modal" data-target="#modalViewEmployee"><i class="fa fa-download"></i></button>                                            
-                                        
-                                //         </div>
-                                        
-                                //      </div>  
-                    
-                                // </td>';
-
-                                /*
-
-                                    <button class="btn btn-success btnRenewContract" style="width: 40px; margin-right: 10px;" idRenewContract="'.$valueEmpl['id_employee'].'"><i class="fa fa-refresh"></i></button>
-
+                                if(!empty($valueEmpl['end_contract'])){
                                     
+                                    $dateName = Helper::ConvertRangeDatesEndName($valueEmpl["end_contract"]);
+                                    echo '<td><span>'.$dateName.'</span></td>';
+                                } else {
+                                    echo '<td>Sin contrato</td>';
+                                }
 
-                                */
+                                                             
                                 
                                 echo '
                                 <td>
@@ -275,7 +263,7 @@
                                 <label for="addressStreet" class="col-sm-3 control-label"></label>
                                 
                                 <div class="col-sm-4">
-                                    <input class="form-control" id="addressCity" name="addressCity" placeholder="Ciudad" type="text" autocomplete="off" required>
+                                    <input class="form-control" id="addressCity_add" name="addressCity" placeholder="Ciudad" type="text" autocomplete="off" required>
                                 </div>
 
                                 <div class="col-sm-4">
@@ -445,7 +433,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Contrato : <span style="font-weight: bold" id="modalShowFormatsName"></span></h4>
+                <h4 class="modal-title">Contrato: <span style="font-weight: bold" id="modalShowFormatsName"></span></h4>
                 
             </div>
             <div class="modal-body">
@@ -461,7 +449,7 @@
                                     <label for="begin_contract_edit_contract" class="col-sm-3 control-label">Inicio de Contrato</label>
 
                                     <div class="col-sm-3">
-                                        <input class="form-control" id="begin_contract_edit_contract" name="begin_contract" required/>
+                                        <input class="form-control" id="begin_contract_edit_contract" name="begin_contract" required disabled/>
                                     </div>
 
                                 </div> 
@@ -502,10 +490,20 @@
 
                                 <div class="form-group required">
                         
-                                    <label for="weekly_import_contract" class="col-sm-3 control-label">Importe Semanal</label>
+                                    <label for="punctuality_award_contract" class="col-sm-3 control-label">Premio Puntualidad</label>
 
                                     <div class="col-sm-4">
-                                        <input class="form-control" id="weekly_import_contract" name="weekly_import" placeholder="Importe Semanal" type="number" autocomplete="off" required>
+                                        <input class="form-control" id="punctuality_award_contract" name="punctuality_award" placeholder="Importe Semanal" type="number" autocomplete="off" required>
+                                    </div>                                           
+
+                                </div>
+
+                                <div class="form-group required">
+                        
+                                    <label for="assistance_award_contract" class="col-sm-3 control-label">Premio Asistencia</label>
+
+                                    <div class="col-sm-4">
+                                        <input class="form-control" id="assistance_award_contract" name="assistance_award" placeholder="Importe Semanal" type="number" autocomplete="off" required>
                                     </div>                                           
 
                                 </div>
@@ -683,8 +681,22 @@
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Dropdown link</a></li>
-                        <li><a href="#">Dropdown link</a></li>
+                        <li><a href="#">Contrato Renovacion</a></li>
+                        <li><a href="#">Contrato Inicial</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Contrato Indeterminado</a></li>
+                        <li><a href="#">Contrato Determinado</a></li>
+                        <li><a href="#">Constancia</a></li>
+                        <li><a href="#">Finiquito</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">G. FILOSOFIA</a></li>
+                        <li><a href="#">J. PREMIO PRODUCTIVIDAD</a></li>
+                        <li><a href="#">K. COMPROMISOS ESPECIFICOS</a></li>
+                        <li><a href="#">L. CUESTIONARIO</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Confidencialidad</a></li>
+                        <li><a href="#">Contancia lectura de reglamento</a></li>
+                        <li><a href="#">Examen antidoping</a></li>
                     </ul>
                 </div>
                 <button style="margin-right: 10px" type="submit" id="editFormat" class="btn btn-primary">Actualizar</button>
@@ -727,7 +739,7 @@
                             <label for="daily_balance" class="col-sm-3 control-label">Sueldo Diario</label>
 
                             <div class="col-sm-4">
-                                <input class="form-control" name="daily_balance" placeholder="Sueldo Diario" type="number" autocomplete="off">
+                                <input class="form-control" name="daily_balance" placeholder="Sueldo Diario" value="130" type="number" autocomplete="off">
                             </div>                                           
 
                         </div>
@@ -737,17 +749,27 @@
                             <label for="weekly_balance" class="col-sm-3 control-label">Salario Semanal</label>
 
                             <div class="col-sm-4">
-                                <input class="form-control" name="weekly_balance" placeholder="Salario Semanal" type="number" autocomplete="off">
+                                <input class="form-control" name="weekly_balance" placeholder="Salario Semanal" value="910" type="number" autocomplete="off">
                             </div>                                           
 
                         </div>
 
                         <div class="form-group required">
                 
-                            <label for="weekly_import" class="col-sm-3 control-label">Importe Semanal</label>
+                            <label for="punctuality_award" class="col-sm-3 control-label">Premio Puntualidad</label>
 
                             <div class="col-sm-4">
-                                <input class="form-control" name="weekly_import" placeholder="Importe Semanal" type="number" autocomplete="off">
+                                <input class="form-control" name="punctuality_award" placeholder="Premio Puntualidad" type="number" autocomplete="off">
+                            </div>                                           
+
+                        </div>
+
+                        <div class="form-group required">
+                
+                            <label for="assistance_award" class="col-sm-3 control-label">Premio Asistencia</label>
+
+                            <div class="col-sm-4">
+                                <input class="form-control" name="assistance_award" placeholder="Premio Asistencia" type="number" autocomplete="off">
                             </div>                                           
 
                         </div>
@@ -757,6 +779,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary pull-left" data-dismiss="modal">Cerrar</button>
+                <button type="submit" id="btnCreateContractDownload" class="btn btn-success">Crear y descargar</button>
                 <button type="submit" id="btnCreateContractModal" class="btn btn-primary">Crear contrato</button>
             </div>
         </div>

@@ -284,7 +284,7 @@ $updateOwner = OwnerController::controllerUpdateOwner();
                                 <div class="col-sm-3 col-lg-8" style="text-align: center;">                                    
                                     <img class="img-responsive imgProfile" src="' . $url . $requestOwner['profile_photo'] . '">
 
-                                    <button class="btn btn-default" type="button" id="btnChangePhotoContact" name="btnChangePhotoContact">Cambiar foto de perfil</button>
+                                    <button class="btn btn-default" type="button" id="btnChangePhotoOwner" name="btnChangePhotoOwner">Cambiar foto de perfil</button>
                                     
                                     <div id="uploadImage">
                                         <img class="previewImage">

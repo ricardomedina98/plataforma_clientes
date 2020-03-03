@@ -1830,8 +1830,14 @@ $updateMemberFamily = ContactController::controllerUpdateMemberFamily();
         </td>
         <td>
             <span class="size">{%=o.formatFileSize(file.size)%}</span>
-        </td>NEGOCIO{ %}
-                <button class="btn btn-danger delete" datid_relationshipue="1" class="toggle">
+        </td>
+        <td>
+            {% if (file.deleteUrl) { %}
+                <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}<?php echo '&id_type=contactos&id_user='.$requestContact['id_contact']; ?>"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Eliminar</span>
+                </button>
+                <input type="checkbox" name="delete" value="1" class="toggle">
             {% } else { %}
                 <button class="btn btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>

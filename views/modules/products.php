@@ -74,31 +74,17 @@
 
                                     <div class="col-sm-2">
 
-                                        <select class="form-control" name="filterSQL" id="filterSQLOwners">
+                                        <select class="form-control" name="filterSQL" id="filterSQLProducts">
                                             <option value="">Seleccione un filtro</option>
                                             <option value="searchSurNames">Numero de parte</option>                                            
                                             <option value="searchNames">Nombre</option>
                                             <option value="searchAlias">Nombre corto</option>                                            
-                                            <option value="searchPhone">Celular</option>
-                                            <option value="searchEmail">Correo</option>
+                                            <option value="searchPhone">Marca</option>
+                                            <option value="searchEmail">Factura</option>
 
                                         </select>
                                     </div>
 
-                                    <div class="col-sm-2">
-
-                                        <select class="form-control" name="filterState" id="addressState" data-live-search="true">                                            
-
-                                        </select>
-                                    </div>
-
-                                    <div class="col-sm-2">
-
-                                        <select class="form-control" name="filterCity" id="addressCity" data-live-search="true">                                            
-
-                                        </select>
-                                    </div>
-                                    
                                 </div>
 
                                 <div class="col-sm-2 text-center">

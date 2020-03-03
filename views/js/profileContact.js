@@ -396,12 +396,6 @@ $(".btnEditIncident").click(function () {
 
     });
 
-    function ConvertDate(inputFormat) {
-        var temp = inputFormat.split('-');
-        var date = temp[2] + "/" + temp[1] + "/" + temp[0];
-        return date;
-    }
-
     var jsonData = {
         id_type: id_type,
         id_user: id_user,

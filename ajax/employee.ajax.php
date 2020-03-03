@@ -49,7 +49,7 @@ if(isset($_POST["id_employeeDelete"])){
     $incidents ->ajaxDeleteEmployee();
 }
 
-if(count($_POST) == 6) {
+if(count($_POST) == 7) {
     $contract = new ContractAjax();
     $contract -> data = $_POST;
     $contract ->ajaxUpdateContract();

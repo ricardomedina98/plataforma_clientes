@@ -48,6 +48,7 @@
     "raphael": "^2.2.7",
     "select2": "^4.0.3",
     "slimscroll": "^0.9.1",
-    "toastr": "^2.1.4"
+    "toastr": "^2.1.4",
+    "webpack": "^4.42.0"
   }
 }

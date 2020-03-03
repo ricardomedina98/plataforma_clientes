@@ -17,9 +17,10 @@
 
             if($_SESSION['type_user'] == 'Monitoreo' || $_SESSION['type_user'] == 'Administrador'){
 
+                // <li><a href="'.$url.'propios/"><i class="fa fa-building" aria-hidden="true"></i> <span>Negocios propios</span></a></li>
                 echo '
 
-                <li><a href="'.$url.'propios/"><i class="fa fa-building" aria-hidden="true"></i> <span>Negocios propios</span></a></li>
+                <li><a href="'.$url.'productos/"><i class="fa fa-cubes" aria-hidden="true"></i> <span>Productos</span></a></li>
 
                 <li><a href="'.$url.'negocios/"><i class="fa fa-briefcase" aria-hidden="true"></i> <span>Negocios</span></a></li>
 

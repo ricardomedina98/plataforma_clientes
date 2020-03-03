@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Clientes</title>
+    <title>Alcon Supermarket</title>
 
     <?php
         $url = Routes::getRoute();
@@ -298,13 +298,7 @@
                     include "modules/users.php";
                     
                 }
-
-                elseif($value1=="propios" && $_SESSION['type_user'] == 'Administrador') {
-
-                    include "modules/own_businesses.php";
-                    
-                }
-
+                
 
                 elseif($value1=="productos" && $_SESSION['type_user'] == 'Administrador') {
 
@@ -317,11 +311,11 @@
                     $value3 = explode("-", $value2);
                     if($value3[0] == "descargar"){
 
+                        $file = $value3[1]; 
                         $idEmployeePDF =  $value3[2];
-
-                        if($value3[1] == "contrato"){
-                            include "modules/employee_pdf.php";
-                        }
+                        
+                        include "modules/employee_pdf.php";
+                        
                     } else {
                         include "modules/employees.php";
                     }
