@@ -708,15 +708,6 @@ $updateOwner = OwnerController::controllerUpdateOwner();
 
 </div>
 
-
-
-
-<script>
-    $('#modalTicket').on('show.bs.modal', event => {
-        
-    });
-</script>
-
 <?php
 
     if(isset($updateOwner)){

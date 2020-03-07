@@ -1,7 +1,7 @@
 
-function showAlert(title, message, tipo) {
-    var clasesDefault = "alert alert-dismissible text-center";
-    var html;
+export function showAlert(title, message, tipo) {
+    let clasesDefault = "alert alert-dismissible text-center";
+    let html;
     if(tipo){
         $("#alert").addClass("alert-success " + clasesDefault);
         html = '<h4><i class="icon fa fa-check"></i> '+title+'</h4> <span>'+message+'</span>';
@@ -16,10 +16,10 @@ function showAlert(title, message, tipo) {
 };
 
 
-function showAlertModal(title, message, tipo) {
+export function showAlertModal(title, message, tipo) {
     $("#alertModal").empty();
-    var clasesDefault = "alert alert-dismissible text-center";
-    var html;
+    let clasesDefault = "alert alert-dismissible text-center";
+    let html;
     if(tipo){
         $("#alertModal").addClass("alert-success " + clasesDefault);
         html = '<h4><i class="icon fa fa-check"></i> '+title+'</h4> <span>'+message+'</span>';
@@ -34,7 +34,7 @@ function showAlertModal(title, message, tipo) {
 };
 
 
-function deleteAlters(){
+export function deleteAlters(){
     $("#alert h4").remove();
     $("#alert span").remove();
 }

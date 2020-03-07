@@ -1,13 +1,20 @@
-﻿$(document).ready(function(){
+﻿import $ from 'jquery'
+import 'admin-lte'
+import 'bootstrap'
+import 'bootstrap-datepicker'
+import 'bootstrap-timepicker'
+import 'bootstrap-select'
 
-    $('#dateRegistrationModalEdit').datepicker({
-        autoclose: true,
-        maxViewMode: 'years',
-        language: 'es',
-        format: 'dd/mm/yyyy',
-        startDate: '-50y'
-    });
+import 'blueimp-file-upload'
 
+import 'select2'
+
+import './../css/styles.scss'
+
+
+$(document).ready(function(){
+
+    
     $('#dateRegistration, #dateRegistrationModal, #birthdayContact, #birthday, #birthdayEmployee, #businessCustomer, #businessAntiquity').datepicker({
         autoclose: true,
         maxViewMode: 'years',
@@ -15,8 +22,6 @@
         format: 'dd/mm/yyyy',
         startDate: '-50y'
     });
-
-
 
     $("#timePickerI, #timePickerF, #timePickerEdit").timepicker({ 'step': 30 });    
 
@@ -26,34 +31,26 @@
         tokenSeparators: [',', ' ']
     });
 
-    $("#mercancia").select2({
+    $("#mercancia, #competencias").select2({
         minimumResultsForSearch: -1,
         width: '100%',
         tags: true,
         tokenSeparators: [',', ' ']
     });
-
-    $("#competencias").select2({
-        minimumResultsForSearch: -1,
-        width: '100%',
-        tags: true,
-        tokenSeparators: [',', ' ']
-    });
-
-    
 
     $("#daysAvailable").select2({
         width: '100%',
         tags: true,
         tokenSeparators: [',', ' ']
     });
+
     $("#phonesBusiness").select2({
         width: '100%',
         tags: true
     });
 
-    
-    
+
+
     $('#addressStatePlaceBirth').selectpicker({
         noneSelectedText : 'Estado de Nacimiento'
     });
@@ -61,7 +58,7 @@
         noneSelectedText : 'Ciudad de Nacimiento'
     });
 
-    
+
     $('#addressState').selectpicker({
         noneSelectedText : 'Seleccione un estado'
     }); 
@@ -69,40 +66,10 @@
         noneSelectedText : 'Seleccione una ciudad'
     });
 
-    var urlStates = getURL()+"ajax/json.ajax.php";    
-
-    var data = new FormData();
-    data.append("states", true);
-
-    $.ajax({
-        url:urlStates,
-        data: data,
-        type:'POST',
-        cache: false,        
-        contentType:false,
-        processData: false,
-        dataType: 'json',
-        success: function(respuesta){            
-            var estados = $('#addressState');
-            var optionDefaul = '<option value="">Seleccione un estado</option>';
-            estados.append(optionDefaul);
-            for (i in respuesta) {                
-                var estadosNombre = '<option value="'+respuesta[i].NOM_ENT+'">'+respuesta[i].NOM_ENT+'</option>';
-                estados.append(estadosNombre);
-            }            
-            
-            var selectedState = $("#valState").val();
-            $(estados).val(selectedState);
-            $(estados).selectpicker('refresh');
-
-            laodCitys(selectedState);
-            
-        }
-    }) 
 
     let url = window.location;
     let sub_url = window.origin + '/' + window.location.pathname.split('/')[1] + '/' + window.location.pathname.split('/')[2] + '/';    
-    
+
     // for sidebar menu entirely but not cover treeview
     $('ul.sidebar-menu a').filter(function() {
         return this.href == url || this.href == sub_url;
@@ -112,106 +79,56 @@
     $('ul.treeview-menu a').filter(function() {
         return this.href == url || this.href == sub_url;
     }).parentsUntil(".sidebar-menu > .treeview-menu").addClass('active');
-});
 
-
-function getURL(){
-    var getUrl = window.location;
-    var baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1]; 
-    return baseurl + '/';
-}
-
-
-$('#addressState').change(function(){
-    $('#addressCity').empty();
-    var val =$('#addressState').val();
-    laodCitys(val);
-});
-
-function laodCitys(val){
-    let data = new FormData();
-    data.append("cities", true);
-
-    let urlCities = getURL()+"ajax/json.ajax.php";
     
-    $.ajax({
-        url:urlCities,
-        data: data,
-        type:'POST',
-        cache: false,
-        contentType:false,
-        processData: false,
-        dataType: 'json',
-        success: function(respuesta){            
-            let ciudades = $('#addressCity');
-            let optionDefault = '<option value="">Seleccione una ciudad</option>';
-            ciudades.append(optionDefault);
-            for (i in respuesta) {
-                if(respuesta[i].NOM_ENT == val){
-                    let estadosCiudades = '<option value="'+respuesta[i].NOM_MUN+'">'+respuesta[i].NOM_MUN+'</option>';
-                    ciudades.append(estadosCiudades);
-                } 
-            }
-            let selectedCity = $('#valCity').val();                 
 
-            $(ciudades).val(selectedCity);             
-            $(ciudades).selectpicker('refresh');
-            
+    $("#addressState").on("change", function() {
+        $('#addressCity').empty();
+        let val =$('#addressState').val();
+        console.log(val);
+        loadCitys(val);
+    });
+
+    $("#filterSQL").change(function(){
+
+        let filter = $(this).val();
     
+        if(filter == "searchNames"){
+            $("#searchText").attr("placeholder", "Ingrese los nombres a buscar");
+        } else if(filter == "searchSurNames"){
+            $("#searchText").attr("placeholder", "Ingrese los apellidos a buscar");
+        } else if(filter == "searchAlias"){
+            $("#searchText").attr("placeholder", "Ingrese el alias a buscar");
+        } else if(filter == "searchEmail"){
+            $("#searchText").attr("placeholder", "Ingrese el correo a buscar");
+        } else {
+            $("#searchText").attr("placeholder", "Ingrese el contacto a buscar");
         }
-    })
-}
-
-
-$('#fileupload').fileupload({
-    dropZone: $('#dropzone'),
-    url: getURL()+'views/img/users/upload.images.php',
-    drop: function (e, data) {
-        $.each(data.files, function (index, file) {
-            console.log('Dropped file: ' + file.name);
-        });
-    },
-    change: function (e, data) {
-        
-        $.each(data.files, function (index, file) {
-            console.log('Selected file: ' + file.name);
-        });
-    },
-    fileInput: $('#inputUpload')
-});
-
-
-$("#dataImageProfile").change(function() { 
-
-    deleteAlters();
     
-    var imageProfile = this.files[0];
+    });
+    
+    $("#filterSQLBusiness").change(function(){
+    
+        let filter = $(this).val();
+    
+        if(filter == "searchNames"){
+            $("#searchText").attr("placeholder", "Ingrese los negocios a buscar");
+        } else if(filter == "searchSurNames"){
+            $("#searchText").attr("placeholder", "Ingrese los apellidos a buscar");
+        } else if(filter == "searchAlias"){
+            $("#searchText").attr("placeholder", "Ingrese el alias a buscar");
+        } else if(filter == "searchEmail"){
+            $("#searchText").attr("placeholder", "Ingrese el correo a buscar");
+        } else {
+            $("#searchText").attr("placeholder", "Ingrese el contacto a buscar");
+        }
+    
+    });
 
-    if(imageProfile["type"] != "image/jpeg"){
-        $("#dataImageProfile").val("");
-        showAlert("Formato Incorrecto", "La imagen debe estar en formato JPEG", false);
-    } else if(imageProfile["size"] > 2000000){
-        $("#dataImageProfile").val("");
-        showAlert("Tamaño demasiado grande","La imagen no debe de pesar mas de 2mb", false);
-    } else {
-        var dataImage = new FileReader;
-        dataImage.readAsDataURL(imageProfile);
-
-        $(dataImage).on("load", function(event){
-
-            var routeImage = event.target.result;
-
-            $(".previewImage").attr("src", routeImage);
-
-        })
-    }
-
+    loadStates();
 });
 
-$("#btnChangePhotoContact").click(function() {
-  $(".imgProfile").toggle();
-  $("#uploadImage").toggle();
-});
+
 
 $("#btnChangePhotoBusiness").click(function() {
     $(".imgProfile").toggle();
@@ -225,43 +142,71 @@ $("#btnChangePhotoOwner").click(function() {
 });
 
 
-$("#filterSQL").change(function(){
 
-    var filter = $(this).val();
+export function getURL(){
+    let getUrl = window.location;
+    let baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1]; 
+    return baseurl + '/';
+}
 
-    if(filter == "searchNames"){
-        $("#searchText").attr("placeholder", "Ingrese los nombres a buscar");
-    } else if(filter == "searchSurNames"){
-        $("#searchText").attr("placeholder", "Ingrese los apellidos a buscar");
-    } else if(filter == "searchAlias"){
-        $("#searchText").attr("placeholder", "Ingrese el alias a buscar");
-    } else if(filter == "searchEmail"){
-        $("#searchText").attr("placeholder", "Ingrese el correo a buscar");
-    } else {
-        $("#searchText").attr("placeholder", "Ingrese el contacto a buscar");
-    }
+export function loadCitys(val){
 
-});
+    $.ajax({
+        url:getURL()+"ajax/json.ajax.php",
+        data: 'cities=true',
+        type:'GET',
+        cache: false,
+        contentType:false,
+        processData: false,
+        dataType: 'json',
+        success: function(response){            
+            let ciudades = $('#addressCity');
+            let optionDefault = '<option value="">Seleccione una ciudad</option>';
+            ciudades.append(optionDefault);
+            for (let i in response) {
+                if(response[i].NOM_ENT == val){
+                    let estadosCiudades = '<option value="'+response[i].NOM_MUN+'">'+response[i].NOM_MUN+'</option>';
+                    ciudades.append(estadosCiudades);
+                } 
+            }
+            let selectedCity = $('#valCity').val();                 
 
-$("#filterSQLBusiness").change(function(){
-
-    var filter = $(this).val();
-
-    if(filter == "searchNames"){
-        $("#searchText").attr("placeholder", "Ingrese los negocios a buscar");
-    } else if(filter == "searchSurNames"){
-        $("#searchText").attr("placeholder", "Ingrese los apellidos a buscar");
-    } else if(filter == "searchAlias"){
-        $("#searchText").attr("placeholder", "Ingrese el alias a buscar");
-    } else if(filter == "searchEmail"){
-        $("#searchText").attr("placeholder", "Ingrese el correo a buscar");
-    } else {
-        $("#searchText").attr("placeholder", "Ingrese el contacto a buscar");
-    }
-
-});
+            $(ciudades).val(selectedCity);             
+            $(ciudades).selectpicker('refresh');            
+    
+        }
+    })
+}
 
 
+export function loadStates() {
+
+    $.ajax({
+        url: getURL()+"ajax/json.ajax.php",
+        data: 'states=true',
+        type:'GET',
+        cache: false,        
+        contentType:false,
+        processData: false,
+        dataType: 'json',
+        success: function(response){              
+            let estados = $('#addressState');
+            let optionDefaul = '<option value="">Seleccione un estado</option>';
+            estados.append(optionDefaul);
+            for (let i in response) {                
+                let estadosNombre = '<option value="'+response[i].NOM_ENT+'">'+response[i].NOM_ENT+'</option>';
+                estados.append(estadosNombre);
+            }            
+            
+            let selectedState = $("#valState").val();
+            $(estados).val(selectedState);
+            $(estados).selectpicker('refresh');
+
+            loadCitys(selectedState);
+            
+        }
+    }) 
+}
 
 
 

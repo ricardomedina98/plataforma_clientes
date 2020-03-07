@@ -994,15 +994,6 @@ $addressAlt -> controllerAddAddressAlt();
 
 </div>
 
-
-
-
-<script>
-    $('#modalTicket').on('show.bs.modal', event => {
-        
-    });
-</script>
-
 <?php
 
     if(isset($updateBusiness)){

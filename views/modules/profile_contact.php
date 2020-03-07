@@ -1447,7 +1447,7 @@ $updateMemberFamily = ContactController::controllerUpdateMemberFamily();
                             
                             
                             <div class="form-group">
-                                <label for="frequencyContact" class="col-sm-4 control-label">Producto</label>
+                                <label for="name_product" class="col-sm-4 control-label">Producto</label>
 
                                 <div class="col-sm-6">
                                     <input class="form-control" id="name_product" name="name_product" placeholder="Nombre del producto" type="text" autocomplete="off">
@@ -1456,7 +1456,7 @@ $updateMemberFamily = ContactController::controllerUpdateMemberFamily();
                             </div>
 
                             <div class="form-group">
-                                <label for="frequencyContact" class="col-sm-4 control-label">Marca</label>
+                                <label for="brand" class="col-sm-4 control-label">Marca</label>
 
                                 <div class="col-sm-4">
                                     <input class="form-control" id="brand" name="brand" placeholder="Cantidad unitaria" type="text" autocomplete="off">
@@ -1465,7 +1465,7 @@ $updateMemberFamily = ContactController::controllerUpdateMemberFamily();
                             </div>
                             
                             <div class="form-group">
-                                <label for="frequencyContact" class="col-sm-4 control-label">Cantidad</label>
+                                <label for="quantity" class="col-sm-4 control-label">Cantidad</label>
 
                                 <div class="col-sm-4">
                                     <input class="form-control" id="quantity" name="quantity" placeholder="Cantidad total" type="text" autocomplete="off">
@@ -1474,7 +1474,7 @@ $updateMemberFamily = ContactController::controllerUpdateMemberFamily();
                             </div>
 
                             <div class="form-group">
-                                <label for="frequencyContact" class="col-sm-4 control-label">Corte</label>
+                                <label for="cut" class="col-sm-4 control-label">Corte</label>
 
                                 <div class="col-sm-4">
                                     <input class="form-control" id="cut" name="cut" placeholder="Corte" type="text" autocomplete="off">
@@ -1520,13 +1520,16 @@ $updateMemberFamily = ContactController::controllerUpdateMemberFamily();
                             <input type="hidden" id="id_contact_product" name="id_contact_product">
                             
                             <div class="form-group">
-                                <label for="frequencyContact" class="col-sm-4 control-label">Producto</label>
+                                <label for="name_productEdit" class="col-sm-4 control-label">Producto</label>
 
                                 <div class="col-sm-6">
                                     <input class="form-control" id="name_productEdit" name="name_productEdit" placeholder="Nombre del producto" type="text" autocomplete="off">
                                 </div>
+                            
+                            </div>
 
-                            <label for="frequencyContact" class="col-sm-4 control-label">Marca</label>
+                            <div class="form-group">
+                                <label for="brandEdit" class="col-sm-4 control-label">Marca</label>
 
                                 <div class="col-sm-4">
                                     <input class="form-control" id="brandEdit" name="brandEdit" placeholder="Cantidad unitaria" type="text" autocomplete="off">
@@ -1535,7 +1538,7 @@ $updateMemberFamily = ContactController::controllerUpdateMemberFamily();
                             </div>
                             
                             <div class="form-group">
-                                <label for="frequencyContact" class="col-sm-4 control-label">Cantidad</label>
+                                <label for="quantityEdit" class="col-sm-4 control-label">Cantidad</label>
 
                                 <div class="col-sm-4">
                                     <input class="form-control" id="quantityEdit" name="quantityEdit" placeholder="Cantidad total" type="text" autocomplete="off">
@@ -1544,7 +1547,7 @@ $updateMemberFamily = ContactController::controllerUpdateMemberFamily();
                             </div>
 
                             <div class="form-group">
-                                <label for="frequencyContact" class="col-sm-4 control-label">Corte</label>
+                                <label for="cutEdit" class="col-sm-4 control-label">Corte</label>
 
                                 <div class="col-sm-4">
                                     <input class="form-control" id="cutEdit" name="cutEdit" placeholder="Corte" type="text" autocomplete="off">
@@ -1566,11 +1569,6 @@ $updateMemberFamily = ContactController::controllerUpdateMemberFamily();
         </div>
     </div>
 </div>
-<script>
-    $('#modalTicket').on('show.bs.modal', event => {
-        
-    });
-</script>
 
 <script id="template-upload-incidents" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
@@ -1646,133 +1644,6 @@ $updateMemberFamily = ContactController::controllerUpdateMemberFamily();
     </tr>
 {% } %}
 </script>
-
-<?php
-
-    if(isset($updateContact)){
-        if($updateContact){
-
-            echo '<script> 
-                showAlert("Correcto!", "Informacion actualizada correctamente", true);
-                
-            </script>';
-    
-           }else {
-    
-            echo '<script> 
-                showAlert("Error!", "La informacion se pudo actualizar correctamente", false);
-            </script>';
-    
-        }
-    }
-
-    if(isset($updateIncident)){
-        if($updateIncident){
-
-            echo '<script> 
-                showAlert("Correcto!", "Informacion actualizada correctamente", true);
-                
-            </script>';
-    
-        } else {
-    
-            echo '<script> 
-                showAlert("Error!", "La informacion se pudo actualizar correctamente", false);
-            </script>';
-    
-        }
-    }
-
-    if(isset($addIncident)){
-        if($addIncident){
-
-            echo '<script> 
-                showAlert("Correcto!", "Incidente agregado correctamente", true);
-                
-            </script>';
-    
-           }else {
-    
-            echo '<script> 
-                showAlert("Error!", "Error al agregar el incidente", false);
-            </script>';
-    
-        }
-    }
-
-    if(isset($addProduct)){
-        if($addProduct){
-
-            echo '<script> 
-                showAlert("Correcto!", "Producto agregado correctamente", true);
-                
-            </script>';
-    
-           }else {
-    
-            echo '<script> 
-                showAlert("Error!", "Error al agregar el producto", false);
-            </script>';
-    
-        }
-    }
-
-
-    if(isset($updateProduct)){
-        if($updateProduct){
-
-            echo '<script> 
-                showAlert("Correcto!", "Producto actualizado correctamente", true);
-                
-            </script>';
-    
-           }else {
-    
-            echo '<script> 
-                showAlert("Error!", "Error al actualizar el producto", false);
-            </script>';
-    
-        }
-    }
-
-    if(isset($addMemberFamily)){
-        if($addMemberFamily){
-
-            echo '<script> 
-                showAlert("Correcto!", "Familiar agregado correctamente", true);
-                
-            </script>';
-    
-        }else {
-    
-            echo '<script> 
-                showAlert("Error!", "Error al agregar el familiar", false);
-            </script>';
-    
-        }
-    }
-
-    if(isset($updateMemberFamily)){
-        if($updateMemberFamily){
-
-            echo '<script> 
-                showAlert("Correcto!", "Familiar actualizado correctamente", true);
-                
-            </script>';
-    
-        }else {
-    
-            echo '<script> 
-                showAlert("Error!", "Error al actualizar el familiar", false);
-            </script>';
-    
-        }
-    }
-
-    
-    
-?>
-
 
 <script id="template-upload" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
@@ -1988,4 +1859,134 @@ $updateMemberFamily = ContactController::controllerUpdateMemberFamily();
 
   </div>
 </div>
+
+<script src="<?php echo $url;?>assets/profile_contact.js"></script>
+
+
+<?php
+
+    if(isset($updateContact)){
+        if($updateContact){
+
+            echo '<script> 
+                showAlert("Correcto!", "Informacion actualizada correctamente", true);                
+                
+            </script>';
+    
+           }else {
+    
+            echo '<script> 
+                showAlert("Error!", "La informacion se pudo actualizar correctamente", false);
+            </script>';
+    
+        }
+    }
+
+    if(isset($updateIncident)){
+        if($updateIncident){
+
+            echo '<script> 
+                showAlert("Correcto!", "Informacion actualizada correctamente", true);
+                
+            </script>';
+    
+        } else {
+    
+            echo '<script> 
+                showAlert("Error!", "La informacion se pudo actualizar correctamente", false);
+            </script>';
+    
+        }
+    }
+
+    if(isset($addIncident)){
+        if($addIncident){
+
+            echo '<script> 
+                showAlert("Correcto!", "Incidente agregado correctamente", true);
+                
+            </script>';
+    
+           }else {
+    
+            echo '<script> 
+                showAlert("Error!", "Error al agregar el incidente", false);
+            </script>';
+    
+        }
+    }
+
+    if(isset($addProduct)){
+        if($addProduct){
+
+            echo '<script> 
+                showAlert("Correcto!", "Producto agregado correctamente", true);
+                
+            </script>';
+    
+           }else {
+    
+            echo '<script> 
+                showAlert("Error!", "Error al agregar el producto", false);
+            </script>';
+    
+        }
+    }
+
+
+    if(isset($updateProduct)){
+        if($updateProduct){
+
+            echo '<script> 
+                showAlert("Correcto!", "Producto actualizado correctamente", true);
+                
+            </script>';
+    
+           }else {
+    
+            echo '<script> 
+                showAlert("Error!", "Error al actualizar el producto", false);
+            </script>';
+    
+        }
+    }
+
+    if(isset($addMemberFamily)){
+        if($addMemberFamily){
+
+            echo '<script> 
+                showAlert("Correcto!", "Familiar agregado correctamente", true);
+                
+            </script>';
+    
+        }else {
+    
+            echo '<script> 
+                showAlert("Error!", "Error al agregar el familiar", false);
+            </script>';
+    
+        }
+    }
+
+    if(isset($updateMemberFamily)){
+        if($updateMemberFamily){
+
+            echo '<script> 
+                showAlert("Correcto!", "Familiar actualizado correctamente", true);
+                
+            </script>';
+    
+        }else {
+    
+            echo '<script> 
+                showAlert("Error!", "Error al actualizar el familiar", false);
+            </script>';
+    
+        }
+    }
+
+    
+    
+?>
+
 

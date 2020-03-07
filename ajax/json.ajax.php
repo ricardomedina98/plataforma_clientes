@@ -34,12 +34,12 @@
     }
 
 
-    if(isset($_POST['cities'])){
+    if(isset($_GET['cities'])){
         $businessAddress = new AjaxJSON();        
         $businessAddress -> readJsonCities();
     }
 
-    if(isset($_POST['states'])){
+    if(isset($_GET['states'])){
         $businessAddress = new AjaxJSON();        
         $businessAddress -> readJsonStates();
     }
